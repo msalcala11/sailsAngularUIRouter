@@ -63,6 +63,7 @@ var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditabl
         myApp.controller('foodShowCtrl', function($scope, Foods, $stateParams, $state, $location){
         	//Lets grab from the server only the food that was selected
         	//$scope.food = Foods.get({foodId: $stateParams.foodId});
+            if(!$scope.$parent.foods || !$scope.food){
             $scope.getfoods = Foods.query(function(response){
                 $scope.$parent.foods = {};
                 angular.forEach(response, function(item){
@@ -75,7 +76,7 @@ var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditabl
                     }
                 });
             });
-
+}
             //$scope.food = Foods.show({foodId: $stateParams.foodId});
 
         	$scope.removeFood = function() {

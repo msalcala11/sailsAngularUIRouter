@@ -1,5 +1,7 @@
-<h3>{{food.name}}</h3>
-<p>{{food.cals}} kcals</p>
+<div class="foodContainer">
+	<h3>{{food.name}}</h3>
+	<p>{{food.cals}} kcals</p>
+</div>
 <hr>
 <a ui-sref="food.edit({foodId: food.id})" type="submit" class="btn btn-warning">Edit</a>
 <a href ng-click="removeFood()" class="btn btn-danger">Delete</a>
