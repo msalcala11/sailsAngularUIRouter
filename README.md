@@ -1,0 +1,2 @@
+# sailsAngularUIRouter
+### a Sails application
