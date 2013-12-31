@@ -22,29 +22,29 @@ module.exports = {
 
   	Food.find(function foundFood (err, foods){
   		if(err) return next(err);
-  		//send the array of foods as a json response
-  		console.log("index called")
-  		res.json(foods);
+  		else{//send the array of foods as a json response
+    		console.log("index called")
+    		res.json(foods);
+      }
   	});
   },
 
-  // show: function (req, res, next) {
-  // 	Food.findOne(req.param('id'), function foundFood(err, food){
-  // 		if (err) {
-  // 			console.log(err);
-  // 		} else {
-  // 			console.log("Show called")
-  // 			res.json(food);
-  // 		}
-  // 	});
-  // },
+  show: function (req, res, next) {
+  	Food.findOne(req.param('id'), function foundFood(err, food){
+  		if (err) {
+  			console.log(err);
+  		} else {
+  			console.log("Show called")
+  			res.json(food);
+  		}
+  	});
+  },
 
   update: function(req, res, next) {
   	
   	Food.update(req.param('id'), req.params.all(), function foodUpdated(err, food) {
-  		if (err) {
-  			res.send(500);
-  		} else {
+  		if (err) res.send(500);
+  		else {
   			console.log("update called")
   			res.send(200);
   		}
@@ -53,9 +53,8 @@ module.exports = {
 
   destroy: function(req, res, next) {
   	Food.findOne(req.param('id'), function foundFood(err, food) {
-  		if (err) {
-  			res.send(500);
-  		} else {
+  		if (err) res.send(500);
+  		else {
   			Food.destroy(req.param('id'), function foodDestroyed(err){
   				if (err) {
   					res.send(500);
@@ -66,7 +65,6 @@ module.exports = {
   				}
   			});
   		}
-
   	});
   },
 

@@ -28,15 +28,19 @@
     -->
 
     <!--STYLES-->
-    <link rel="stylesheet" href="/linker/styles/custom.css">
-    <link rel="stylesheet" href="/linker/styles/lib/bootstrap-theme.css">
     <link rel="stylesheet" href="/linker/styles/lib/bootstrap.css">
+    <link rel="stylesheet" href="/linker/styles/lib/bootstrap-theme.css">
+    <link rel="stylesheet" href="/linker/styles/custom.css">
     <!--STYLES END-->
+    
+    <!--Using an older version of font-awesome because the latest version does not work for some reason-->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    
   </head>
 
-  <body>
+  <body ng-class="{loginbg: $state.includes('login') || $state.includes('signup')}" ng-controller="rootCtrl">
 
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default fade" ng-class="{in: true}" role="navigation" ng-hide="$state.includes('login') || $state.includes('signup')">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -53,8 +57,28 @@
     <ul class="nav navbar-nav">
       <li ng-class="{active: $state.includes('home')}"><a ui-sref="home">Home</a></li>
       <li ng-class="{active: $state.includes('about')}"><a ui-sref="about">About</a></li>
-      <li ng-class="{active: $state.includes('food')}"><a ui-sref="food">Foods</a></li>
+      <li ng-class="{active: $state.includes('food')}" ng-show="authStatus.loggedIn"><a ui-sref="food">Foods</a></li>
     </ul>
+
+    <div ng-hide="authStatus.loggedIn" class="fade" ng-class="{in: !authStatus.loggedIn}">
+      <button type="button" class="btn btn-default navbar-btn pull-right" ui-sref="login">Login</button>
+      <button type="button" class="btn btn-success navbar-btn pull-right" ui-sref="signup" style="margin-right: 10px;">Sign up</button>
+    </div>
+    <div ng-show="authStatus.loggedIn" class="fade" ng-class="{in: authStatus.loggedIn}">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">{{authStatus.name}}</a></li>
+        <li class="dropdown">
+        <a href class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href ng-click="logout()">Logout</a></li>
+        </ul>
+        </li>
+      </ul>
+    </div>
   </div><!-- /.navbar-collapse -->
 </nav>
 
@@ -85,7 +109,7 @@
     -->
 
     <!--TEMPLATES-->
-    <script type="text/javascript" src="/jst.js"></script>
+    
     <!--TEMPLATES END-->
 
 
@@ -122,6 +146,10 @@
     <script src="/linker/js/lib/angular/angular-contenteditable.js"></script>
     <script src="/linker/js/lib/bootstrap/bootstrap.js"></script>
     <script src="/linker/js/angular/app.js"></script>
+    <script src="/linker/js/angular/controllers/FoodController.js"></script>
+    <script src="/linker/js/angular/controllers/SessionController.js"></script>
+    <script src="/linker/js/angular/controllers/UserController.js"></script>
+    <script src="/linker/js/angular/filters.js"></script>
     <script src="/linker/js/angular/services.js"></script>
     <!--SCRIPTS END-->
   </body>

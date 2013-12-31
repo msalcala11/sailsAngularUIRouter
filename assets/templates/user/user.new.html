@@ -1,0 +1,51 @@
+<div class="container login-outer-container fade" ng-class="{in: true}">
+	<div class="row login-inner-container" style="display: inline-block;">
+		<form class="form-signin mg-btm" ng-submit="createUser()">
+    	<h3 class="heading-desc">
+		<button type="button" class="close pull-right" aria-hidden="true" ui-sref="home">×</button>
+		Join the Movement</h3>
+		<div class="social-box">
+			<div class="row mg-btm">
+             <div class="col-md-12">
+                <a href="#" class="btn btn-primary btn-block">
+                  <i class="icon-facebook"></i>    Sign up with Facebook
+                </a>
+			</div>
+			</div>
+			<div class="row">
+			<div class="col-md-12">
+                <a href="#" class="btn btn-info btn-block" >
+                  <i class="icon-twitter"></i>    Sign up with Twitter
+                </a>
+            </div>
+          </div>
+		</div>
+		<div class="main">	
+        
+        <input type="text" class="form-control" placeholder="Name" name="name" autofocus ng-model="user.name">
+		<input type="text" class="form-control" placeholder="Email" name="email" ng-model="user.email">
+        <input type="password" class="form-control" placeholder="Password" name="password" ng-model="user.password">
+
+        <div class="alert alert-danger" ng-show="serverError">{{serverError.message}}</div>
+		
+        Are you a business? <a href=""> Get started here</a>
+		<span class="clearfix"></span>	
+        </div>
+		<div class="login-footer">
+		<div class="row">
+                        <div class="col-xs-6 col-md-6">
+                        <!--
+                            <div class="left-section">
+								<a href="">Forgot your password?</a>
+								<a href="">Sign up now</a>
+							</div>-->
+                        </div>
+                        <div class="col-xs-6 col-md-6 pull-right">
+                            <button type="submit" class="btn btn-large btn-danger pull-right">Sign up</button>
+                        </div>
+                    </div>
+		
+		</div>
+      </form>
+	</div>
+</div>
