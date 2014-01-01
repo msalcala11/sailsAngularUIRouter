@@ -37,6 +37,17 @@ angular.module('appServices', ['ngResource'])
 		);
 	})
 
+	.factory('Auth', function($resource){
+		return $resource("/auth/:action", {}, 
+			{
+				//These correspond to the actions defined in Sails
+		    	//'destroy': { method:'DELETE', params: {'action': 'destroy'}, isArray: false},
+		    	'login' : { method:'POST', params: {'action' : 'login'}, isArray: false},
+		    	//'check'  : { method: 'GET', params: {'action' : 'check'}, isArray: false} //used to check if user is logged in if app is refreshed
+	    	}
+		);
+	})
+
 	// For security against csrf attacks, request this from the server before any non-GET action
 	.factory('Csrf', function($resource){
 		return $resource('/csrfToken', {}, {'query': {method: 'GET', isArray: false}}); 

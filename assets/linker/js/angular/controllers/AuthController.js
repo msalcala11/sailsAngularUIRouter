@@ -1,8 +1,8 @@
-myApp.controller('loginCtrl', function($scope, $state, Session, Csrf, $rootScope){
+myApp.controller('authCtrl', function($scope, $state, Auth, Csrf, $rootScope){
         
         // Let's initialize the user variable and the attributes that correspond to the input fields of the login form
         $scope.user = {
-                email: "",
+                username: "",
                 password: ""
         }       
         
@@ -12,17 +12,21 @@ myApp.controller('loginCtrl', function($scope, $state, Session, Csrf, $rootScope
                         // Upon I/O completion, let's initialize and set a new user _csrf property in preparation for sending the create POST
                         $scope.user['_csrf'] = response._csrf;
                         // Lets send a POST to create the session
-                        Session.create($scope.user, createSessionSuccess, createSessionError);
+                        Auth.login($scope.user, createSessionSuccess, createSessionError);
                 });
         }
 
         var createSessionSuccess = function(response) {
-                $rootScope.authStatus.set(response);
-                $state.go('home');
+                console.log("Hooray!");
+                console.log(response);
+                //$rootScope.authStatus.set(response);
+                //$state.go('home');
         }
 
         var createSessionError = function(error) {
                 $scope.serverError = error.data; //This message is displayed in an alert box
+                console.log("error:")
+                console.log(error);
         }
 });
 

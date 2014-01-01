@@ -32,7 +32,9 @@ var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditabl
       }]);
 
         //Lets define our routes
-        myApp.config(function ($stateProvider, $urlRouterProvider) {
+        myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
+                //$locationProvider.html5Mode(true); //removes the hash in the URL bar
 
                 $urlRouterProvider.otherwise('/');
 
@@ -73,6 +75,11 @@ var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditabl
                         url: '/user/new',
                         templateUrl: '/templates/user/user.new.html',
                         controller: 'userNewCtrl'
+                });  
+                $stateProvider.state('auth', {
+                        url: '/auth/new',
+                        templateUrl: '/templates/auth/auth.new.html',
+                        controller: 'authCtrl'
                 });  
         });
 

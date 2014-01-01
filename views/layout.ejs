@@ -61,7 +61,7 @@
     </ul>
 
     <div ng-hide="authStatus.loggedIn" class="fade" ng-class="{in: !authStatus.loggedIn}">
-      <button type="button" class="btn btn-default navbar-btn pull-right" ui-sref="login">Login</button>
+      <button type="button" class="btn btn-default navbar-btn pull-right" ui-sref="auth">Login</button>
       <button type="button" class="btn btn-success navbar-btn pull-right" ui-sref="signup" style="margin-right: 10px;">Sign up</button>
     </div>
     <div ng-show="authStatus.loggedIn" class="fade" ng-class="{in: authStatus.loggedIn}">
@@ -146,6 +146,7 @@
     <script src="/linker/js/lib/angular/angular-contenteditable.js"></script>
     <script src="/linker/js/lib/bootstrap/bootstrap.js"></script>
     <script src="/linker/js/angular/app.js"></script>
+    <script src="/linker/js/angular/controllers/AuthController.js"></script>
     <script src="/linker/js/angular/controllers/FoodController.js"></script>
     <script src="/linker/js/angular/controllers/SessionController.js"></script>
     <script src="/linker/js/angular/controllers/UserController.js"></script>
