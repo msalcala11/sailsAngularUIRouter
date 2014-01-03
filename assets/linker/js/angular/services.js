@@ -27,23 +27,12 @@ angular.module('appServices', ['ngResource'])
 	})
 
 	.factory('Session', function($resource){
-		return $resource("/session/:action", {}, 
+		return $resource("/session/:action/:authType", {}, //authType only used when doing create (denotes local, facebook, twitter, etc.)
 			{
 				//These correspond to the actions defined in Sails
 		    	'destroy': { method:'DELETE', params: {'action': 'destroy'}, isArray: false},
-		    	'create' : { method:'POST', params: {'action' : 'create'}, isArray: false},
+		    	'create' : { method:'POST', params: {'action' : 'create', 'authType' : '@authType'}, isArray: false},
 		    	'check'  : { method: 'GET', params: {'action' : 'check'}, isArray: false} //used to check if user is logged in if app is refreshed
-	    	}
-		);
-	})
-
-	.factory('Auth', function($resource){
-		return $resource("/auth/:action", {}, 
-			{
-				//These correspond to the actions defined in Sails
-		    	//'destroy': { method:'DELETE', params: {'action': 'destroy'}, isArray: false},
-		    	'login' : { method:'POST', params: {'action' : 'login'}, isArray: false},
-		    	//'check'  : { method: 'GET', params: {'action' : 'check'}, isArray: false} //used to check if user is logged in if app is refreshed
 	    	}
 		);
 	})

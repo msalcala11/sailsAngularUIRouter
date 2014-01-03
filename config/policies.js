@@ -20,7 +20,12 @@ module.exports.policies = {
 
   food: {
    			'*': 'isAuthenticated'
-    	}
+    	},
+
+   user: {
+   			'index' : 'adminOnly',
+   			'destroy' : 'adminOnly'
+   }
 
   /*
 	// Here's an example of adding some policies to a controller

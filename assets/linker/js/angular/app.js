@@ -1,7 +1,7 @@
-var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditable', 'phonecatFilters']);
+var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditable', 'ngCookies', 'phonecatFilters']);
 	myApp.run(
       [        '$rootScope', '$state', '$stateParams',
-      function ($rootScope,   $state,   $stateParams) {
+      function ($rootScope,   $state,   $stateParams, $cookieStore, $location) {
 
         // It's very handy to add references to $state and $stateParams to the $rootScope
         // so that you can access them from any scope within your applications.For example,
@@ -32,9 +32,35 @@ var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditabl
       }]);
 
         //Lets define our routes
-        myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+        myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
                 //$locationProvider.html5Mode(true); //removes the hash in the URL bar
+
+                // Let's write the code to redirect to the login page if any of our requests return a 401
+                // This can occurs when a user attmepts to access private content after the user's session expires
+                var interceptor = ['$location', '$q', function($location, $q, $rootScope) {
+                    function success(response) {
+                        return response;
+                    }
+
+                    function error(response) {
+
+                        if(response.status === 403) {
+                            $location.path('/session/new/mustbeloggedin/'+response.data); //redirect to the login page
+                            return $q.reject(response);
+                        }
+                        else {
+                            return $q.reject(response);
+                        }
+                    }
+
+                    return function(promise) {
+                        return promise.then(success, error);
+                    }
+                }];
+
+                $httpProvider.responseInterceptors.push(interceptor);
+
 
                 $urlRouterProvider.otherwise('/');
 
@@ -45,42 +71,44 @@ var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditabl
                 $stateProvider.state('about', {
                         url: '/about',
                         templateUrl: '/templates/about.html'
-                });
-                $stateProvider.state('food', {
-                        url: '/food',
-                        templateUrl: '/templates/food/index.html',
-                        controller: 'foodCtrl'
-                });
-                $stateProvider.state('food.show', {
-                        url: '/show/:foodId',
-                        templateUrl: '/templates/food/food.show.html',
-                        controller: 'foodShowCtrl'
-                });
-                $stateProvider.state('food.edit', {
-                        url: '/edit/:foodId',
-                        templateUrl: '/templates/food/food.edit.html',
-                        controller: 'foodEditCtrl'
-                });        
-                $stateProvider.state('food.new', {
-                    url:'/new',
-                    templateUrl: '/templates/food/food.new.html',
-                    controller: 'foodNewCtrl'
-                });    
-                $stateProvider.state('login', {
-                        url: '/session/new',
-                        templateUrl: '/templates/session/session.new.html',
-                        controller: 'loginCtrl'
                 });  
                 $stateProvider.state('signup', {
                         url: '/user/new',
                         templateUrl: '/templates/user/user.new.html',
                         controller: 'userNewCtrl'
-                });  
-                $stateProvider.state('auth', {
-                        url: '/auth/new',
-                        templateUrl: '/templates/auth/auth.new.html',
-                        controller: 'authCtrl'
-                });  
+                });   
         });
+
+myApp.directive('accessLevel', ['$rootScope', function($rootScope){
+    // Runs during compile
+    return {
+        // name: '',
+        // priority: 1,
+        // terminal: true,
+        // scope: {}, // {} = isolate, true = child, false/undefined = no change
+        // cont­rol­ler: function($scope, $element, $attrs, $transclue) {},
+        // require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
+        restrict: 'A', // E = Element, A = Attribute, C = Class, M = Comment
+        // template: '',
+        // templateUrl: '',
+        // replace: true,
+        // transclude: true,
+        // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
+        link: function($scope, element, attrs, controller) {
+            var prevDisplay = element.css('display'); 
+            $rootScope.$watch('authStatus', function(){ //listen for changes in authStatus and do stuff 
+                if(!$rootScope.authStatus.loggedIn){ //If the user is not logged in, do not show
+                    element.css('display', 'none');
+                } else if((attrs.accessLevel === 'admin') && !$rootScope.authStatus.admin){ 
+                // If the user is logged in and not an admin, do not show if access-level is set to admin
+                    element.css('display', 'none');
+                } else {
+                    element.css('display', prevDisplay);
+                }
+
+            }, true); //the true checks to see if any property of the authStatus object has changed
+        }
+    };
+}]);
 
         

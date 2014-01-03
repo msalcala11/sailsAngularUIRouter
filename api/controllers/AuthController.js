@@ -25,54 +25,58 @@ module.exports = {
   //   res.view("auth/login");
   // },
 
-  login: function(req,res){
-  	// First let's check to see if the email is valid
-  	try {
-    	check(req.body.username, "Please enter a valid email address").isEmail()
-	} catch (e) {
-		return res.send(401, e.message); 	
-	}
-	// If the email is valid, we can proceed with passport-local validation
-    passport.authenticate('local', function(err, user, info){
-      if ((err) || (!user)) { //if error, or now user found, send back an error message
-        res.send(401, info.message);
-        return;
-      }
-      req.logIn(user, function(err){
-        if (err) return res.send(401);
+  create: function(req,res){
 
-        // Note, we use "user[0]"" rather than just "user" below because passport.js returns the user as an array with the user
-    	// object embedded into the first array index.
+    // If the authType is 'local' (i.e. '/auth/create/local') perform the passport-local strategy
+    if(req.param('id') === 'local'){
+    	// First let's check to see if the email is valid
+    	try {
+      	check(req.body.username, "Please enter a valid email address").isEmail()
+  	  } catch (e) {
+  		return res.send(401, e.message); 	
+  	  }
+  	  // If the email is valid, we can proceed with passport-local validation
+      passport.authenticate('local', function(err, user, info){
+        if ((err) || (!user)) { //if error, or now user found, send back an error message
+          res.send(401, info.message);
+          return;
+        }
+        req.logIn(user, function(err){
+          if (err) return res.send(401);
 
-    	//We passed authentication so lets initialize authStatus
-    	AuthStatusService.initialize(req, user[0]);
+          // Note, we use "user[0]"" rather than just "user" below because passport.js returns the user as an array with the user
+      	// object embedded into the first array index.
 
-    	// Let's set the user online attribute to true in DB
-    	user[0].online = true;
-    	User.update(user[0].id, user[0], function userOnlineStatusSaved(err, user){
-    		if (err) return res.send(500, "There was an error changing user status to online");
+      	//We passed authentication so lets initialize authStatus
+      	AuthStatusService.initialize(req, user[0]);
 
-			// Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
-            // User.publishUpdate(user.id, {
-            //         loggedIn: true, 
-            //         id: user.id,
-            //         name: user.name,
-            //         action: ' has logged in.'
-            // });
+      	// Let's set the user online attribute to true in DB
+      	user[0].online = true;
+      	User.update(user[0].id, user[0], function userOnlineStatusSaved(err, user){
+      		if (err) return res.send(500, "There was an error changing user status to online");
 
-    		// If all goes well updating the user's status to online in DB then send back authStatus to client
-    		console.log(req.session.authStatus);
-    		res.json(req.session.authStatus);
-    	});
-      });
-    })(req, res);
+  			// Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
+              // User.publishUpdate(user.id, {
+              //         loggedIn: true, 
+              //         id: user.id,
+              //         name: user.name,
+              //         action: ' has logged in.'
+              // });
+
+      		// If all goes well updating the user's status to online in DB then send back authStatus to client
+      		console.log(req.session.authStatus);
+      		res.json(req.session.authStatus);
+      	});
+        });
+      })(req, res);
+    }//end local login logic
   },
 
   logout: function (req,res){
     req.logout(); //logout with passport
 
      // The user is "logging out" (e.g. destroying the session) so change the online attribute to false
-     User.findOne(req.session.authStatus.id, function foundUser(err, user){
+    User.findOne(req.session.authStatus.id, function foundUser(err, user){
          var userId = req.session.authStatus.id;
 
          if(user){// Lets check to make sure the user has not been deleted by an admin immediately before clicking sign-out

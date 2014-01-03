@@ -12,10 +12,12 @@ module.exports = function(req, res, next) {
   // User is allowed, proceed to the next policy, 
   // or if this is the last policy, the controller
   if (req.session.authStatus) { //if authStatus exists, the user must be logged in 
-  		return next();
+  		if(req.session.authStatus.admin){
+  			return next();
+  		}
   }
 
   // User is not allowed
   // (default res.forbidden() behavior can be overridden in `config/403.js`)
-  return res.send(403, "Looks like your session has ended. Please login again.");//res.forbidden('You are not permitted to perform this action.');
+  return res.send(403, "You must be an admin to perform this action.");//res.forbidden('You are not permitted to perform this action.');
 };

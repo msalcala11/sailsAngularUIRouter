@@ -15,122 +15,40 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
-var bcrypt = require('bcrypt');
+var passport = require("passport"),
+    check = require('validator').check;
+//var bcrypt = require('bcrypt');
 
 module.exports = {
 
-  check: function(req, res) { //called on every app start or browser refresh
-    if(req.session.authStatus){
-        if(req.session.authStatus.loggedIn){//multilayered if statement to prevent undefined error if authStatus has not been initialized
-            res.json(req.session.authStatus);
-        }
+  check: function(req, res) { //called on every app start or when browser is refreshed
+    if(req.session.authStatus){//If authStatus is initialized then the user must be logged in
+      // Let's check to see if the admin status of the user has changed in the DB
+      User.findOne(req.session.authStatus.id, function foundUser(err, user){
+        if(err) return res.send(500, "There was an error finding user");
+        req.session.authStatus.admin = user.admin;
+        //Send back the authStatus back to the browser
+        res.json(req.session.authStatus);
+      });        
     } else {
         res.send(401);
     }
   },
     
   create: function(req, res) {
+    if(req.session.authStatus){ //if the user is signing in to another account while logged in, log out of current session first
+      AuthStatusService.logout(req);
+    }
 
-                 //Lets check to see if the user entered something for both the email and password fields
-                 if(!req.param('email') || !req.param('password')){
-                         var usernamePasswordRequiredError = {name: 'usernamePasswordRequired', message: 'Please enter both a username and password.'};
-                         res.statusCode = 401;
-                         res.json(usernamePasswordRequiredError);
-                         return;
-                 }
+    // If the authType is 'local' (i.e. '/auth/create/local') perform the passport-local strategy
+    if(req.param('id') === 'local'){
+      AuthStatusService.loginLocal(req, res);
+    }//end local login logic              
+  },
 
-                 //Lets check to see if the email entered exists in the database
-                 User.findOneByEmail(req.param('email')).done( function(err, user){
-                         if (err) return next(err);
-
-                         if(!user){
-                                 var noUserFoundError = {name: 'noUserFound', message: req.param('email') + ' is not associated with an existing account.'};
-                                 res.statusCode = 401;
-                                 res.json(noUserFoundError);   
-                                 return;
-                         }
-
-                         console.log(user.email);
-                         //Lets check to see if the password is correct
-                         bcrypt.compare(req.param('password'), user.encryptedPassword, function(err, valid) {
-                                 if (err) return next(err);
-
-                                 if(!valid){
-                                         var wrongPasswordError = {name: "wrongPasswordError", message: "Hmm, it looks like you may have mistyped your password. Have another go!"};
-                                         res.statusCode = 401;
-                                         res.json(wrongPasswordError);
-                                         return;
-                                 }
-
-                                 // Let's authenticate them
-                                 // req.session.authStatus = {
-                                 //    loggedIn: true,
-                                 //    admin: false,
-                                 //    name: user.name, //its useful to have their name for display in navbar
-                                 //    id: user.id,  
-                                 // }
-
-                                 AuthStatusService.initialize(req, user);
-
-                                 req.session.User = user;
-
-                                 // Change user status to online
-                                 user.online = true;
-                                 user.save(function(err, user) {
-                                        if (err) return next(err);
-
-                                        // //Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
-                                        // User.publishUpdate(user.id, {
-                                        //         loggedIn: true, 
-                                        //         id: user.id,
-                                        //         name: user.name,
-                                        //         action: ' has logged in.'
-                                        // });
-
-                                        // If the user is an admin, update their authStatus to reflect this
-                                         if(req.session.User.admin) {
-                                            req.session.authStatus.admin = true;
-                                         }
-
-                                         //Send back their authStatus (including their role)
-                                         res.json(req.session.authStatus);
-                                 });                
-        
-                         });
-                 });
-         },
-
-         destroy: function(req, res){
-
-                 User.findOne(req.session.User.id, function foundUser(err, user){
-                         var userId = req.session.User.id;
-
-                         if(user){// Lets check to make sure the user has not been deleted by an admin immediately before clicking sign-out
-                                 // The user is "logging out" (e.g. destroying the session) so change the online attribute to false
-                                 User.update(userId, {
-                                         online: false
-                                 }, function(err) {
-                                         if (err) return next(err);
-
-                                        // //Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
-                                        // User.publishUpdate(user.id, {
-                                        //         loggedIn: false,
-                                        //         id: user.id,
-                                        //         name: user.name,
-                                        //         action: ' has logged out.'
-                                        // });
-                        
-                                         // Wipe out the session (log out)
-                                         req.session.destroy();
-                                         res.send(200);
-                                 });
-                         } else { // The user must have been deleted by an admin while logged in 
-                                 // Wipe out the session (log out)
-                                        req.session.destroy();
-                                        res.send(200);
-                         }
-
-                 });
-        }
+ destroy: function(req, res){
+    AuthStatusService.logout(req, res);
+    res.send(200);
+ }
   
 };

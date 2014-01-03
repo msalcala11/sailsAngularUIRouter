@@ -4,6 +4,7 @@
     	<h3 class="heading-desc">
 		<button type="button" class="close pull-right" aria-hidden="true" ui-sref="home">×</button>
 		Login to MyCoach</h3>
+		<div ui-view></div>
 		<div class="social-box">
 			<div class="row mg-btm">
              <div class="col-md-12">
@@ -25,7 +26,7 @@
 		<input type="text" class="form-control" placeholder="Email" autofocus ng-model="user.email">
         <input type="password" class="form-control" placeholder="Password" ng-model="user.password">
 
-        <div class="alert alert-danger" ng-show="serverError">{{serverError.message}}</div>
+        <div class="alert alert-danger" ng-show="serverError">{{serverError}}</div>
 		 
         Are you a business? <a href=""> Get started here</a>
 		<span class="clearfix"></span>	

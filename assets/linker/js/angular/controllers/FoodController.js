@@ -1,4 +1,4 @@
-myApp.controller('foodCtrl', function($scope, Food){
+myApp.controller('foodCtrl', function($scope, Food, $cookies, $cookieStore){
 	//Lets grab all foods from the server
     //$scope.foods = Food.index();
 	$scope.getfoods = Food.index(function(response){
@@ -8,6 +8,7 @@ myApp.controller('foodCtrl', function($scope, Food){
 				$scope.foods[item.id] = item;
 			}
 		});
+
 		return true;
 	});
 });

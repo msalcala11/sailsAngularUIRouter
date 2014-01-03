@@ -24,6 +24,7 @@ module.exports = {
   		if(err) return next(err);
   		else{//send the array of foods as a json response
     		console.log("index called")
+        console.log(req.session.authStatus);
     		res.json(foods);
       }
   	});

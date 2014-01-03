@@ -57,11 +57,12 @@
     <ul class="nav navbar-nav">
       <li ng-class="{active: $state.includes('home')}"><a ui-sref="home">Home</a></li>
       <li ng-class="{active: $state.includes('about')}"><a ui-sref="about">About</a></li>
-      <li ng-class="{active: $state.includes('food')}" ng-show="authStatus.loggedIn"><a ui-sref="food">Foods</a></li>
+      <li ng-class="{active: $state.includes('food')}" access-level="loggedIn"><a ui-sref="food">Foods</a></li>
+      <li ng-class="{active: $state.includes('user')}" access-level="admin"><a ui-sref="user.list">Administration</a></li>
     </ul>
 
     <div ng-hide="authStatus.loggedIn" class="fade" ng-class="{in: !authStatus.loggedIn}">
-      <button type="button" class="btn btn-default navbar-btn pull-right" ui-sref="auth">Login</button>
+      <button type="button" class="btn btn-default navbar-btn pull-right" ui-sref="login">Login</button>
       <button type="button" class="btn btn-success navbar-btn pull-right" ui-sref="signup" style="margin-right: 10px;">Sign up</button>
     </div>
     <div ng-show="authStatus.loggedIn" class="fade" ng-class="{in: authStatus.loggedIn}">
@@ -143,15 +144,18 @@
     <script src="/linker/js/lib/angular/angular.js"></script>
     <script src="/linker/js/lib/angular/angular-ui-router.js"></script>
     <script src="/linker/js/lib/angular/angular-resource.js"></script>
+    <script src="/linker/js/lib/angular/angular-cookies.js"></script>
     <script src="/linker/js/lib/angular/angular-contenteditable.js"></script>
     <script src="/linker/js/lib/bootstrap/bootstrap.js"></script>
     <script src="/linker/js/angular/app.js"></script>
-    <script src="/linker/js/angular/controllers/AuthController.js"></script>
     <script src="/linker/js/angular/controllers/FoodController.js"></script>
     <script src="/linker/js/angular/controllers/SessionController.js"></script>
     <script src="/linker/js/angular/controllers/UserController.js"></script>
     <script src="/linker/js/angular/filters.js"></script>
     <script src="/linker/js/angular/services.js"></script>
+    <script src="/linker/js/angular/states/FoodStates.js"></script>
+    <script src="/linker/js/angular/states/SessionStates.js"></script>
+    <script src="/linker/js/angular/states/UserStates.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>

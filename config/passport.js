@@ -14,7 +14,7 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password' },
   function(email, password, done) {
     User.findByEmail(email).done(function(err, user) {
       if (err) { return done(null, err); }

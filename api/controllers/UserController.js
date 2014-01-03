@@ -17,6 +17,19 @@
 
 module.exports = {
 
+	index: function (req, res, next) {
+		User.find(function foundUsers (err, users) {
+			if(err) return res.send(500, "Could not retrieve list of users from database.");
+			else res.json(users);
+		});
+	},
+
+	destroy: function (req, res, next) {
+		User.destroy(req.param('id'), function(err){
+			res.send(200);
+		});
+	},
+
 	create: function (req, res, next){
 		User.create(req.params.all(), function(err, user) {
 			if(err) {
