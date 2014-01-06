@@ -75,10 +75,20 @@ module.exports = {
     customMiddleware: function(app){
       console.log('express midleware for passport');
 
+      if(local){ //If module.exports.local is defined, we are on localhost
+        var fb_clientID = local.facebook.clientID;
+        var fb_clientSecret = local.facebook.clientSecret;
+        var fb_callbackURL = local.facebook.callbackURL;
+      } else {//We are on heroku
+        var fb_clientID = process.env.FB_CLIENTID;
+        var fb_clientSecret = process.env.FB_CLIENTSECRET;
+        var fb_callbackURL = process.env.FB_CALLBACKURL;
+      }
+
       passport.use(new FacebookStrategy({
-                    clientID: local.facebook.clientID,
-                    clientSecret: local.facebook.clientSecret,
-                    callbackURL: local.facebook.callbackURL,
+                    clientID: fb_clientID,
+                    clientSecret: fb_clientSecret,
+                    callbackURL: fb_callbackURL,
                     profileFields: ['id', 'displayName', 'provider', 'photos', 'emails']
                 },
                 verifyHandlerFacebook
