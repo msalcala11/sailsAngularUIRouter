@@ -1,5 +1,6 @@
 <div class="container">
   <h3 id="heading">Your Users</h3>
+<div class="table-responsive">
   <table class='table'>
     <tr>
       <th></th>
@@ -15,8 +16,8 @@
     <tr data-id="{{user.id}}" data-model="user" ng-repeat="user in users">
 
         <td>
-          <img id="{{user.id}}" src="/images/online.png" ng-show="{{user.online}}">
-          <img id="{{user.id}}" src="/images/offline.png" ng-hide="{{user.online}}">
+          <img id="{{user.id}}" src="/images/online.png" ng-show="user.online">
+          <img id="{{user.id}}" src="/images/offline.png" ng-hide="user.online">
         </td>
       <td>{{user.id}}</td>
       <td>{{user.name}}</td>
@@ -32,6 +33,7 @@
 
     </tr>
   </table>
+  </div>
 
   <div ui-view></div>
 </div>

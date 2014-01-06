@@ -26,6 +26,7 @@ module.exports = {
 
 	destroy: function (req, res, next) {
 		User.destroy(req.param('id'), function(err){
+			User.publishDestroy(req.param('id'));
 			res.send(200);
 		});
 	},
@@ -44,7 +45,7 @@ module.exports = {
 				// }
 
 				// Let's log them in
-				AuthStatusService.initialize(req, user);
+				AuthStatusService.initialize(req, res, user);
 
 				req.session.User = user;
 
@@ -53,13 +54,7 @@ module.exports = {
 				user.save(function(err, user) {
 				    if (err) return next(err);
 
-				    // //Inform other sockets (i.e. connected sockets that are subscribed) that this user is now logged in
-				    // User.publishUpdate(user.id, {
-				    //         loggedIn: true, 
-				    //         id: user.id,
-				    //         name: user.name,
-				    //         action: ' has logged in.'
-				    // });
+					User.publishCreate(user);
 
 				    // If the user is an admin, update their authStatus to reflect this
 				     if(req.session.User.admin) {
@@ -70,6 +65,42 @@ module.exports = {
 				     res.json(req.session.authStatus);
 				});                
 			}
+		});
+	},
+
+	// This is for integration with socket.io for real-time updates to changes in users
+	subscribe: function(req, res, next) {
+		
+		User.find(function foundUsers(err, users){
+			if(err) return console.log(err);
+			// Let's subscribe to the model class room so we can listen for the creation of new users via publishCreate
+			User.subscribe(req.socket);
+
+			// Let's also subscribe the existing users to the model instance room so we can listen for changes 
+			// to the existing users via publishUpdate and publishDestroy
+			User.subscribe(req.socket, users);
+
+			console.log("subscribe called")
+
+			res.send(200);	
+		});
+	},
+
+	// This is for integration with socket.io for real-time updates to changes in users
+	subscribe: function(req, res, next) {
+		
+		User.find(function foundUsers(err, users){
+			if(err) return console.log(err);
+			// Let's subscribe to the model class room so we can listen for the creation of new users via publishCreate
+			User.subscribe(req.socket);
+
+			// Let's also subscribe the existing users to the model instance room so we can listen for changes 
+			// to the existing users via publishUpdate and publishDestroy
+			User.subscribe(req.socket, users);
+
+			console.log("subscribe called")
+
+			res.send(200);	
 		});
 	}
   

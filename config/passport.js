@@ -1,8 +1,11 @@
 // Location: /config/passport.js
 var passport    = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
+  FacebookStrategy = require('passport-facebook').Strategy
   bcrypt = require('bcrypt'),
   check = require('validator').check;
+
+var local = require('../config/local.js');
 
 passport.serializeUser(function(user, done) {
   done(null, user[0].id);
@@ -30,10 +33,57 @@ passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'passwor
   })
 );
 
+var verifyHandlerFacebook = function (token, tokenSecret, profile, done) {
+    process.nextTick(function () {
+      console.log(profile.photos);
+        User.findOne(
+                {
+                    or : [
+                            {facebook_uid: parseInt(profile.id)}, 
+                            {facebook_uid: profile.id},
+                            {email: profile.emails[0].value}
+                        ]
+                }
+            ).done(function (err, user) {
+
+            if (user) {
+              // If we find a user, lets update their account with the latest info from facebook, in case they
+              // have made any changes.
+              user.facebook_uid = profile.id + "";
+              user.name = profile.displayName;
+              user.facebook_profile_pic = profile.photos[0].value;
+              user.save(function userSaved (err) {
+                return done(null, user);
+              });
+            } else {
+                User.create({
+                    facebook_uid: profile.id + "",
+                    name: profile.displayName,
+                    email: profile.emails[0].value,
+                    facebook_profile_pic: profile.photos[0].value
+                }).done(function (err, user) {
+                    console.log(user);
+                        return done(err, user);
+                    });
+            }
+        });
+    });
+};
+
 module.exports = {
  express: {
     customMiddleware: function(app){
       console.log('express midleware for passport');
+
+      passport.use(new FacebookStrategy({
+                    clientID: local.facebook.clientID,
+                    clientSecret: local.facebook.clientSecret,
+                    callbackURL: local.facebook.callbackURL,
+                    profileFields: ['id', 'displayName', 'provider', 'photos', 'emails']
+                },
+                verifyHandlerFacebook
+      ));
+
       app.use(passport.initialize());
       app.use(passport.session());
     }

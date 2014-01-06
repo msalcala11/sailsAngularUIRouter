@@ -2,7 +2,7 @@ myApp.controller('userCtrl', function($scope, User, Csrf, $state, $rootScope){
           
 });
 
-myApp.controller('userListCtrl', function($scope, User, Csrf, $state, $rootScope){
+myApp.controller('userListCtrl', function($scope, User, Csrf, $state, $rootScope, $sails, $notification){
 
         $scope.getUsers = User.index(function foundUsers(response){
                 $scope.users = {};
@@ -12,6 +12,38 @@ myApp.controller('userListCtrl', function($scope, User, Csrf, $state, $rootScope
                         }   
                 });
         });
+
+        // This anonymous function handles socket communication to update login status in real time
+        (function () {
+            if(!$rootScope.userSubscribed){ // Only subscribe if not already done so, to prevent multiple connections and memory leaks
+                $sails.get("/user/subscribe", function (data) {
+                        console.log("Subscribed to user");
+                        $rootScope.userSubscribed = true;
+                });
+                
+                $sails.on("message", function (message) {
+
+                    if($rootScope.authStatus.loggedIn){ //only display notification if logged in
+                        if(message.verb === 'update'){
+                            // Update user list on screen with socket message
+                            $scope.users[message.data.id].online = message.data.loggedIn;
+                            // Display notification that a new user has logged in
+                            $notification.success(message.data.name + message.data.action, null, null);   
+                        }
+                        else if(message.verb === 'create'){
+                            $scope.users[message.data.id] = message.data;
+                            $notification.success(message.data.name + " has signed up and logged in.", null, null); 
+                        }
+                        else if(message.verb === 'destroy') {
+                            $notification.success($scope.users[message.id].name + " has been deleted.", null, null);
+                            delete $scope.users[message.id]; 
+                        }
+                    }
+                });
+            } else {
+                console.log("already subscribed to user");
+            } 
+        }());
 
         $scope.deleteUser = function(id) {
 
@@ -31,6 +63,11 @@ myApp.controller('userNewCtrl', function($scope, User, Csrf, $state, $rootScope)
                 name: "",
                 email: "",
                 password: ""
+        }
+
+        $scope.disableButton = function () { //This is for preventing the user from double-clicking the 
+                //facebook/twitter login buttons and crashing the server
+            $scope.buttonDisabled = true;
         }       
         
         $scope.createUser = function () {

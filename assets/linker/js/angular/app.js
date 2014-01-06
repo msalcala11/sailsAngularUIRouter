@@ -1,4 +1,4 @@
-var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditable', 'ngCookies', 'phonecatFilters']);
+var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditable', 'ngCookies', 'ngSails', 'ngAnimate', 'notifications']);
 	myApp.run(
       [        '$rootScope', '$state', '$stateParams',
       function ($rootScope,   $state,   $stateParams, $cookieStore, $location) {
@@ -20,12 +20,14 @@ var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditabl
                 $rootScope.authStatus['admin'] = response.admin;
                 $rootScope.authStatus['name'] = response.name;
                 $rootScope.authStatus['id'] = response.id;
+                $rootScope.authStatus['pic'] = response.pic;
             },
             clear: function () { //method used for clearing authStatus on logout
                 $rootScope.authStatus['loggedIn'] = false;
                 $rootScope.authStatus['admin'] = false;
                 $rootScope.authStatus['name'] = "";
                 $rootScope.authStatus['id'] = null;
+                $rootScope.authStatus['pic'] = null;
             }
         }
 
@@ -96,7 +98,7 @@ myApp.directive('accessLevel', ['$rootScope', function($rootScope){
         // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
         link: function($scope, element, attrs, controller) {
             var prevDisplay = element.css('display'); 
-            $rootScope.$watch('authStatus', function(){ //listen for changes in authStatus and do stuff 
+            $rootScope.$watch('authStatus', function(){ //listen for changes in authStatus and either hide or show element 
                 if(!$rootScope.authStatus.loggedIn){ //If the user is not logged in, do not show
                     element.css('display', 'none');
                 } else if((attrs.accessLevel === 'admin') && !$rootScope.authStatus.admin){ 

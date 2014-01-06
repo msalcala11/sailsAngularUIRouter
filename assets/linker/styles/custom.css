@@ -1,12 +1,91 @@
+body { padding-top: 70px; }
+
+
 .editable-div:focus {
     outline: none;
+}
+
+
+.dr-notification-wrapper {
+  margin: 45px 0 0 0;
+}
+
+@keyframes fadeOut
+{
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+
+@-webkit-keyframes fadeOut 
+{
+  from { opacity: 1.0 }
+  to { opacity: 0.0 }
+}
+
+.fadeout { 
+  animation: fadeOut 2s 1;
+  -webkit-animation: fadeOut 2s 1;
+}
+
+/* you can also define the transition style
+   on the base class as well (.notification-animation) */
+.notification-animation.ng-enter,
+.notification-animation.ng-leave {
+  -webkit-transition:0.5s linear all;
+  transition:0.5s linear all;
+}
+
+.notification-animation.ng-enter,
+.notification-animation.ng-leave.ng-leave-active {
+  opacity:0;
+}
+.notification-animation.ng-leave,
+.notification-animation.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+
+/*Love these animations for notifications */
+.notification-animation.ng-enter, 
+.notification-animation.ng-leave
+{ 
+    -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    position: relative;
+    display: block;
+} 
+ 
+.notification-animation.ng-enter.ng-enter-active, 
+.notification-animation.ng-leave {
+    opacity: 1;
+    top: 0;
+    height: 30px;
+}
+ 
+.notification-animation.ng-leave.ng-leave-active,
+.notification-animation.ng-enter {
+    opacity: 0;
+    top: -50px;
+    height: 0px;
+}
+
+
+.navbar-pic { /* This class enlarges the facebook profile pic in the nav bar*/
+  width: 30px;
+  height: 30px;
+  margin-top: -6px;
+  margin-bottom: -6px;
+  margin-right: 5px;
+  border-radius: 3px;
 }
 
 /*
 Used for preventing a flash unloaded angular content by gently fading content in once it loads.
 more here: http://www.jonathanrowny.com/journal/angularjs-smooth-fading-after-data-has-loaded
 */
-
 .fade {
   opacity: 0;
   -webkit-transition: opacity 0.10s ease-in;
@@ -19,7 +98,7 @@ more here: http://www.jonathanrowny.com/journal/angularjs-smooth-fading-after-da
   opacity: 1;
 }
 
-/*Login Form Styles*/
+/* Login Form Styles */
 
 /*The outer and inner containers are for centering the form*/
 .login-outer-container {
@@ -39,6 +118,7 @@ more here: http://www.jonathanrowny.com/journal/angularjs-smooth-fading-after-da
     -webkit-box-shadow: 0 0 3px 3px #888;
 	box-shadow: 0 0 3px 3px #888;
   border-radius:2px;
+  margin-top: -70px;
 }
 .main{
 	padding: 38px;

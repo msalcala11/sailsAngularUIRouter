@@ -6,11 +6,11 @@
 	<div class="col-md-3">
 	<div class="well well-small">
 	<ul class="nav nav-pills nav-stacked">
-	  <li ng-repeat="food in foods" ng-class="{active: $stateParams.foodId == food.id}"><a ui-sref="food.show({foodId: food.id})" style="border-radius: 0px; padding: 5px 10px;">{{food.name}}</a></li>
+	  <li class="notification-animation" ng-repeat="food in foods" ng-class="{active: $stateParams.foodId == food.id}"><a ui-sref="food.show({foodId: food.id})" style="border-radius: 0px; padding: 5px 10px;">{{food.name}}</a></li>
 	</ul>
 	</div>
 	</div>
 
-	<div class="col-md-9" ui-view>
+	<div class="col-md-9 notification-animation" ui-view>
 	</div>
 </div>

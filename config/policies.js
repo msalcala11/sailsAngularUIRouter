@@ -24,7 +24,8 @@ module.exports.policies = {
 
    user: {
    			'index' : 'adminOnly',
-   			'destroy' : 'adminOnly'
+   			'destroy' : 'adminOnly',
+   			'subscribe' : 'adminOnly'
    }
 
   /*

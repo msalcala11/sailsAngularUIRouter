@@ -31,6 +31,7 @@ module.exports = function (grunt) {
   var cssFilesToInject = [
     'linker/styles/lib/bootstrap.css',
     'linker/styles/lib/bootstrap-theme.css',
+    'linker/styles/lib/notification.css',
     'linker/**/*.css'
   ];
 
@@ -64,7 +65,10 @@ module.exports = function (grunt) {
     'linker/js/lib/angular/angular-ui-router.js',
     'linker/js/lib/angular/angular-resource.js',
     'linker/js/lib/angular/angular-cookies.js',
+    'linker/js/lib/angular/angular-sails.js',
     'linker/js/lib/angular/angular-contenteditable.js',
+    'linker/js/lib/angular/notifications.js',
+    'linker/js/lib/angular/angular-animate.js',
     'linker/js/lib/bootstrap/bootstrap.js',
 
 

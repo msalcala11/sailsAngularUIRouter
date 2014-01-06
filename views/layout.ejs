@@ -30,6 +30,7 @@
     <!--STYLES-->
     <link rel="stylesheet" href="/linker/styles/lib/bootstrap.css">
     <link rel="stylesheet" href="/linker/styles/lib/bootstrap-theme.css">
+    <link rel="stylesheet" href="/linker/styles/lib/notification.css">
     <link rel="stylesheet" href="/linker/styles/custom.css">
     <!--STYLES END-->
     
@@ -40,7 +41,7 @@
 
   <body ng-class="{loginbg: $state.includes('login') || $state.includes('signup')}" ng-controller="rootCtrl">
 
-<nav class="navbar navbar-default fade" ng-class="{in: true}" role="navigation" ng-hide="$state.includes('login') || $state.includes('signup')">
+<nav class="navbar navbar-default navbar-fixed-top fade" ng-class="{in: true}" role="navigation" ng-hide="$state.includes('login') || $state.includes('signup')">
   <!-- Brand and toggle get grouped for better mobile display -->
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -50,6 +51,7 @@
       <span class="icon-bar"></span>
     </button>
     <a class="navbar-brand" ui-sref="home">Sails + Angular with UIRouter</a>
+    <!--<a class="navbar-brand" ui-sref="home">MyCoach</a>-->
   </div>
 
   <!-- Collect the nav links, forms, and other content for toggling -->
@@ -61,27 +63,31 @@
       <li ng-class="{active: $state.includes('user')}" access-level="admin"><a ui-sref="user.list">Administration</a></li>
     </ul>
 
-    <div ng-hide="authStatus.loggedIn" class="fade" ng-class="{in: !authStatus.loggedIn}">
+    <div ng-hide="authStatus.loggedIn" class="fade" ng-class="{in: !authStatus.loggedIn}" style="padding-right: 10px;">
       <button type="button" class="btn btn-default navbar-btn pull-right" ui-sref="login">Login</button>
       <button type="button" class="btn btn-success navbar-btn pull-right" ui-sref="signup" style="margin-right: 10px;">Sign up</button>
     </div>
     <div ng-show="authStatus.loggedIn" class="fade" ng-class="{in: authStatus.loggedIn}">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">{{authStatus.name}}</a></li>
-        <li class="dropdown">
-        <a href class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
-        <ul class="dropdown-menu">
-          <li><a href="#">Action</a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li class="divider"></li>
-          <li><a href ng-click="logout()">Logout</a></li>
-        </ul>
+
+        <li class="dropdown" style="margin-right: 10px;">
+          <a href class="dropdown-toggle" data-toggle="dropdown"><img class="navbar-pic" ng-src="{{authStatus.pic}}" ng-show="authStatus.pic">
+          <img class="navbar-pic" src="/images/placeholder_profile_pic.gif" ng-hide="authStatus.pic">
+            {{authStatus.name}}<b class="caret" style="margin-left: 5px;"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href ng-click="logout()">Logout</a></li>
+          </ul>
         </li>
       </ul>
     </div>
   </div><!-- /.navbar-collapse -->
 </nav>
+
+<div notifications="top right"></div>
 
 <!--This is where our angular templates are injected-->
 <div  ui-view class="container"></div>
@@ -145,10 +151,13 @@
     <script src="/linker/js/lib/angular/angular-ui-router.js"></script>
     <script src="/linker/js/lib/angular/angular-resource.js"></script>
     <script src="/linker/js/lib/angular/angular-cookies.js"></script>
+    <script src="/linker/js/lib/angular/angular-sails.js"></script>
     <script src="/linker/js/lib/angular/angular-contenteditable.js"></script>
+    <script src="/linker/js/lib/angular/angular-animate.js"></script>
     <script src="/linker/js/lib/bootstrap/bootstrap.js"></script>
     <script src="/linker/js/angular/app.js"></script>
     <script src="/linker/js/angular/controllers/FoodController.js"></script>
+    <script src="/linker/js/angular/controllers/RootController.js"></script>
     <script src="/linker/js/angular/controllers/SessionController.js"></script>
     <script src="/linker/js/angular/controllers/UserController.js"></script>
     <script src="/linker/js/angular/filters.js"></script>
@@ -156,6 +165,7 @@
     <script src="/linker/js/angular/states/FoodStates.js"></script>
     <script src="/linker/js/angular/states/SessionStates.js"></script>
     <script src="/linker/js/angular/states/UserStates.js"></script>
+    <script src="/linker/js/lib/angular/notification.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>
