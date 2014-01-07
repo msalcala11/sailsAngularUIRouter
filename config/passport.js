@@ -5,7 +5,9 @@ var passport    = require('passport'),
   bcrypt = require('bcrypt'),
   check = require('validator').check;
 
-var local = require('../config/local.js');
+if(!process.env.DB_URL){ //We are not on heroku so require our local config
+  var local = require('../config/local.js');
+}
 
 passport.serializeUser(function(user, done) {
   done(null, user[0].id);
