@@ -11,9 +11,10 @@
     "optimist": "0.3.4",
     "sails-postgresql": "~0.9.5",
     "bcrypt": "~0.7.7",
-    "validator": "2.0.0",
-    "passport":  "0.1.18",
-    "passport-facebook": "1.0.2"
+    "validator": "~2.0.0",
+    "passport": "~0.1.18",
+    "passport-facebook": "1.0.2",
+    "passport-local": "~0.1.6"
   },
   "scripts": {
     "start": "node app.js",
