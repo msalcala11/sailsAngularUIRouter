@@ -64,7 +64,6 @@ module.exports = function (grunt) {
     'linker/js/lib/angular/angular.js',
     'linker/js/lib/angular/angular-ui-router.js',
     'linker/js/lib/angular/angular-resource.js',
-    'linker/js/lib/angular/angular-cookies.js',
     'linker/js/lib/angular/angular-sails.js',
     'linker/js/lib/angular/angular-contenteditable.js',
     'linker/js/lib/angular/notifications.js',
