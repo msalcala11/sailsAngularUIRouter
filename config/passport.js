@@ -5,7 +5,7 @@ var passport    = require('passport'),
   bcrypt = require('bcrypt'),
   check = require('validator').check;
 
-if(!process.env.DB_URL){ //We are not on heroku so require our local config
+if(!process.env.DB_NAME){ //We are not on heroku so require our local config
   var local = require('../config/local.js');
 }
 
