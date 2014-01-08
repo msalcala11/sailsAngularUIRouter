@@ -1,4 +1,5 @@
-myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+myApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider',
+    function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 	$stateProvider.state('food', {
             url: '/food',
             templateUrl: '/templates/food/index.html',
@@ -19,4 +20,4 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $h
         templateUrl: '/templates/food/food.new.html',
         controller: 'foodNewCtrl'
     });    
-});
+}]);

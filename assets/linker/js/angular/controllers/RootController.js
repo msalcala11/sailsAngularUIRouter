@@ -1,5 +1,6 @@
 //This is the overall controller for the body and is called perpetually to check whether the user is still logged in
-myApp.controller('rootCtrl', function($scope, $state, Session, Csrf, $rootScope, $sails, $notification) {
+myApp.controller('rootCtrl', ['$scope', '$state', 'Session', 'Csrf', '$rootScope', '$sails', '$notification',
+ function($scope, $state, Session, Csrf, $rootScope, $sails, $notification) {
         
         $rootScope.getAuthStatus = Session.check(function(response){
                 $rootScope.authStatus.set(response);
@@ -61,4 +62,4 @@ myApp.controller('rootCtrl', function($scope, $state, Session, Csrf, $rootScope,
                 });       
         }
         
-});
+}]);

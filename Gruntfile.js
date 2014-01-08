@@ -479,6 +479,9 @@ module.exports = function (grunt) {
     'sails-linker:devTplJADE'
   ]);
 
+  //This enables the correct minification of angular scripts
+  //grunt.loadNpmTasks('grunt-ngmin');
+
   // When API files are changed:
   // grunt.event.on('watch', function(action, filepath) {
   //   grunt.log.writeln(filepath + ' has ' + action);

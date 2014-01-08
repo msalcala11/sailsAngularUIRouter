@@ -1,4 +1,5 @@
-myApp.controller('loginCtrl', function($scope, $state, Session, Csrf, $rootScope){
+myApp.controller('loginCtrl', ['$scope', '$state', 'Session', 'Csrf', '$rootScope',
+    function($scope, $state, Session, Csrf, $rootScope){
 
         $scope.disableButton = function () { //This is for preventing the user from double-clicking the 
                 //facebook/twitter login buttons and crashing the server
@@ -51,14 +52,13 @@ myApp.controller('loginCtrl', function($scope, $state, Session, Csrf, $rootScope
         var createSessionError = function(error) {
                 $scope.serverError = error.data; //This message is displayed in an alert box
         }
-});
+}]);
 
 //This is the overall controller for the body and is called perpetually to check whether the user is still logged in
-myApp.controller('mustBeLoggedInCtrl', function($scope, $state, Session, Csrf, $rootScope, $stateParams){
+myApp.controller('mustBeLoggedInCtrl', ['$scope', '$state', 'Session', 'Csrf', '$rootScope', '$stateParams',
+    function($scope, $state, Session, Csrf, $rootScope, $stateParams){
     
     // This is the error message sent back from a sails policy, and displays in an alert box    
     $scope.authError = $stateParams.errorMessage;
         
-});
-
-
+}]);

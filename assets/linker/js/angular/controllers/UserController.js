@@ -1,8 +1,10 @@
-myApp.controller('userCtrl', function($scope, User, Csrf, $state, $rootScope){
+myApp.controller('userCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope',
+    function($scope, User, Csrf, $state, $rootScope){
           
-});
+}]);
 
-myApp.controller('userListCtrl', function($scope, User, Csrf, $state, $rootScope, $sails, $notification){
+myApp.controller('userListCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope', '$sails', '$notification',
+    function($scope, User, Csrf, $state, $rootScope, $sails, $notification){
 
         $scope.getUsers = User.index(function foundUsers(response){
                 $scope.users = {};
@@ -53,10 +55,11 @@ myApp.controller('userListCtrl', function($scope, User, Csrf, $state, $rootScope
                         });
                 });
         }
-});
+}]);
 
 
-myApp.controller('userNewCtrl', function($scope, User, Csrf, $state, $rootScope){
+myApp.controller('userNewCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope',
+    function($scope, User, Csrf, $state, $rootScope){
         
         // Let's initialize the user variable and the attributes that correspond to the input fields of the sign-up form
         $scope.user = {
@@ -83,4 +86,4 @@ myApp.controller('userNewCtrl', function($scope, User, Csrf, $state, $rootScope)
                         });
                 });
         }
-});
+}]);

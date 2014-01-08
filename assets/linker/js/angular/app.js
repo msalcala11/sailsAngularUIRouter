@@ -1,7 +1,7 @@
 var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditable', 'ngCookies', 'ngSails', 'ngAnimate', 'notifications']);
 	myApp.run(
-      [        '$rootScope', '$state', '$stateParams',
-      function ($rootScope,   $state,   $stateParams, $cookieStore, $location) {
+      [        '$rootScope', '$state', '$stateParams', '$location',
+      function ($rootScope,   $state,   $stateParams, $location) {
 
         // It's very handy to add references to $state and $stateParams to the $rootScope
         // so that you can access them from any scope within your applications.For example,
@@ -34,7 +34,8 @@ var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditabl
       }]);
 
         //Lets define our routes
-        myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+        myApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', 
+                    function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 
                 //$locationProvider.html5Mode(true); //removes the hash in the URL bar
 
@@ -79,7 +80,7 @@ var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditabl
                         templateUrl: '/templates/user/user.new.html',
                         controller: 'userNewCtrl'
                 });   
-        });
+        }]);
 
 myApp.directive('accessLevel', ['$rootScope', function($rootScope){
     // Runs during compile

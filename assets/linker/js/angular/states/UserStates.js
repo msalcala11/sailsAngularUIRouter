@@ -1,4 +1,5 @@
-myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+myApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider',
+    function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 	$stateProvider.state('user', {
             url: '/user',
             templateUrl: '/templates/user/index.html',
@@ -9,4 +10,4 @@ myApp.config(function ($stateProvider, $urlRouterProvider, $locationProvider, $h
             templateUrl: '/templates/user/user.list.html',
             controller: 'userListCtrl'
     });
-});
+}]);

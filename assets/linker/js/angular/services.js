@@ -1,6 +1,6 @@
 angular.module('appServices', ['ngResource'])
 
-	.factory('Food', function($resource){
+	.factory('Food', ['$resource', function($resource){
 		return $resource("/food/:action/:foodId", {}, 
 			{
 				//These correspond to the actions defined in Sails
@@ -11,9 +11,9 @@ angular.module('appServices', ['ngResource'])
 		    	'create' : { method:'POST', params: {'action' : 'create'}, isArray: false}
 	    	}
 		);
-	})
+	}])
 
-	.factory('User', function($resource){
+	.factory('User', ['$resource', function($resource){
 		return $resource("/user/:action/:userId", {}, 
 			{
 				//These correspond to the actions defined in Sails
@@ -24,9 +24,9 @@ angular.module('appServices', ['ngResource'])
 		    	'create' : { method:'POST', params: {'action' : 'create'}, isArray: false}
 	    	}
 		);
-	})
+	}])
 
-	.factory('Session', function($resource){
+	.factory('Session', ['$resource', function($resource){
 		return $resource("/session/:action/:authType", {}, //authType only used when doing create (denotes local, facebook, twitter, etc.)
 			{
 				//These correspond to the actions defined in Sails
@@ -35,9 +35,9 @@ angular.module('appServices', ['ngResource'])
 		    	'check'  : { method: 'GET', params: {'action' : 'check'}, isArray: false} //used to check if user is logged in if app is refreshed
 	    	}
 		);
-	})
+	}])
 
 	// For security against csrf attacks, request this from the server before any non-GET action
-	.factory('Csrf', function($resource){
+	.factory('Csrf', ['$resource', function($resource){
 		return $resource('/csrfToken', {}, {'query': {method: 'GET', isArray: false}}); 
-	});
+	}]);

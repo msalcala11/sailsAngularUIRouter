@@ -1,4 +1,5 @@
-myApp.controller('foodCtrl', function($scope, Food, $cookies, $cookieStore){
+myApp.controller('foodCtrl', ['$scope', 'Food',
+                 function($scope, Food){
 	//Lets grab all foods from the server
     //$scope.foods = Food.index();
 	$scope.getfoods = Food.index(function(response){
@@ -11,9 +12,10 @@ myApp.controller('foodCtrl', function($scope, Food, $cookies, $cookieStore){
 
 		return true;
 	});
-});
+}]);
 
-myApp.controller('foodShowCtrl', function($scope, Food, $stateParams, $state, $location, Csrf){
+myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', 'Csrf',
+ function($scope, Food, $stateParams, $state, $location, Csrf){
 	//Lets grab from the server only the food that was selected
 	//$scope.food = Food.show({foodId: $stateParams.foodId});
     $scope.getfoods = Food.index(function(response){
@@ -42,9 +44,10 @@ myApp.controller('foodShowCtrl', function($scope, Food, $stateParams, $state, $l
     		$state.go('food');
         })
 	}
-});
+}]);
 
-myApp.controller('foodEditCtrl', function($scope, Food, $stateParams, $state, $location, Csrf){
+myApp.controller('foodEditCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', 'Csrf',
+    function($scope, Food, $stateParams, $state, $location, Csrf){
     if($scope.$parent.foods == null){ //if someone got to this state via the URL bar and parent $scope is undefined, we need to define it
     	// Let's grab $scope.$parent.foods asynchronously since a simply .query() gives issues
     	$scope.getfoods = Food.query(function(response) {
@@ -88,9 +91,10 @@ myApp.controller('foodEditCtrl', function($scope, Food, $stateParams, $state, $l
         });
 	}
 	
-});
+}]);
 
-myApp.controller('foodNewCtrl', function($scope, Food, $state, $location, $stateParams, Csrf){
+myApp.controller('foodNewCtrl', ['$scope', 'Food', '$state', '$location', '$stateParams', 'Csrf',
+    function($scope, Food, $state, $location, $stateParams, Csrf){
     
     //Create a food template to be displayed for editing
     $scope.food = {};
@@ -122,4 +126,4 @@ myApp.controller('foodNewCtrl', function($scope, Food, $state, $location, $state
         })
         
     }  
-});
+}]);
