@@ -41,7 +41,7 @@ var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditabl
 
                 // Let's write the code to redirect to the login page if any of our requests return a 401
                 // This can occurs when a user attmepts to access private content after the user's session expires
-                var interceptor = ['$location', '$q', function($location, $q, $rootScope) {
+                var interceptor = ['$location', '$q', function($location, $q) {
                     function success(response) {
                         return response;
                     }
