@@ -13,7 +13,7 @@
       <th></th>
     </tr>
 
-    <tr data-id="{{user.id}}" data-model="user" ng-repeat="user in users">
+    <tr data-id="{{user.id}}" data-model="user" ng-repeat="user in users" class="fade" ng-class="{in: user.name.length}">
 
         <td>
           <img id="{{user.id}}" src="/images/online.png" ng-show="user.online">

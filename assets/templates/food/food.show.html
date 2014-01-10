@@ -1,5 +1,7 @@
-<h3 class="fade" ng-class="{in: food.name.length}">{{food.name}}</h3>
-<p class="fade" ng-class="{in: food.cals}">{{food.cals}} kcals</p>
-<hr>
-<a ui-sref="food.edit({foodId: food.id})" type="submit" class="btn btn-warning fade" ng-class="{in: food.name.length}">Edit</a>
-<a href ng-click="removeFood()" class="btn btn-danger fade" ng-class="{in: food.name.length}">Delete</a>
+<div class="fade" ng-class="{in: food.name.length}">
+	<h3>{{food.name}}</h3>
+	<p>{{food.cals}} kcals</p>
+	<hr>
+	<a ui-sref="food.edit({foodId: food.id})" type="submit" class="btn btn-warning">Edit</a>
+	<a href ng-click="removeFood()" class="btn btn-danger">Delete</a>
+</div>
