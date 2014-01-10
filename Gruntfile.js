@@ -48,7 +48,7 @@ module.exports = function (grunt) {
 
     // Below, as a demonstration, you'll see the built-in dependencies 
     // linked in the proper order order
-
+    'linker/js/lib/jquery/jquery-1.10.2.js',
     // Bring in the socket.io client
     'linker/js/socket.io.js',
 
@@ -57,18 +57,20 @@ module.exports = function (grunt) {
 
     // A simpler boilerplate library for getting you up and running w/ an
     // automatic listener for incoming messages from Socket.io.
-    'linker/js/app.js',
+    //'linker/js/app.js',
 
     // *->    put other dependencies here   <-*
-    'linker/js/lib/jquery/jquery-1.10.2.js',
+  
     'linker/js/lib/angular/angular.js',
     'linker/js/lib/angular/angular-ui-router.js',
     'linker/js/lib/angular/angular-resource.js',
     'linker/js/lib/angular/angular-sails.js',
     'linker/js/lib/angular/angular-contenteditable.js',
-    'linker/js/lib/angular/notifications.js',
+    'linker/js/lib/angular/notification.js',
     'linker/js/lib/angular/angular-animate.js',
     'linker/js/lib/bootstrap/bootstrap.js',
+
+    'linker/js/angular/app.js',
 
 
     // All of the rest of your app scripts imported here
