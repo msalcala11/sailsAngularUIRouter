@@ -88,11 +88,11 @@ more here: http://www.jonathanrowny.com/journal/angularjs-smooth-fading-after-da
 */
 .fade {
   opacity: 0;
-  -webkit-transition: opacity 0.10s ease-in;
-  -moz-transition: opacity 0.10s ease-in;
-  -o-transition: opacity 0.10s ease-in;
-  -ms-transition: opacity 0.10s ease-in;
-  transition: opacity 0.10s ease-in;
+  -webkit-transition: opacity 0.25s ease-in;
+  -moz-transition: opacity 0.25s ease-in;
+  -o-transition: opacity 0.25s ease-in;
+  -ms-transition: opacity 0.25s ease-in;
+  transition: opacity 0.25s ease-in;
 }
 .fade.in{
   opacity: 1;
