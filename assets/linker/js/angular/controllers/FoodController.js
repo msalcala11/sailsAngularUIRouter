@@ -14,22 +14,26 @@ myApp.controller('foodCtrl', ['$scope', 'Food',
 	});
 }]);
 
-myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', 'Csrf',
- function($scope, Food, $stateParams, $state, $location, Csrf){
-	//Lets grab from the server only the food that was selected
-	//$scope.food = Food.show({foodId: $stateParams.foodId});
-    $scope.getfoods = Food.index(function(response){
-        $scope.$parent.foods = {};
-        angular.forEach(response, function(item){
-            if(item.name){
-                $scope.$parent.foods[item.id] = item;
+myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', 'Csrf', '$cacheFactory', '$http',
+ function($scope, Food, $stateParams, $state, $location, Csrf, $cacheFactory, $http){
+	
+    if(!$scope.$parent.foods){// If $scope.$parent is not defined - then grab the whole list
+        // to populate the sidebar
+        $scope.getfoods = Food.index(function(response){
+            $scope.$parent.foods = {};
+            angular.forEach(response, function(item){
+                if(item.name){
+                    $scope.$parent.foods[item.id] = item;
 
-                if(item.id == $stateParams.foodId){
-                    $scope.food = item;
+                    if(item.id == $stateParams.foodId){
+                        $scope.food = item;
+                    }
                 }
-            }
+            });
         });
-    });
+    } else { // If $scope.$parent is defined then only grab the item that was selected
+        $scope.food = Food.show({foodId: $stateParams.foodId});
+    }
 
     //$scope.food = Food.show({foodId: $stateParams.foodId});
 
@@ -46,8 +50,8 @@ myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
 	}
 }]);
 
-myApp.controller('foodEditCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', 'Csrf',
-    function($scope, Food, $stateParams, $state, $location, Csrf){
+myApp.controller('foodEditCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', 'Csrf', '$cacheFactory', '$http',
+    function($scope, Food, $stateParams, $state, $location, Csrf, $cacheFactory, $http){
     if($scope.$parent.foods == null){ //if someone got to this state via the URL bar and parent $scope is undefined, we need to define it
     	// Let's grab $scope.$parent.foods asynchronously since a simply .query() gives issues
     	$scope.getfoods = Food.query(function(response) {
@@ -85,6 +89,8 @@ myApp.controller('foodEditCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
             $scope.food['_csrf'] = CsrfResponse._csrf;
             //Food.update($scope.$parent.foods[$stateParams.foodId]);
             Food.update($scope.food, function(response){
+                // Let's remove the updated item from the cache since the cache is now outdated
+                $cacheFactory.get('$http').remove('/food/show/' + $scope.food.id);
                 $state.go('food.show');
             });
 

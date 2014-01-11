@@ -5,10 +5,10 @@ angular.module('appServices', ['ngResource'])
 			{
 				//These correspond to the actions defined in Sails
 		    	'index': { method:"GET", params: { 'action': 'index' }, isArray: true, cache: false},
-		    	'show' : { method:"GET", params: { 'action': 'show', 'foodId': '@id'}, isArray: false, cache: false},
-		    	'update': { method:"PUT", params: { 'action': 'update', 'foodId': '@id'}, isArray: false, cache: false},
-		    	'destroy': { method:'DELETE', params: {'action': 'destroy', 'foodId': '@id'}, isArray: false, cache: false},
-		    	'create' : { method:'POST', params: {'action' : 'create'}, isArray: false, cache: false}
+		    	'show' : { method:"GET", params: { 'action': 'show', 'foodId': '@id'}, isArray: false, cache: true},
+		    	'update': { method:"PUT", params: { 'action': 'update', 'foodId': '@id'}, isArray: false},
+		    	'destroy': { method:'DELETE', params: {'action': 'destroy', 'foodId': '@id'}, isArray: false},
+		    	'create' : { method:'POST', params: {'action' : 'create'}, isArray: false}
 	    	}
 		);
 	}])

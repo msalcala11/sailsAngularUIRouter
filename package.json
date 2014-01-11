@@ -23,7 +23,7 @@
   },
   "main": "app.js",
   "repository": "",
-  "author": "",
+  "author": "Marty Alcala",
   "license": "",
   "devDependencies": {
     "grunt-ngmin": "0.0.3"
