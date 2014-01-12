@@ -28,11 +28,13 @@ myApp.controller('foodCtrl', ['$scope', 'Food',
     }
 }]);
 
-myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', 'Csrf', '$cacheFactory', '$http',
- function($scope, Food, $stateParams, $state, $location, Csrf, $cacheFactory, $http){
+myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', 'Csrf', '$cacheFactory', '$http', '$timeout',
+ function($scope, Food, $stateParams, $state, $location, Csrf, $cacheFactory, $http, $timeout){
 
     $scope.viewLoading = true;
-	
+    console.log($scope.viewLoading);
+
+
     if(!$scope.$parent.foods){// If $scope.$parent is not defined - then grab the whole list
         // to populate the sidebar
         $scope.getfoods = Food.index(function(response){
@@ -46,11 +48,18 @@ myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
                     }
                 }
             });
+
+            //$timeout(function() {$scope.viewLoading = false;}, 1000);
             $scope.viewLoading = false;
         });
     } else { // If $scope.$parent is defined then only grab the item that was selected
-        $scope.food = Food.show({foodId: $stateParams.foodId});
-        $scope.viewLoading = false;
+        $scope.food = Food.show({foodId: $stateParams.foodId}, function(res){
+            //$timeout(function() {$scope.viewLoading = false;}, 1000);
+            $scope.viewLoading = false;
+            console.log("food loaded")
+        });
+        //$timeout(function() {$scope.viewLoading = false;}, 1000);
+        //$scope.viewLoading = false;
     }
 
     //$scope.food = Food.show({foodId: $stateParams.foodId});
