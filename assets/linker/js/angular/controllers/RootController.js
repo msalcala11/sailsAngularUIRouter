@@ -6,10 +6,16 @@ myApp.controller('rootCtrl', ['$scope', '$state', 'Session', 'Csrf', '$rootScope
                 $rootScope.authStatus.set(response);
         });    
 
-
         // Run this function when the user clicks logout
         $rootScope.logout = function() {
 
+                // Let's unsubscribe from the user class and instance rooms - must be sent over a socket
+                $sails.get("/user/unsubscribe", function (data) {
+                        console.log("Unsubscribe called on logout");
+                        $rootScope.userSubscribed = false;
+                });
+
+                // Now let's actually logout
                 $scope.csrfToken = Csrf.query(function (csrfResponse){
                         $scope.destroySession = Session.destroy({_csrf: csrfResponse._csrf}, function (response){
                                 $rootScope.authStatus.clear();
@@ -25,33 +31,6 @@ myApp.controller('rootCtrl', ['$scope', '$state', 'Session', 'Csrf', '$rootScope
                                         "Don't be a stranger now!",
                                         "Be good now!"
                                 ];
-
-                                // var signOffMessageArr = [
-                                //         "See you later alligator", 
-                                //         "In a while crocodile",
-                                //         "See you soon raccoon",  
-                                //         "Laters taters", 
-                                //         "Blow a kiss Jelly Fish!", 
-                                //         "Bye-bye, butterfly",  
-                                //         "Give a hug, ladybug",  
-                                //         "Toodle-ee-oo, kangaroo",  
-                                //         "Time to go, buffalo",  
-                                //         "Can’t stay, blue jay", 
-                                //         "Take care, polar bear",  
-                                //         "Out the door, dinosaur",  
-                                //         "Be sweet, parakeet",  
-                                //         "So long, king kong",  
-                                //         "Toodle-doo, Cockatoo", 
-                                //         "Better swish, jellyfish",  
-                                //         "Take care, teddy bear",  
-                                //         "Bye for now, brown cow",  
-                                //         "Hasta Manana, Iguana",  
-                                //         "Time to squirm, wiggle worm",  
-                                //         "Gotta scat, kitty cat",  
-                                //         "Better skadoodle, poodle",  
-                                //         "Stay loose, silly goose",  
-                                //         "Till then, Penguin" 
-                                // ];
 
                                 // Pick a random message from the array
                                 var key = Math.floor(Math.random() * signOffMessageArr.length);

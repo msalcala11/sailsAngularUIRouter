@@ -55,6 +55,7 @@ myApp.controller('userListCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScop
                         });
                 });
         }
+
 }]);
 
 

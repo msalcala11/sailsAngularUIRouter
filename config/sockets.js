@@ -15,6 +15,7 @@ module.exports.sockets = {
   // Keep in mind that Sails' RESTful simulation for sockets 
   // mixes in socket.io events for your routes and blueprints automatically.
   onConnect: function(session, socket) {
+    console.log(socket.manager.rooms);
 
     // By default: do nothing
     // This is a good place to subscribe a new socket to a room, inform other users that
@@ -117,6 +118,7 @@ module.exports.sockets = {
         // to report an error, call `cb(err)`
     }
   */
+
   authorization: true,
 
   // Match string representing the origins that are allowed to connect to the Socket.IO server

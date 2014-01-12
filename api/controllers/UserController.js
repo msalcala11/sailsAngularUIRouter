@@ -88,7 +88,10 @@ module.exports = {
 
 	// This is for integration with socket.io for real-time updates to changes in users
 	subscribe: function(req, res, next) {
-		
+		console.log("Subscribe rooms");
+		//console.log(req.socket.manager.rooms[''][0]);
+		console.log(req.socket.manager.rooms);
+
 		User.find(function foundUsers(err, users){
 			if(err) return console.log(err);
 			// Let's subscribe to the model class room so we can listen for the creation of new users via publishCreate
@@ -102,6 +105,30 @@ module.exports = {
 
 			res.send(200);	
 		});
+	},
+
+	unsubscribe: function (req, res, next) {
+		//console.log("Unsubscribe called");
+		//console.log(req.socket.manager.rooms[''][0]);
+
+		//User.unsubscribe(req.socket);
+		//User.unsubscribe(req.socket, [{id: 48}]);
+		User.find(function foundUsers(err, users){
+			if(err) return console.log(err);
+			// Let's subscribe to the model class room so we can listen for the creation of new users via publishCreate
+			User.unsubscribe(req.socket);
+
+			// Let's also subscribe the existing users to the model instance room so we can listen for changes 
+			// to the existing users via publishUpdate and publishDestroy
+			User.unsubscribe(req.socket, users);
+
+			console.log("unsubscribe called")
+
+			res.send(200);	
+		});
+		
+		//req.socket.leave('');
+		res.send(200)
 	}
   
 };

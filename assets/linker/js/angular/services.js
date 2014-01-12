@@ -4,7 +4,7 @@ angular.module('appServices', ['ngResource'])
 		return $resource("/food/:action/:foodId", {}, 
 			{
 				//These correspond to the actions defined in Sails
-		    	'index': { method:"GET", params: { 'action': 'index' }, isArray: true, cache: false},
+		    	'index': { method:"GET", params: { 'action': 'index' }, isArray: true, cache: true},
 		    	'show' : { method:"GET", params: { 'action': 'show', 'foodId': '@id'}, isArray: false, cache: true},
 		    	'update': { method:"PUT", params: { 'action': 'update', 'foodId': '@id'}, isArray: false},
 		    	'destroy': { method:'DELETE', params: {'action': 'destroy', 'foodId': '@id'}, isArray: false},

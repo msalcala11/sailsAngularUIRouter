@@ -27,7 +27,7 @@
           <img src="/images/pawn.png" ng-hide="{{user.admin}}">
         </td>
       <td><a href="#/user/{{user.id}}" class="btn btn-sm btn-primary">Show</a></td>
-      <td><a href="/user/edit/{{user.id}}" class="btn btn-sm btn-warning">Edit</a></td>
+      <td><a href ng-click="unsubscribe()" class="btn btn-sm btn-warning">Edit</a></td>
 
       <td><a href class="btn btn-sm btn-danger" ng-click="deleteUser(user.id)">Delete</a></td>
 
