@@ -30,6 +30,8 @@ myApp.controller('foodCtrl', ['$scope', 'Food',
 
 myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', 'Csrf', '$cacheFactory', '$http',
  function($scope, Food, $stateParams, $state, $location, Csrf, $cacheFactory, $http){
+
+    $scope.viewLoading = true;
 	
     if(!$scope.$parent.foods){// If $scope.$parent is not defined - then grab the whole list
         // to populate the sidebar
@@ -44,9 +46,11 @@ myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
                     }
                 }
             });
+            $scope.viewLoading = false;
         });
     } else { // If $scope.$parent is defined then only grab the item that was selected
         $scope.food = Food.show({foodId: $stateParams.foodId});
+        $scope.viewLoading = false;
     }
 
     //$scope.food = Food.show({foodId: $stateParams.foodId});
