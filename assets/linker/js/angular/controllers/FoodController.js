@@ -1,5 +1,7 @@
-myApp.controller('foodCtrl', ['$scope', 'Food',
-                 function($scope, Food){
+myApp.controller('foodCtrl', ['$scope', 'Food', '$timeout',
+                 function($scope, Food, $timeout){
+
+    $scope.viewLoading = true;               
 	//Lets grab all foods from the server
     //$scope.foods = Food.index();
 	$scope.getfoods = Food.index(function(response){
@@ -9,7 +11,8 @@ myApp.controller('foodCtrl', ['$scope', 'Food',
 				$scope.foods[item.id] = item;
 			}
 		});
-
+        $scope.viewLoading = false;
+        //$timeout(function() {$scope.viewLoading = false;}, 1000);
 		return true;
 	});
 
@@ -32,8 +35,6 @@ myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
  function($scope, Food, $stateParams, $state, $location, Csrf, $cacheFactory, $http, $timeout){
 
     $scope.viewLoading = true;
-    console.log($scope.viewLoading);
-
 
     if(!$scope.$parent.foods){// If $scope.$parent is not defined - then grab the whole list
         // to populate the sidebar
@@ -56,10 +57,7 @@ myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
         $scope.food = Food.show({foodId: $stateParams.foodId}, function(res){
             //$timeout(function() {$scope.viewLoading = false;}, 1000);
             $scope.viewLoading = false;
-            console.log("food loaded")
         });
-        //$timeout(function() {$scope.viewLoading = false;}, 1000);
-        //$scope.viewLoading = false;
     }
 
     //$scope.food = Food.show({foodId: $stateParams.foodId});
@@ -81,8 +79,10 @@ myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
 	}
 }]);
 
-myApp.controller('foodEditCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', 'Csrf', '$cacheFactory', '$http',
-    function($scope, Food, $stateParams, $state, $location, Csrf, $cacheFactory, $http){
+myApp.controller('foodEditCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', 'Csrf', '$cacheFactory', '$http', '$timeout',
+    function($scope, Food, $stateParams, $state, $location, Csrf, $cacheFactory, $http, $timeout){
+    $scope.viewLoading = true;
+
     if($scope.$parent.foods == null){ //if someone got to this state via the URL bar and parent $scope is undefined, we need to define it
     	// Let's grab $scope.$parent.foods asynchronously since a simply .query() gives issues
     	$scope.getfoods = Food.query(function(response) {
@@ -105,6 +105,8 @@ myApp.controller('foodEditCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
                         }
         			}
         		});
+         //$timeout(function() {$scope.viewLoading = false;}, 1000);
+         $scope.viewLoading = false;
         });
 
 	} else { //$scope.$parent.foods was already defined so no need to make a server call. Woohoo efficiency!
@@ -144,6 +146,11 @@ myApp.controller('foodNewCtrl', ['$scope', 'Food', '$state', '$location', '$stat
     }
     // Create a placeholder in the side bar so the user's typing is also reflected in the sidebar
     $scope.$parent.foods['Placeholder'] = $scope.food;
+
+    // If the user navigates away from the edit state before submitting the form, remove the placeholder from the list
+    $scope.$on("$destroy", function(){
+        delete $scope.$parent.foods['Placeholder'];
+    });
 
     $scope.createFood = function () {
 

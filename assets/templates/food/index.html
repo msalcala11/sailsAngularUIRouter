@@ -2,28 +2,30 @@
 	<h1>Foods</h1>
 	<p>Here's a list of really cool foods. <a href ui-sref="food.new"> Add a new food</a></p>
 
-<div class="container">
-   <div class="row row-offcanvas row-offcanvas-left" ng-class="{active: offcanvasActive}">
+<div my-loading-spinner="viewLoading">
+	<div class="container">
+	   <div class="row row-offcanvas row-offcanvas-left" ng-class="{active: offcanvasActive}">
 
-		<div class="col-xs-6 col-ms-5 col-sm-4 col-lg-3 sidebar-offcanvas" id="sidebar" role="navigation">
-			<div class="well well-small">
-				<ul class="nav nav-pills nav-stacked">
-				  <li class="notification-animation" ng-repeat="food in foods" ng-class="{active: $stateParams.foodId == food.id}" ng-click="toggleSidebar()"><a ui-sref="food.show({foodId: food.id})" style="border-radius: 0px; padding: 5px 10px;">{{food.name}}</a></li>
-				</ul>
+			<div class="col-xs-6 col-ms-5 col-sm-4 col-lg-3 sidebar-offcanvas" id="sidebar" role="navigation">
+				<div class="well well-small">
+					<ul class="nav nav-pills nav-stacked">
+					  <li class="notification-animation" ng-repeat="food in foods" ng-class="{active: $stateParams.foodId == food.id}" ng-click="toggleSidebar()"><a ui-sref="food.show({foodId: food.id})" style="border-radius: 0px; padding: 5px 10px;">{{food.name}}</a></li>
+					</ul>
+				</div>
 			</div>
-		</div>
 
-		<div class="col-xs-12 col-ms-7 col-sm-8 col-lg-9">
-			<p class="pull-left offcanvas-visible-xs">
-            	<button id="offcanvasToggle" type="button" class="btn btn-primary btn-xs" ng-click="toggleSidebar()" data-toggle="offcanvas"><i class="icon-arrow-{{arrowDirection}}"></i></button>
-          	</p>
-          	<p class="offcanvas-visible-xs"></br></p> <!--This is a spacer to prevent overlap of 
-          	the offcanvasToggle button and the content on narrower screens-->
-          	<div ui-view></div>
-		</div>
-		
-   </div> <!--row-->
-</div> <!--container-->
+			<div class="col-xs-12 col-ms-7 col-sm-8 col-lg-9">
+				<p class="pull-left offcanvas-visible-xs">
+	            	<button id="offcanvasToggle" type="button" class="btn btn-primary btn-xs" ng-click="toggleSidebar()" data-toggle="offcanvas"><i class="icon-arrow-{{arrowDirection}}"></i></button>
+	          	</p>
+	          	<p class="offcanvas-visible-xs"></br></p> <!--This is a spacer to prevent overlap of 
+	          	the offcanvasToggle button and the content on narrower screens-->
+	          	<div ui-view></div>
+			</div>
+			
+	   </div> <!--row-->
+	</div> <!--container-->
+</div> <!-- my-loading-spinner>
 
     
 </div>

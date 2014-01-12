@@ -11,4 +11,4 @@ myApp.directive('myLoadingSpinner', function() {
 
       }
     };
-  });
+});
