@@ -13,11 +13,18 @@ myApp.controller('foodCtrl', ['$scope', 'Food',
 		return true;
 	});
 
+    // The following code controls offcanvas behavior for narrow screens
     $scope.arrowDirection = "right";
+    $scope.offcanvasActive = false;
 
-    $scope.toggleArrow = function() {
-        if($scope.arrowDirection === "left") $scope.arrowDirection = "right";
-        else $scope.arrowDirection = "left";
+    $scope.toggleSidebar = function() {
+        if($scope.offcanvasActive === false) {
+            $scope.offcanvasActive = true;
+            $scope.arrowDirection = "left";
+        } else {
+            $scope.offcanvasActive = false;
+            $scope.arrowDirection = "right";
+        } 
     }
 }]);
 

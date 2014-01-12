@@ -2,7 +2,8 @@
  * Off Canvas
  * --------------------------------------------------
  */
-@media screen and (max-width: 767px) {
+
+@media screen and (max-width: 480px) {
   .row-offcanvas {
     position: relative;
     -webkit-transition: all 0.25s ease-out;
@@ -17,7 +18,7 @@
 
   .row-offcanvas-left
   .sidebar-offcanvas {
-    left: -50%; /* 6 columns */
+    left: -250px; /* 6 columns */
   }
 
   .row-offcanvas-right.active {
@@ -25,12 +26,19 @@
   }
 
   .row-offcanvas-left.active {
-    left: 50%; /* 6 columns */
+    left: 250px; /* 6 columns */
   }
 
   .sidebar-offcanvas {
     position: absolute;
     top: 0;
-    width: 50%; /* 6 columns */
+    width: 250px; /* 6 columns */
+  }
+
+}
+
+@media screen and (min-width: 480px) {
+  .offcanvas-visible-xs {
+    display: none;
   }
 }
