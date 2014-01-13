@@ -114,6 +114,7 @@ myApp.controller('foodEditCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
         // Let's set the parent foods object to the chosen object so as the user types,
         // the sidebar text will also be updated.
         $scope.$parent.foods[$stateParams.foodId] = $scope.food;
+        $scope.viewLoading = false;
     }
  
 	$scope.updateFood = function() {
