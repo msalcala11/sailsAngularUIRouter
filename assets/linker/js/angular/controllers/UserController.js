@@ -3,8 +3,10 @@ myApp.controller('userCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope',
           
 }]);
 
-myApp.controller('userListCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope', '$sails', '$notification',
-    function($scope, User, Csrf, $state, $rootScope, $sails, $notification){
+myApp.controller('userListCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope', '$sails', '$notification', '$timeout',
+    function($scope, User, Csrf, $state, $rootScope, $sails, $notification, $timeout){
+
+        $scope.viewLoading = true;
 
         $scope.getUsers = User.index(function foundUsers(response){
                 $scope.users = {};
@@ -13,6 +15,8 @@ myApp.controller('userListCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScop
                                 $scope.users[item.id] = item;
                         }   
                 });
+                //$timeout(function() {$scope.viewLoading = false;}, 1000);
+                $scope.viewLoading = false;
         });
 
         // This anonymous function handles socket communication to update login status in real time
