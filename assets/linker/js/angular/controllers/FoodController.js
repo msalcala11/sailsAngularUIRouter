@@ -17,8 +17,8 @@ myApp.controller('foodCtrl', ['$scope', 'Food', '$timeout',
 	});
 
     // The following code controls offcanvas behavior for narrow screens
-    $scope.arrowDirection = "right";
-    $scope.offcanvasActive = false;
+    $scope.arrowDirection = "left";
+    $scope.offcanvasActive = true;
 
     $scope.toggleSidebar = function() {
         if($scope.offcanvasActive === false) {
