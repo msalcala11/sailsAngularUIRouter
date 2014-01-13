@@ -1,10 +1,12 @@
 <div class="alert alert-warning"><strong>Edit Mode:</strong> Gray text is editable.</div>
-<form role="form" ng-submit="createFood()">
-	<h3 contenteditable="true" no-line-breaks="true" class="editable-div" style="color: gray;" ng-model="food.name">{{food.name}}</h3>
-	<p><span contenteditable="true" no-line-breaks="true" class="editable-div" style="color: gray;" ng-model="food.cals">{{food.cals}}</span> kcals</p>
-	<hr>
-	<div class="float-left">
-		<button type="submit" class="btn btn-success">Add food!</button>
-		<button class="btn btn-primary" ng-click="$state.go('food')">Cancel</button>
-	</div>
-</form>
+<div class="fade" ng-class="{in: food.name.length}">
+	<form role="form" ng-submit="createFood()">
+		<h3 contenteditable="true" no-line-breaks="true" class="editable-div" style="color: gray;" ng-model="food.name">{{food.name}}</h3>
+		<p><span contenteditable="true" no-line-breaks="true" class="editable-div" style="color: gray;" ng-model="food.cals">{{food.cals}}</span> kcals</p>
+		<hr>
+		<div class="float-left">
+			<button type="submit" class="btn btn-success">Add food!</button>
+			<button class="btn btn-primary" ng-click="$state.go('food')">Cancel</button>
+		</div>
+	</form>
+</div>
