@@ -53,11 +53,11 @@ myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
             //$timeout(function() {$scope.viewLoading = false;}, 1000);
             $scope.viewLoading = false;
         });
-    } else { // If $scope.$parent is defined then only grab the item that was selected
-        $scope.food = Food.show({foodId: $stateParams.foodId}, function(res){
+    } else { // If $scope.$parent is defined then only grab the item that was selected from $scope.$parent (no need to make a server call)
+            //$scope.food = Food.show({foodId: $stateParams.foodId}, function(res){
+            $scope.food = $scope.$parent.foods[$stateParams.foodId];
             //$timeout(function() {$scope.viewLoading = false;}, 1000);
             $scope.viewLoading = false;
-        });
     }
 
     //$scope.food = Food.show({foodId: $stateParams.foodId});
