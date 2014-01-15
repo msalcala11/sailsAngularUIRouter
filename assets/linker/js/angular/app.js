@@ -1,4 +1,4 @@
-var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditable', 'ngSails', 'ngAnimate', 'notifications']);
+var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditable', 'ngSails', 'ngAnimate', 'notifications', 'angularFileUpload']);
 	myApp.run(
       [        '$rootScope', '$state', '$stateParams', '$location',
       function ($rootScope,   $state,   $stateParams, $location) {

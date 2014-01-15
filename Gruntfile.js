@@ -60,7 +60,9 @@ module.exports = function (grunt) {
     //'linker/js/app.js',
 
     // *->    put other dependencies here   <-*
-  
+    
+    'linker/js/lib/angular/ng-file-upload/angular-file-upload-shim.js',
+    'linker/js/lib/angular/ng-file-upload/angular-file-upload-html5-shim.js',
     'linker/js/lib/angular/angular.js',
     'linker/js/lib/angular/angular-ui-router.js',
     'linker/js/lib/angular/angular-resource.js',
@@ -68,9 +70,12 @@ module.exports = function (grunt) {
     'linker/js/lib/angular/angular-contenteditable.js',
     'linker/js/lib/angular/notification.js',
     'linker/js/lib/angular/angular-animate.js',
+    'linker/js/lib/angular/ng-file-upload/*.js',
     'linker/js/lib/bootstrap/bootstrap.js',
 
+
     'linker/js/angular/app.js',
+    'linker/js/angular/controllers/UploadController.js',
 
 
     // All of the rest of your app scripts imported here
