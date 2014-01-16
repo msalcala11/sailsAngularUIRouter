@@ -29,10 +29,12 @@ module.exports = function (grunt) {
    */
 
   var cssFilesToInject = [
+
     'linker/styles/lib/bootstrap.css',
     'linker/styles/lib/bootstrap-theme.css',
     'linker/styles/lib/notification.css',
-    'linker/**/*.css'
+    'linker/**/*.css',
+    'linker/styles/lib/bootstrap/blueImpPhotoGallery/bootstrap-image-gallery.css'
   ];
 
 
@@ -76,6 +78,10 @@ module.exports = function (grunt) {
 
     'linker/js/angular/app.js',
     'linker/js/angular/controllers/UploadController.js',
+    
+    'linker/js/lib/bootstrap/blueImpPhotoGallery/jquery.blueimp-gallery.min.js',
+    'linker/js/lib/bootstrap/blueImpPhotoGallery/bootstrap-image-gallery.js',
+    
 
 
     // All of the rest of your app scripts imported here

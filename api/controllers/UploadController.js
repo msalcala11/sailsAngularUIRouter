@@ -19,8 +19,9 @@ var sid = require('shortid');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 //var io = require('socket.io');
- 
-var UPLOAD_PATH = 'public/images';
+
+// photo url format 'userfiles/:userId/images/photo.png'
+var UPLOAD_PATH = 'userfiles';
  
 // Setup id generator
 sid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
@@ -63,7 +64,7 @@ module.exports = {
     var file = req.files.file, //req.files.userPhoto
       id = sid.generate(),
       fileName = id + "." + fileExtension(safeFilename(file.name)),
-      dirPath = UPLOAD_PATH + '/' + id,
+      dirPath = UPLOAD_PATH + '/' + req.session.authStatus.id + '/images',
       filePath = dirPath + '/' + fileName;
 
     console.log("file object:")

@@ -36,7 +36,7 @@ module.exports.routes = {
     view: 'home/index'
   },
 
-  'get /public/images/*': {
+  'get /userfiles/**/*': {
     controller: 'FileController',
     action: 'get'
   }

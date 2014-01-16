@@ -26,6 +26,10 @@ module.exports.policies = {
    			'index' : 'adminOnly',
    			'destroy' : 'adminOnly',
    			'subscribe' : 'adminOnly'
+   },
+
+   upload: {
+   			'*': 'isAuthenticated'
    }
 
   /*

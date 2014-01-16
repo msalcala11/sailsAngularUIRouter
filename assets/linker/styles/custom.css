@@ -1,5 +1,9 @@
 body { padding-top: 70px; }
 
+.myThumbnail {
+  height: 100px;
+  width: 130px;
+}
 
 .editable-div:focus {
     outline: none;

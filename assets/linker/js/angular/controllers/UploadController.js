@@ -1,5 +1,7 @@
 myApp.controller('FileUploadController', [ '$scope', '$upload', function($scope, $upload) {
   $scope.myModelObj = "pic";
+  $scope.progress = 0;
+  $scope.path = null;
   $scope.onFileSelect = function($files) {
     //$files: an array of files selected, each file has name, size, and type.
     $scope.files = $files;
@@ -17,10 +19,13 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', function($scope,
         /* customize how data is added to formData. See #40#issuecomment-28612000 for example */
         //formDataAppender: function(formData, key, val){} 
       }).progress(function(evt) {
+        $scope.progress = 100.0 * evt.loaded / evt.total;
         console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
       }).success(function(data, status, headers, config) {
         // file is uploaded successfully
         console.log(data);
+        console.log(data.path);
+        $scope.path = "/" + data.path;
       });
       //.error(...)
       //.then(success, error, progress); 
