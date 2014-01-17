@@ -34,7 +34,6 @@ module.exports = function (grunt) {
     'linker/styles/lib/bootstrap-theme.css',
     'linker/styles/lib/notification.css',
     'linker/**/*.css',
-    'linker/styles/lib/bootstrap/blueImpPhotoGallery/bootstrap-image-gallery.css'
   ];
 
 

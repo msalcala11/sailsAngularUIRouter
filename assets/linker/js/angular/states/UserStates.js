@@ -13,7 +13,7 @@ myApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$htt
     $stateProvider.state('userPhotos', {
             url: '/user/photos',
             templateUrl: '/templates/user/user.photos.html',
-            //controller: 'userPhotosCtrl'
+            controller: 'userPhotosCtrl'
     });
 
 }]);

@@ -18,6 +18,7 @@
 var sid = require('shortid');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
+var mime = require('mime'); //used for determining the file type of each file based on the extension
 //var io = require('socket.io');
 
 // photo url format 'userfiles/:userId/images/photo.png'
@@ -87,12 +88,24 @@ module.exports = {
           } else {
             processImage(id, fileName, filePath, function (err, data) {
               //console.log("processImage data:")
-              console.log(data);
-              if (err) {
-                res.json(err);
-              } else {
-                res.json(data);
-              }
+
+              // By default mime.lookup spits out 'image/png' or 'image/jpg' for image files
+              // However, we want just 'image' for image files so the following 2 lines accomplish this
+              if(mime.lookup(fileName).split('/')[0] === "image") var fileType = "image";
+              else var fileType = mime.lookup(fileName);
+
+              // Let's create an entry in the file table in postgres that we can associate with a user within the user table
+              File.create({  
+                            user_id: req.session.req.session.authStatus.id, // This is the user foreign-key
+                            file_name: fileName,
+                            file_path: filePath,
+                            file_type: fileType,
+                          }, function(err, file) {
+                              if (err) res.send(500);
+                              else res.send(200)
+                              console.log("file entry created in DB");
+                          });
+              //console.log(data);
             });
           }
         })

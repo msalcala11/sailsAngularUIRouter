@@ -1,5 +1,5 @@
 myApp.controller('FileUploadController', [ '$scope', '$upload', function($scope, $upload) {
-  $scope.myModelObj = "pic";
+  $scope.myModelObj;
   $scope.progress = 0;
   $scope.path = null;
   $scope.onFileSelect = function($files) {
@@ -32,63 +32,3 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', function($scope,
     }
   };
 }]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // controller to handle the file upload event
-// myApp.controller('FileUploadController', ['$scope', '$rootScope', 'FileUploadService', '$http',
-//   function ($scope, $rootScope, FileUploadService, $http) {
-//     var service = FileUploadService;
-//     /** 
-//      *  Handler to upload a new file to the server.
-//      */
-//     $scope.uploadFile = function ($files) {
-//       console.log("made it into uploadFile")
-//       var $file = $files[0];
-//       console.log($file);
-//       service.uploadFile($file, function (error) {
-//         if (error) {
-//           alert('There was a problem uploading the file.');
-//         }
-//         // handle successfully-uploaded file
-//         console.log("Upload success!")
-//       })
-//       // var $file = $files[0];
-//       // console.log($file);
-//       //$http.post('/upload/upload', $file);
-//     }
-//   }]);
-
-// // services should interact with the outside world
-// myApp.factory('FileUploadService', ['$http', function ($http) {
-//   console.log("Made it into FileUploadService");
-//   var api = {
-//     uploadFile: function (file, callback) {
-//       console.log("made it into factor service.uploadFile")
-//       $http.uploadFile({
-//         url: '/upload/upload',
-//         file: file
-//       }).progress(function(event) {
-//         console.log('percent: ' + parseInt(100.0 * event.loaded / event.total));
-//       }).error(function (data, status, headers, config) {
-//         console.error('Error uploading file')
-//         callback(status);
-//       }).then(function(data, status, headers, config) {
-//         callback(null);
-//       });
-//     }
-//   }
-//   return api;
-// }]);

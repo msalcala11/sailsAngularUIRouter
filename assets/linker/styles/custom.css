@@ -33,18 +33,18 @@ body { padding-top: 70px; }
 
 /* you can also define the transition style
    on the base class as well (.notification-animation) */
-.notification-animation.ng-enter,
-.notification-animation.ng-leave {
+.photo-animation.ng-enter,
+.photo-animation.ng-leave {
   -webkit-transition:0.5s linear all;
   transition:0.5s linear all;
 }
 
-.notification-animation.ng-enter,
-.notification-animation.ng-leave.ng-leave-active {
+.photo-animation.ng-enter,
+.photo-animation.ng-leave.ng-leave-active {
   opacity:0;
 }
-.notification-animation.ng-leave,
-.notification-animation.ng-enter.ng-enter-active {
+.photo-animation.ng-leave,
+.photo-animation.ng-enter.ng-enter-active {
   opacity:1;
 }
 

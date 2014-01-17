@@ -92,3 +92,8 @@ myApp.controller('userNewCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope
                 });
         }
 }]);
+
+myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', 'Csrf', '$state', '$rootScope', '$sails', '$notification', '$timeout',
+    function($scope, User, UserFile, Csrf, $state, $rootScope, $sails, $notification, $timeout){
+        $scope.photos = UserFile.images.index({userId : $rootScope.authStatus.id, fileType: 'image'});
+}]);

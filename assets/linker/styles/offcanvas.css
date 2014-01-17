@@ -6,6 +6,7 @@
 @media screen and (max-width: 480px) {
   .row-offcanvas {
     position: relative;
+    left: 0;
     -webkit-transition: all 0.25s ease-out;
     -moz-transition: all 0.25s ease-out;
     transition: all 0.25s ease-out;

@@ -30,6 +30,10 @@ module.exports.policies = {
 
    upload: {
    			'*': 'isAuthenticated'
+   },
+
+   file: {
+   			'*': 'isAuthenticated'
    }
 
   /*

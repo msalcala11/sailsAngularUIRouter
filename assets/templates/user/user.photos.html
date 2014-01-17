@@ -25,7 +25,10 @@
 <!-- our responsive thumbnails -->
 <div class="container">
 <div id="links">
-    <a href="images/lightbox/1.jpg" title="Banana" data-gallery>
+    <a class="photo-animation" ng-repeat="photo in photos" href="{{photo.file_path}}" title="{{photo.title}}" data-gallery>
+        <img src="{{photo.file_path}}" alt="{{photo.title}}" class="myThumbnail">
+    </a>
+    <!-- <a href="images/lightbox/1.jpg" title="Banana" data-gallery>
         <img src="images/lightbox/1.jpg" alt="Banana" class="myThumbnail">
     </a>
     <a href="images/lightbox/2.jpg" title="Apple" data-gallery>
@@ -33,7 +36,7 @@
     </a>
     <a href="images/lightbox/3.jpg" title="Orange" data-gallery>
         <img src="images/lightbox/3.jpg" alt="Orange" class="myThumbnail">
-    </a>
+    </a> -->
 </div>
 </div>
 
