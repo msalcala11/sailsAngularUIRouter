@@ -1,33 +1,85 @@
-<h1>Your Photos</h1>
+<h1 style="float: left">Your Photos</h1>
 
 <!-- <form id="uploadForm"
       enctype="multipart/form-data"
       action="/upload/upload"
       method="post"> -->
-<div ng-controller="FileUploadController">
-	<form>
+<div ng-controller="FileUploadController" >
+	<form style="text-align: right">
 	    <!-- <input type="file" id="userPhotoInput" name="userPhoto" /> -->
 	    <!-- <input type="file" ng-file-select="uploadFile($files)" /> -->
-	    <span class="btn btn-info btn-file">Upload<input type="file" ng-file-select="onFileSelect($files)" ></span>
+	    <span class="btn btn-info btn-file" style="margin-top: 4px;">
+            <span class="glyphicon glyphicon-folder-open"></span>
+            &nbsp Upload<input type="file" ng-file-select="onFileSelect($files)" multiple>
+        </span>
+
+         <button ng-hide="editing" ng-click="editMode()" type="button" style="margin-top: 4px;"class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp Edit</button>
+
+          <button ng-show="editing" ng-click="doneEditing()" type="button" style="margin-top: 4px;"class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp Done</button>
 	    <!-- <input type="submit" value="upload" > -->
 	</form>
-	</br>
+
+    <!-- Let's show the upload panel in the bottom left to show the progress of the upload -->
+    <div class="uploadPanel col-xs-11 col-ms-8 col-sm-5 col-md-5 col-lg-4 fade hidden" ng-class="{inTransparent: showPanel, hidden: !showPanel}" jqyoui-draggable data-drag="true" ng-mouseover="stopTimer()">
+        <div class="panel panel-default" >
+              <div class="panel-heading clearfix"><strong>Recent Uploads ({{recentUploads.length}})</strong><button type="button" class="close"  data-dismiss="modal" aria-hidden="true" ng-click="closePanel()">&times;</button></div>
+              <div class="panel-body">
+                <div ng-repeat="recentUpload in recentUploads" class="notification-animation">
+                    <div class="col-xs-3 col-ms-3 col-sm-3 col-md-3 col-lg-3">
+                        <img class="thumbnail" ng-src="{{recentUpload.path}}"><!-- ng-show="path">-->
+                    </div>
+
+                    <div class="col-xs-9 col-ms-9 col-sm-9 col-md-9 col-lg-9">
+                        <p>{{recentUpload.name}}<span class="pull-right" style="color: green;"><strong>{{recentUpload.progress}}%</strong></span></p>
+
+                        <div class="progress progress-striped active">
+                          <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{recentUpload.progress}}%">
+                          </div>
+                        </div> 
+
+                    </div>
+                    
+                </div>
+
+              </div>
+              <!-- <div class="panel-footer">Panel footer</div> -->
+        </div>
+    </div>
+	<!-- </br>
 	<p><strong>{{progress}}%</strong></p>
-	<img ng-src="{{path}}" ng-show="path">
+	<img class="myThumbnail" ng-src="{{path}}" ng-show="path">
 	<p>{{files[0].name}}</p>
 	<div class="progress progress-striped">
 	  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%">
 	    <span class="sr-only">20% Complete</span>
 	  </div>
-	</div>
+	</div> -->
+
 </div>
+</br>
+<hr>
+
+
 
 <!-- our responsive thumbnails -->
-<div class="container">
 <div id="links">
-    <a class="photo-animation" ng-repeat="photo in photos" href="{{photo.file_path}}" title="{{photo.title}}" data-gallery>
-        <img src="{{photo.file_path}}" alt="{{photo.title}}" class="myThumbnail">
-    </a>
+        <div style="float: left; margin-right: 4px; margin-bottom: 4px;" class="rotate-in" ng-repeat="pic in pics">
+            <table>
+                <tr>
+                    <td>
+                        <a href="{{pic.file_path}}" title="{{pic.title}}" data-gallery>
+                            <img ng-src="{{pic.file_path}}" alt="{{pic.title}}" class="myThumbnail">
+                        </a>
+                    </td>
+                <tr>
+                    <td>
+                        <div ng-show="editing" class="animate-show">
+                            <button ng-click="deletePic(pic)" ng-show="editing" type="button" style="width: 100%" class="btn btn-danger"><span class="glyphicon glyphicon-minus-sign"></span>&nbsp Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     <!-- <a href="images/lightbox/1.jpg" title="Banana" data-gallery>
         <img src="images/lightbox/1.jpg" alt="Banana" class="myThumbnail">
     </a>
@@ -38,7 +90,12 @@
         <img src="images/lightbox/3.jpg" alt="Orange" class="myThumbnail">
     </a> -->
 </div>
-</div>
+
+<!-- <ul>
+        <li class="rotate-in" ng-repeat="pic in pics" ng-click="removeItem(item)"><img class="myThumbnail" ng-src="{{pic.file_path}}"></li>
+    </ul> -->
+
+
 
 <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
 <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls" data-use-bootstrap-modal="false">

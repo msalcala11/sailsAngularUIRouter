@@ -102,7 +102,7 @@ module.exports = {
                             file_type: fileType,
                           }, function(err, file) {
                               if (err) res.send(500);
-                              else res.send(200)
+                              else res.json(file)
                               console.log("file entry created in DB");
                           });
               //console.log(data);

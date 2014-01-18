@@ -14,6 +14,7 @@
  *
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
+var fs = require('fs');
 
 module.exports = {
   // This enables us to access files from the '/public/images/' directory as defined in our routes.js (config)
@@ -38,8 +39,28 @@ module.exports = {
       .exec(function(err, files) {
         if(err) res.send(500);
         else {
+          console.log(files);
           res.json(files);
         }
+    });
+  },
+
+  destroy: function (req, res) {
+    // First let's destroy the file entry in the DB
+    File.destroy(req.param('fileId'), function(err){
+      if(err) res.send(500)
+      else {
+
+        // Now let's actually delete the file from the server
+        // photo url format 'userfiles/:userId/images/photo.png'
+        var filepath = 'userfiles/'+req.param('id') + '/' + req.param('fileType') + 's/' + req.param('fileName');
+        fs.unlink(filepath, function (err) {
+          if (err) res.send(500);
+            console.log('successfully deleted ' + filepath);
+          });
+
+        res.send(200);
+      }
     });
   },
 

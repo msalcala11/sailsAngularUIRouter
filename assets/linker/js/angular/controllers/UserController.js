@@ -95,5 +95,52 @@ myApp.controller('userNewCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope
 
 myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', 'Csrf', '$state', '$rootScope', '$sails', '$notification', '$timeout',
     function($scope, User, UserFile, Csrf, $state, $rootScope, $sails, $notification, $timeout){
-        $scope.photos = UserFile.images.index({userId : $rootScope.authStatus.id, fileType: 'image'});
+        //console.log("userId: " + $rootScope.authStatus.id)
+        $scope.getphotos = UserFile.images.index({userId : $rootScope.authStatus.id, fileType: 'image'}, function(data){
+                $scope.photos = [];
+                angular.forEach(data, function(item){
+                    if(item.file_name){
+                        $scope.photos.push(item);
+                    }
+                });
+                //console.log($scope.photos);
+
+                $scope.pics = [];
+                var j = 0;
+                for (var i = 0; i < $scope.photos.length; i++) {
+                    $timeout(function () {
+                        $scope.pics.push($scope.photos[j]);
+                        j++;
+                        //console.log($scope.pics);
+                    }, 50 * i);
+                }     
+        })
+
+        $scope.$on("ADD_FILE_TO_PARENT", function(event, file){
+            //console.log("received message")
+            //console.log(file)
+            $scope.pics.push(file);  
+        });
+
+        $scope.editMode = function(photo) {
+            $scope.editing = true;
+        }
+
+        $scope.doneEditing = function(photo) {
+            $scope.editing = false;
+        }
+
+        $scope.deletePic = function(photo) {
+            console.log(photo)
+            UserFile.images.destroy({userId : $rootScope.authStatus.id, fileType: 'image', fileId: photo.id, fileName: photo.file_name});
+            var index = $scope.pics.indexOf(photo);
+            $scope.pics.remove(index);
+        }
+
 }]);
+
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};

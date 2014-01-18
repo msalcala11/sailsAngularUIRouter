@@ -50,6 +50,7 @@ module.exports = function (grunt) {
     // Below, as a demonstration, you'll see the built-in dependencies 
     // linked in the proper order order
     'linker/js/lib/jquery/jquery-1.10.2.js',
+    'linker/js/lib/jquery/jquery-ui.js',
     // Bring in the socket.io client
     'linker/js/socket.io.js',
 
@@ -65,6 +66,7 @@ module.exports = function (grunt) {
     'linker/js/lib/angular/ng-file-upload/angular-file-upload-shim.js',
     'linker/js/lib/angular/ng-file-upload/angular-file-upload-html5-shim.js',
     'linker/js/lib/angular/angular.js',
+    'linker/js/lib/angular/angular-dragdrop.js',
     'linker/js/lib/angular/angular-ui-router.js',
     'linker/js/lib/angular/angular-resource.js',
     'linker/js/lib/angular/angular-sails.js',

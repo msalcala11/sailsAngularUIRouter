@@ -5,13 +5,13 @@ body { padding-top: 70px; }
   width: 130px;
 }
 
-.editable-div:focus {
-    outline: none;
+.miniThumbnail {
+  height: 50px;
+  width: 65px;
 }
 
-
-.dr-notification-wrapper {
-  margin: 45px 0 0 0;
+.editable-div:focus {
+    outline: none;
 }
 
 @keyframes fadeOut
@@ -30,6 +30,7 @@ body { padding-top: 70px; }
   animation: fadeOut 2s 1;
   -webkit-animation: fadeOut 2s 1;
 }
+
 
 /* you can also define the transition style
    on the base class as well (.notification-animation) */
@@ -59,7 +60,7 @@ body { padding-top: 70px; }
     -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
     transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
     position: relative;
-    display: block;
+    display: block!important;
 } 
  
 .notification-animation.ng-enter.ng-enter-active, 
@@ -75,6 +76,38 @@ body { padding-top: 70px; }
     top: -50px;
     height: 0px;
 }
+
+
+
+
+
+.animate-show {
+  -webkit-transition:all linear 0.25s;
+  transition:all linear 0.25s;
+  line-height:20px;
+  opacity:1;
+  padding:5px 0px;
+  /*border:1px solid black;*/
+  background:white;
+}
+ 
+.animate-show.ng-hide-add,
+.animate-show.ng-hide-remove {
+  display:block!important;
+}
+ 
+.animate-show.ng-hide {
+  line-height:0;
+  opacity:0;
+  padding:0 5px;
+}
+ 
+.check-element {
+  padding:5px 0px;
+  /*border:1px solid black;*/
+  background:white;
+}
+
 
 
 .navbar-pic { /* This class enlarges the facebook profile pic in the nav bar*/
@@ -100,6 +133,13 @@ more here: http://www.jonathanrowny.com/journal/angularjs-smooth-fading-after-da
 }
 .fade.in{
   opacity: 1;
+}
+.fade.inTransparent{
+  opacity: .98;
+}
+
+.hidden {
+  display: none;
 }
 
 /* Login Form Styles */
