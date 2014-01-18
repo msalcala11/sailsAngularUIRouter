@@ -27,7 +27,7 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', func
         /* customize how data is added to formData. See #40#issuecomment-28612000 for example */
         //formDataAppender: function(formData, key, val){} 
       }).progress(function(evt) {
-        $scope.files[k].progress = 100.0 * evt.loaded / evt.total;
+        $scope.files[k].progress = Math.round(100.0 * evt.loaded / evt.total);
         //console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
         k++
       }).success(function(file, status, headers, config) {
