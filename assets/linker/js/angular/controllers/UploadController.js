@@ -16,6 +16,15 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', func
     else $scope.autoDisappear = false;
   }
 
+  $scope.updateFileInRecentUploads = function(selectedFilesIndex, recentUploads, property, newValue) {
+    recentUploads.some(function (recentUpload){
+      if(recentUpload.uploadBatchIndex === $scope.uploadBatchIndex && recentUpload.selectedFilesIndex === selectedFilesIndex){
+        console.log("found something")
+        recentUpload[property] = newValue;
+      }
+    })
+  }
+
 
 
 
@@ -59,29 +68,16 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', func
       $file.uploadBatchIndex = $scope.uploadBatchIndex;
       $file.selectedFilesIndex = i;
 
-      //console.log($file)
-      //console.log("recent uploads before unshift: ")
-      //console.log(JSON.parse(JSON.stringify($scope.recentUploads)))
-
       $scope.recentUploads.unshift($file);
-      //console.log("recent uploads: ")
-      //console.log(JSON.parse(JSON.stringify($scope.recentUploads)))
       if (window.FileReader && $file.type.indexOf('image') > -1) {
           var fileReader = new FileReader();
             fileReader.readAsDataURL($files[i]);
             function setPreview(fileReader, index) {
                 fileReader.onload = function(e) {
                     $timeout(function() {
-                      $scope.dataUrls[index] = e.target.result;
-                      $scope.recentUploads[0].path = e.target.result;
+                      //$scope.dataUrls[index] = e.target.result;
+                      $scope.updateFileInRecentUploads(index, $scope.recentUploads, 'path', e.target.result);
                       $scope.showPanel = true;
-                      //$scope.recentUploads.unshift($file);
-                      $scope.recentUploads.some(function (recentUpload){
-                        if(recentUpload.uploadBatchIndex === $scope.uploadBatchIndex && recentUpload.selectedFilesIndex === index){
-                          console.log("found something")
-                          recentUpload.path = e.target.result;
-                        }
-                      })
                     });
                 }
             }
@@ -122,19 +118,26 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', func
         file: $scope.selectedFiles[index],
         fileFormDataName: 'file'
       }).then(function(response) {
-        $scope.uploadResult.push(response.data.result);
+        //$scope.uploadResult.push(response.data.result);
+        console.log("response index: " + index)
         console.log("response.data")
         console.log(response)
-        $scope.$emit("ADD_FILE_TO_PARENT", response.data);
+
+
+      
+          $scope.recentUploads.some(function (recentUpload){
+            if(recentUpload.uploadBatchIndex === $scope.uploadBatchIndex && recentUpload.selectedFilesIndex === index){
+              console.log("found something in 'then'")
+              //tempPath = recentUpload.path;
+              response.data.file_path = recentUpload.path;
+              $scope.$emit("ADD_FILE_TO_PARENT", response.data);
+            }
+          });
+
+          
       }, null, function(evt) {
         $scope.progress[index] = parseInt(100.0 * evt.loaded / evt.total);
-        $scope.recentUploads.some(function (recentUpload){
-          if(recentUpload.uploadBatchIndex === $scope.uploadBatchIndex && recentUpload.selectedFilesIndex === index){
-            console.log("found something")
-            recentUpload.progress = parseInt(100.0 * evt.loaded / evt.total);
-          }
-        })
-        //$scope.recentUploads[0].progress = parseInt(100.0 * evt.loaded / evt.total);
+        $scope.updateFileInRecentUploads(index, $scope.recentUploads, 'progress', parseInt(100.0 * evt.loaded / evt.total));
       });
     } else {
       var fileReader = new FileReader();
