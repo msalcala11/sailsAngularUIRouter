@@ -52,19 +52,16 @@ myApp.controller('userListCtrl', ['$scope', 'User', '$state', '$rootScope', '$sa
         }());
 
         $scope.deleteUser = function(id) {
-
-                Csrf.query(function (CsrfResponse) {
-                        User.destroy({userId: id, _csrf: CsrfResponse._csrf}, function(response){
+                        User.destroy({userId: id}, function(response){
                                 delete $scope.users[id];
                         });
-                });
         }
 
 }]);
 
 
-myApp.controller('userNewCtrl', ['$scope', 'User', '$state', '$rootScope',
-    function($scope, User, $state, $rootScope){
+myApp.controller('userNewCtrl', ['$scope', 'User', '$state', '$rootScope', 'Session',
+    function($scope, User, $state, $rootScope, Session){
         
         // Let's initialize the user variable and the attributes that correspond to the input fields of the sign-up form
         $scope.user = {
@@ -79,12 +76,26 @@ myApp.controller('userNewCtrl', ['$scope', 'User', '$state', '$rootScope',
         }       
         
         $scope.createUser = function () {
-                        // Lets send a POST to create the user
-                        User.create($scope.user, function(response){
-                                //The server is configured to send back the authStatus of the user (loggedIn: true; admin: false)
-                                $rootScope.authStatus.set(response);
-                                $state.go("home");
-                        });
+
+            // Since we havent sent any data for this view, we have not received a csrf token in a cookie to prepare us
+            // for this post request. Let's send an aribitrary GET request so we have our token
+            Session.check(function(res){
+                // Lets send a POST to create the user
+                User.create($scope.user, function(response){
+                        //The server is configured to send back the authStatus of the user (loggedIn: true; admin: false)
+                        $rootScope.authStatus.set(response);
+                        $state.go("home");
+                });
+            }, function(err){
+                // Lets send a POST to create the user
+                User.create($scope.user, function(response){
+                        //The server is configured to send back the authStatus of the user (loggedIn: true; admin: false)
+                        $rootScope.authStatus.set(response);
+                        $state.go("home");
+                });
+            });
+
+
         }
 }]);
 

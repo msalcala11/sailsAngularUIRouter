@@ -1,5 +1,5 @@
-myApp.controller('loginCtrl', ['$scope', '$state', 'Session', '$rootScope',
-    function($scope, $state, Session, $rootScope){
+myApp.controller('loginCtrl', ['$scope', '$state', 'Session', '$rootScope', 'Session',
+    function($scope, $state, Session, $rootScope, Session){
 
         $scope.disableButton = function () { //This is for preventing the user from double-clicking the 
                 //facebook/twitter login buttons and crashing the server
@@ -13,10 +13,19 @@ myApp.controller('loginCtrl', ['$scope', '$state', 'Session', '$rootScope',
         }       
         
         $scope.createSession = function () {
-                        // Let's set the URL parameter 'authType' to local, which means we are using a username and password
-                        $scope.user['authType'] = "local";
+
+            // Let's set the URL parameter 'authType' to local, which means we are using a username and password
+            $scope.user['authType'] = "local";
+
+            // Since we havent sent any data for this view, we have not received a csrf token in a cookie to prepare us
+            // for this post request. Let's send an aribitrary GET request so we have our token
+            Session.check(function(res){
                         // Lets send a POST to create the session
-                        Session.create($scope.user, createSessionSuccess, createSessionError);
+                        Session.create($scope.user, createSessionSuccess, createSessionError); 
+                    }, function(err) {
+                        // Lets send a POST to create the session
+                        Session.create($scope.user, createSessionSuccess, createSessionError); 
+            });
         }
 
         var createSessionSuccess = function(response) {
