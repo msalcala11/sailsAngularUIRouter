@@ -68,7 +68,11 @@
                 <tr>
                     <td>
                         <a href="{{pic.file_path}}" title="{{pic.title}}" data-gallery>
-                            <img ng-src="{{pic.file_path}}" alt="{{pic.title}}" class="myThumbnail">
+                            <span ng-switch on="interface">
+                               <img ng-switch-when="{{pic.local_path}}" ng-src="{{pic.local_path}}" class="myThumbnail">
+                               <img ng-switch-default ng-src="{{pic.file_path}}" class="myThumbnail" >
+                            </span>
+                            <!-- <img ng-src="{{pic.local_path}}" alt="{{pic.title}}" class="myThumbnail"> -->
                         </a>
                     </td>
                 <tr>

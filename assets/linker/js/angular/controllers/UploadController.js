@@ -129,7 +129,7 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', func
             if(recentUpload.uploadBatchIndex === $scope.uploadBatchIndex && recentUpload.selectedFilesIndex === index){
               console.log("found something in 'then'")
               //tempPath = recentUpload.path;
-              response.data.file_path = recentUpload.path;
+              response.data.local_path = recentUpload.path;
               $scope.$emit("ADD_FILE_TO_PARENT", response.data);
             }
           });
