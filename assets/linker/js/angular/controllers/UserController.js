@@ -125,7 +125,8 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
         $scope.$on("ADD_FILE_TO_PARENT", function(event, file){
             //console.log("received message")
             //console.log(file)
-            
+            console.log(file.local_path)
+            file.showLocal = true;
             $scope.pics.push(file);  
         });
 
