@@ -15,7 +15,7 @@
           <th></th>
         </tr>
 
-        <tr data-id="{{user.id}}" data-model="user" ng-repeat="user in users" class="fade" ng-class="{in: user.name.length}">
+        <tr data-id="{{user.id}}" data-model="user" ng-repeat="user in users" class="fade" ng-class="{in: !viewLoading}">
 
             <td>
               <img id="{{user.id}}" src="/images/online.png" ng-show="user.online">

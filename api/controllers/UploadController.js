@@ -20,6 +20,8 @@ var fs = require('fs');
 var mkdirp = require('mkdirp');
 var mime = require('mime'); //used for determining the file type of each file based on the extension
 //var io = require('socket.io');
+var gm = require('gm')
+  , imageMagick = gm.subClass({ imageMagick: true });
 
 // photo url format 'userfiles/:userId/images/photo.png'
 var UPLOAD_PATH = 'userfiles';
@@ -62,8 +64,10 @@ function processImage(id, name, path, cb) {
 module.exports = {
   upload: function (req, res) {
     console.log(req.files);
-    var file = req.files.file, //req.files.userPhoto
-      id = sid.generate(),
+    var file = req.files.file; //req.files.userPhoto
+    console.log("file: ")
+    console.log(file)
+    var id = sid.generate(),
       fileName = id + "." + fileExtension(safeFilename(file.name)),
       dirPath = UPLOAD_PATH + '/' + req.session.authStatus.id + '/images',
       filePath = dirPath + '/' + fileName;

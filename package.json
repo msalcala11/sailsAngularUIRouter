@@ -18,7 +18,8 @@
     "grunt-ngmin": "0.0.3",
     "shortid": "~2.0.0",
     "mkdirp": "~0.3.5",
-    "mime": "~1.2.11"
+    "mime": "~1.2.11",
+    "gm": "~1.14.2"
   },
   "scripts": {
     "start": "node app.js",
