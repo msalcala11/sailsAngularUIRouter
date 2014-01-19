@@ -37,4 +37,4 @@
  * http://en.wikipedia.org/wiki/Cross-site_request_forgery
  */
 
-module.exports.csrf = false; //temporarily disabled for testing file upload
+module.exports.csrf = true; //temporarily disabled for testing file upload

@@ -1,10 +1,10 @@
-myApp.controller('userCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope',
-    function($scope, User, Csrf, $state, $rootScope){
+myApp.controller('userCtrl', ['$scope', 'User', '$state', '$rootScope',
+    function($scope, User, $state, $rootScope){
           
 }]);
 
-myApp.controller('userListCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope', '$sails', '$notification', '$timeout',
-    function($scope, User, Csrf, $state, $rootScope, $sails, $notification, $timeout){
+myApp.controller('userListCtrl', ['$scope', 'User', '$state', '$rootScope', '$sails', '$notification', '$timeout',
+    function($scope, User, $state, $rootScope, $sails, $notification, $timeout){
 
         $scope.viewLoading = true;
 
@@ -63,8 +63,8 @@ myApp.controller('userListCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScop
 }]);
 
 
-myApp.controller('userNewCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope',
-    function($scope, User, Csrf, $state, $rootScope){
+myApp.controller('userNewCtrl', ['$scope', 'User', '$state', '$rootScope',
+    function($scope, User, $state, $rootScope){
         
         // Let's initialize the user variable and the attributes that correspond to the input fields of the sign-up form
         $scope.user = {
@@ -79,22 +79,17 @@ myApp.controller('userNewCtrl', ['$scope', 'User', 'Csrf', '$state', '$rootScope
         }       
         
         $scope.createUser = function () {
-                // Let's grab our csrf token from the server
-                $scope.csrfToken = Csrf.query(function(response){
-                        // Upon I/O completion, let's initialize and set a new user _csrf property in preparation for sending the create POST
-                        $scope.user['_csrf'] = response._csrf;
                         // Lets send a POST to create the user
                         User.create($scope.user, function(response){
                                 //The server is configured to send back the authStatus of the user (loggedIn: true; admin: false)
                                 $rootScope.authStatus.set(response);
                                 $state.go("home");
                         });
-                });
         }
 }]);
 
-myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', 'Csrf', '$state', '$rootScope', '$sails', '$notification', '$timeout',
-    function($scope, User, UserFile, Csrf, $state, $rootScope, $sails, $notification, $timeout){
+myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$rootScope', '$sails', '$notification', '$timeout',
+    function($scope, User, UserFile, $state, $rootScope, $sails, $notification, $timeout){
         //console.log("userId: " + $rootScope.authStatus.id)
         $scope.getphotos = UserFile.images.index({userId : $rootScope.authStatus.id, fileType: 'image'}, function(data){
                 $scope.photos = [];

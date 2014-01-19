@@ -1,16 +1,16 @@
 angular.module('appServices', ['ngResource'])
 
 	.factory('Food', ['$resource', function($resource){
-		return $resource("/food/:action/:foodId", {}, 
-			{
-				//These correspond to the actions defined in Sails
-		    	'index': { method:"GET", params: { 'action': 'index' }, isArray: true, cache: true},
-		    	'show' : { method:"GET", params: { 'action': 'show', 'foodId': '@id'}, isArray: false, cache: true},
-		    	'update': { method:"PUT", params: { 'action': 'update', 'foodId': '@id'}, isArray: false},
-		    	'destroy': { method:'DELETE', params: {'action': 'destroy', 'foodId': '@id'}, isArray: false},
-		    	'create' : { method:'POST', params: {'action' : 'create'}, isArray: false}
-	    	}
-		);
+			return $resource("/food/:action/:foodId", {}, 
+                        {
+                             //These correspond to the actions defined in Sails
+                            'index': { method:"GET", params: { 'action': 'index' }, isArray: true, cache: true},
+                            'show' : { method:"GET", params: { 'action': 'show', 'foodId': '@id'}, isArray: false, cache: true},
+                            'update': { method:"PUT", params: { 'action': 'update', 'foodId': '@id'}, isArray: false},
+                            'destroy': { method:'DELETE', params: {'action': 'destroy', 'foodId': '@id'}, isArray: false},
+                            'create' : { method:'POST', params: {'action' : 'create'}, isArray: false}
+                    }
+                );
 	}])
 
 	.factory('User', ['$resource', function($resource){
@@ -53,8 +53,3 @@ angular.module('appServices', ['ngResource'])
 	    	}
 		);
 	}])
-
-	// For security against csrf attacks, request this from the server before any non-GET action
-	.factory('Csrf', ['$resource', function($resource){
-		return $resource('/csrfToken', {}, {'query': {method: 'GET', isArray: false}}); 
-	}]);

@@ -47,6 +47,8 @@ module.exports = {
   		if (err) res.send(500);
   		else {
   			console.log("update called")
+        console.log("params:")
+        console.log(req.params.all())
   			res.send(200);
   		}
   	});
