@@ -1,4 +1,5 @@
-myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', function($scope, $upload, $timeout) {
+myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', '$cacheFactory', '$rootScope', '$http',
+ function($scope, $upload, $timeout, $cacheFactory, $rootScope, $http) {
   $scope.myModelObj;
   $scope.recentUploads = [];
   //console.log(JSON.parse(JSON.stringify($scope.recentUploads)))
@@ -91,6 +92,7 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', func
     $scope.uploadCompleted = true;
     if($scope.autoDisappear) countDown = $timeout(function(){$scope.showPanel=false}, 5000);
     console.log("upload completed")
+    $cacheFactory.get('$http').remove('/file/index/' + $rootScope.authStatus.id+'?fileType=image');
   }
   
   $scope.start = function(index) {

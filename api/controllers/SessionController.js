@@ -27,9 +27,9 @@ module.exports = {
       User.findOne(req.session.authStatus.id, function foundUser(err, user){
         if(err) return res.send(500, "There was an error finding user");
         else{
-        req.session.authStatus.admin = user.admin;
-        //Send back the authStatus back to the browser
-        res.json(req.session.authStatus);
+          req.session.authStatus.admin = user.admin;
+          //Send back the authStatus back to the browser
+          res.json(req.session.authStatus);
         }
       });        
     } else {

@@ -28,19 +28,16 @@ angular.module('appServices', ['ngResource'])
 
 	.factory('UserFile', ['$resource', function($resource){
 
-		return { images : 
-			$resource("/file/:action/:userId", {}, //?style query params are automatically appended when the resource is called
+		return $resource("/file/:action/:userId", {}, //?style query params are automatically appended when the resource is called
 				{
 					//These correspond to the actions defined in Sails
-			    	'index': { method:"GET", params: { 'action': 'index', 'userId': '@id' }, isArray: true}, // Get all images from DB for a user
+			    	'index': { method:"GET", params: { 'action': 'index', 'userId': '@id' }, isArray: true, cache: true}, // Get all images from DB for a user
 			    // 	'show' : { method:"GET", params: { 'action': 'show', 'userId': '@id'}, isArray: false},
 			    // 	'update': { method:"PUT", params: { 'action': 'update', 'userId': '@id'}, isArray: false},
 			     	'destroy': { method:'DELETE', params: {'action': 'destroy', 'userId': '@id'}, isArray: false},
 			    // 	'create' : { method:'POST', params: {'action' : 'create'}, isArray: false}
 		    	}
-			)
-
-		};
+			);
 	}])
 
 	.factory('Session', ['$resource', function($resource){

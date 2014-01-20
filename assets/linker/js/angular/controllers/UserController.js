@@ -99,10 +99,11 @@ myApp.controller('userNewCtrl', ['$scope', 'User', '$state', '$rootScope', 'Sess
         }
 }]);
 
-myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$rootScope', '$sails', '$notification', '$timeout',
-    function($scope, User, UserFile, $state, $rootScope, $sails, $notification, $timeout){
+myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$rootScope', '$sails', '$notification', '$timeout', '$cacheFactory', '$http',
+    function($scope, User, UserFile, $state, $rootScope, $sails, $notification, $timeout, $cacheFactory, $http){
         //console.log("userId: " + $rootScope.authStatus.id)
-        $scope.getphotos = UserFile.images.index({userId : $rootScope.authStatus.id, fileType: 'image'}, function(data){
+        console.log($cacheFactory.get('$http'))
+        $scope.getphotos = UserFile.index({userId : $rootScope.authStatus.id, fileType: 'image'}, function(data){
                 $scope.photos = [];
                 angular.forEach(data, function(item){
                     if(item.file_name){
@@ -140,9 +141,10 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
 
         $scope.deletePic = function(photo) {
             console.log(photo)
-            UserFile.images.destroy({userId : $rootScope.authStatus.id, fileType: 'image', fileId: photo.id, fileName: photo.file_name});
+            UserFile.destroy({userId : $rootScope.authStatus.id, fileType: 'image', fileId: photo.id, fileName: photo.file_name});
             var index = $scope.pics.indexOf(photo);
             $scope.pics.remove(index);
+            $cacheFactory.get('$http').remove('/file/index/' + $rootScope.authStatus.id+'?fileType=image');
         }
 
 }]);

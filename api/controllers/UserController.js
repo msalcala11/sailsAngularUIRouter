@@ -15,6 +15,9 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 
+rmdir = require('rimraf'); //allows us to remove directories recursively
+
+
 module.exports = {
 
 	index: function (req, res, next) {
@@ -26,8 +29,21 @@ module.exports = {
 
 	destroy: function (req, res, next) {
 		User.destroy(req.param('id'), function(err){
-			User.publishDestroy(req.param('id'));
-			res.send(200);
+			if(err) res.send(500)
+			else{
+				// Let's remove the user's files (i.e. '/userfiles/54')
+				rmdir('userfiles/'+req.param('id'), function(error){
+					if(err) console.log(err);
+					User.publishDestroy(req.param('id'));
+					// If the user is deleting himself, log em out
+					console.log(req.session.authStatus.id)
+					console.log(req.param('id'))
+					if(req.session.authStatus.id == req.param('id')){
+						AuthStatusService.logout(req, res);
+					    res.send(200);
+					}
+				});
+			}
 		});
 	},
 

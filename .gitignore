@@ -48,3 +48,8 @@ config/local.js
 # My Heroku Config Script
 #########################
 herokuConfig.sh
+
+#########################
+# User Files
+#########################
+userfiles

@@ -51,6 +51,7 @@ module.exports = function (grunt) {
     // linked in the proper order order
     'linker/js/lib/jquery/jquery-1.10.2.js',
     'linker/js/lib/jquery/jquery-ui.js',
+    'linker/js/lib/jquery/jquery.ui.touch-punch.js',
     // Bring in the socket.io client
     'linker/js/socket.io.js',
 

@@ -19,7 +19,8 @@
     "shortid": "~2.0.0",
     "mkdirp": "~0.3.5",
     "mime": "~1.2.11",
-    "gm": "~1.14.2"
+    "gm": "~1.14.2",
+    "rimraf": "~2.2.6"
   },
   "scripts": {
     "start": "node app.js",
