@@ -69,7 +69,7 @@
                     <td>
                         <a href="{{pic.file_path}}" title="{{pic.title}}" data-gallery>
                                <img ng-show="pic.local_path" ng-src="{{pic.local_path}}" class="myThumbnail" alt="local">
-                               <img ng-hide="pic.local_path" ng-src="{{pic.file_path}}" class="myThumbnail" alt="remote">
+                               <img ng-hide="pic.local_path" ng-src="{{pic.file_thumb_path}}" class="myThumbnail" alt="remote">
                             <!-- <img ng-src="{{pic.local_path}}" alt="{{pic.title}}" class="myThumbnail"> -->
                         </a>
                     </td>

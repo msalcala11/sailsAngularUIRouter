@@ -57,7 +57,15 @@ module.exports = {
         fs.unlink(filepath, function (err) {
           if (err) res.send(500);
             console.log('successfully deleted ' + filepath);
-          });
+        });
+
+        if(req.param('fileType') === 'image') {
+          var thumbFilePath = 'userfiles/'+req.param('id') + '/' + req.param('fileType') + 's/thumbnails/' + req.param('fileName');
+          fs.unlink(thumbFilePath, function (err) {
+            if (err) res.send(500);
+            console.log('successfully deleted ' + thumbFilePath);
+        });
+        }
 
         res.send(200);
       }

@@ -28,7 +28,15 @@ module.exports = {
  		type: 'string'
  	},
 
+ 	file_thumb_path: {
+ 		type: 'string'
+ 	},
+
  	file_size: {
+ 		type: 'integer'
+ 	},
+
+ 	file_thumb_size: {
  		type: 'integer'
  	},
 

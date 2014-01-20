@@ -49,15 +49,26 @@ function fileExtension(fileName) {
  
 // Where you would do your processing, etc
 // Stubbed out for now
-function processImage(id, name, path, cb) {
+function processImage(id, name, path, thumbnailPath, cb) {
   console.log('Processing image');
+  console.log("id: " + id + "; filePath: " + path + "; thumbnailFilePath: " + thumbnailPath)
+  //generate a thumbnail for the image
+  imageMagick(path).thumb(170, 110, thumbnailPath, 50, function(err, stdout, stderr, command){
+    if (err) {
+      console.log(err);
+      console.log(stdout);
+      console.log(stderr);
+      console.log(command);
+    }
+    else console.log("wrote thumbnail")
  
-  cb(null, {
-    'result': 'success',
-    'id': id,
-    'name': name,
-    'path': path
-  });
+    cb(null, {
+      'result': 'success',
+      'id': id,
+      'name': name,
+      'path': path
+    });
+   });
 }
  
  
@@ -70,13 +81,16 @@ module.exports = {
     var id = sid.generate(),
       fileName = id + "." + fileExtension(safeFilename(file.name)),
       dirPath = UPLOAD_PATH + '/' + req.session.authStatus.id + '/images',
-      filePath = dirPath + '/' + fileName;
+      thumbnailDirPath = UPLOAD_PATH + '/' + req.session.authStatus.id + '/images/thumbnails',
+      filePath = dirPath + '/' + fileName,
+      thumbnailFilePath = dirPath + '/thumbnails/' + fileName;
 
     console.log("file object:")
     console.log(file);
  
     try {
       mkdirp.sync(dirPath, 0755);
+      mkdirp.sync(thumbnailDirPath, 0755);
     } catch (e) {
       console.log(e);
     }
@@ -90,7 +104,9 @@ module.exports = {
           if (err) {
             res.json({'error': 'could not write file to storage'});
           } else {
-            processImage(id, fileName, filePath, function (err, data) {
+            
+            processImage(id, fileName, filePath, thumbnailFilePath, function (err, data) {
+
               //console.log("processImage data:")
 
               // By default mime.lookup spits out 'image/png' or 'image/jpg' for image files
@@ -98,19 +114,28 @@ module.exports = {
               if(mime.lookup(fileName).split('/')[0] === "image") var fileType = "image";
               else var fileType = mime.lookup(fileName);
 
-              // Let's create an entry in the file table in postgres that we can associate with a user within the user table
-              File.create({  
-                            user_id: req.session.req.session.authStatus.id, // This is the user foreign-key
-                            file_name: fileName,
-                            file_path: filePath,
-                            file_type: fileType,
-                          }, function(err, file) {
-                              if (err) res.send(500);
-                              else res.json(file)
-                              console.log("file entry created in DB");
-                          });
-              //console.log(data);
-            });
+              imageMagick(filePath).filesize(function(err, filesize){
+                imageMagick(thumbnailFilePath).filesize(function(err, thumbfilesize){
+                  // Let's create an entry in the file table in postgres that we can associate with a user within the user table
+                  File.create({  
+                                user_id: req.session.req.session.authStatus.id, // This is the user foreign-key
+                                file_name: fileName,
+                                file_path: filePath,
+                                file_type: fileType,
+                                file_thumb_path: thumbnailFilePath,
+                                file_size: filesize,
+                                file_thumb_size: thumbfilesize
+                              }, function(err, file) {
+                                  if (err) res.send(500);
+                                  else res.json(file)
+                                  console.log("file entry created in DB");
+                              });
+                  //console.log(data);
+                  });
+                });
+              });
+
+
           }
         })
       }
