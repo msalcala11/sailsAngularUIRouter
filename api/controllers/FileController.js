@@ -22,6 +22,8 @@ module.exports = {
   get: function (req, res) {
     console.log(req.path);
     console.log(req.path.substr(1));
+    var maxAge = 365*24*60*60*1000 //Sets the cache to expire a year from now
+    res.setHeader('Cache-Control', "'public, max-age="+maxAge+"'");
     res.sendfile(req.path.substr(1));
   },
 
