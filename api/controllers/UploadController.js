@@ -116,8 +116,8 @@ module.exports = {
               if(mime.lookup(fileName).split('/')[0] === "image") var fileType = "image";
               else var fileType = mime.lookup(fileName);
 
-              imageMagick(filePath).filesize(function(err, filesize){
-                imageMagick(thumbnailFilePath).filesize(function(err, thumbfilesize){
+              fs.stat(filePath, function(err, filestats){
+                fs.stat(thumbnailFilePath, function(err, thumbstats){
                   // Let's create an entry in the file table in postgres that we can associate with a user within the user table
                   File.create({  
                                 user_id: req.session.req.session.authStatus.id, // This is the user foreign-key
@@ -125,14 +125,13 @@ module.exports = {
                                 file_path: filePath,
                                 file_type: fileType,
                                 file_thumb_path: thumbnailFilePath,
-                                file_size: filesize,
-                                file_thumb_size: thumbfilesize
+                                file_size: filestats.size,
+                                file_thumb_size: thumbstats.size
                               }, function(err, file) {
                                   if (err) res.send(500);
                                   else res.json(file)
                                   console.log("file entry created in DB");
                               });
-                  //console.log(data);
                   });
                 });
               });
