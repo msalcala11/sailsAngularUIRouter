@@ -2,7 +2,7 @@
  * UploadController
  *
  * @module      :: Controller
- * @description	:: A set of functions called `actions`.
+ * @description :: A set of functions called `actions`.
  *
  *                 Actions contain code telling Sails how to respond to a certain type of request.
  *                 (i.e. do stuff, then send some JSON, show an HTML page, or redirect to another URL)
@@ -20,8 +20,9 @@ var fs = require('fs');
 var mkdirp = require('mkdirp');
 var mime = require('mime'); //used for determining the file type of each file based on the extension
 //var io = require('socket.io');
-var gm = require('gm')
-  , imageMagick = gm.subClass({ imageMagick: true });
+// var gm = require('gm')
+//   , imageMagick = gm.subClass({ imageMagick: true });
+var im = require('imagemagick');
 
 // photo url format 'userfiles/:userId/images/photo.png'
 var UPLOAD_PATH = 'userfiles';
@@ -53,13 +54,14 @@ function processImage(id, name, path, thumbnailPath, cb) {
   console.log('Processing image');
   console.log("id: " + id + "; filePath: " + path + "; thumbnailFilePath: " + thumbnailPath)
   //generate a thumbnail for the image
-  imageMagick(path).thumb(170, 110, thumbnailPath, 50, function(err, stdout, stderr, command){
-    if (err) {
-      console.log(err);
-      console.log(stdout);
-      console.log(stderr);
-      console.log(command);
-    }
+  im.resize({
+    srcPath: path,
+    dstPath: thumbnailPath,
+    width: 130,
+    height: 100
+  }, function(err, stdout, stderr){
+    if (err) throw err;
+    //console.log('resized kittens.jpg to fit within 256x256px');
     else console.log("wrote thumbnail")
  
     cb(null, {
@@ -68,14 +70,14 @@ function processImage(id, name, path, thumbnailPath, cb) {
       'name': name,
       'path': path
     });
-   });
+  });
 }
  
  
 module.exports = {
   upload: function (req, res) {
     console.log(req.files);
-    var file = req.files.file; //req.files.userPhoto
+    var file = req.files.file;
     console.log("file: ")
     console.log(file)
     var id = sid.generate(),

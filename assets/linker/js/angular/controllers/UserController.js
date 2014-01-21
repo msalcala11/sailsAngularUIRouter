@@ -131,20 +131,21 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
             $scope.pics.push(file);  
         });
 
-        $scope.editMode = function(photo) {
+        $scope.editMode = function() {
             $scope.editing = true;
         }
 
-        $scope.doneEditing = function(photo) {
+        $scope.doneEditing = function() {
             $scope.editing = false;
         }
 
         $scope.deletePic = function(photo) {
-            console.log(photo)
             UserFile.destroy({userId : $rootScope.authStatus.id, fileType: 'image', fileId: photo.id, fileName: photo.file_name});
             var index = $scope.pics.indexOf(photo);
             $scope.pics.remove(index);
             $cacheFactory.get('$http').remove('/file/index/' + $rootScope.authStatus.id+'?fileType=image');
+            // If we are deleting the final pic remaining, then turn edit mode off
+            if($scope.pics.length === 0) $scope.doneEditing();
         }
 
 }]);

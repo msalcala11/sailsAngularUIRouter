@@ -12,10 +12,11 @@
             <span class="glyphicon glyphicon-folder-open"></span>
             &nbsp Upload<input type="file" ng-file-select="onFileSelect($files)" multiple>
         </span>
-
+        <span ng-show="pics.length">
          <button ng-hide="editing" ng-click="editMode()" type="button" style="margin-top: 4px;"class="btn btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp Edit</button>
 
           <button ng-show="editing" ng-click="doneEditing()" type="button" style="margin-top: 4px;"class="btn btn-success"><span class="glyphicon glyphicon-ok"></span>&nbsp Done</button>
+        </span>
 	    <!-- <input type="submit" value="upload" > -->
 	</form>
 
