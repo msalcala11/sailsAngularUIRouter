@@ -51,6 +51,7 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', '$ca
     $scope.uploadBatchIndex++;
     // The user has now re-entered new files into the upload box so first lets abort the previous uploads if 
     // there were any before we proceed to uploading the new files
+    $scope.uploadCompleted = false;
     $scope.selectedFiles = [];
     $scope.progress = [];
     if ($scope.upload && $scope.upload.length > 0) {

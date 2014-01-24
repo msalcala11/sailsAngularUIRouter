@@ -2,6 +2,8 @@
 myApp.controller('rootCtrl', ['$scope', '$state', 'Session', '$rootScope', '$sails', '$notification',
  function($scope, $state, Session, $rootScope, $sails, $notification) {
         
+        $rootScope.repeaters = ["1 item just to get single things to animate with ng-repeat"];
+
         $rootScope.getAuthStatus = Session.check(function(response){
                 $rootScope.authStatus.set(response);
         });    

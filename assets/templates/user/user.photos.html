@@ -74,6 +74,7 @@
                             <!-- <img ng-src="{{pic.local_path}}" alt="{{pic.title}}" class="myThumbnail"> -->
                         </a>
                     </td>
+                </tr>
                 <tr>
                     <td>
                         <div ng-show="editing" class="animate-show">
@@ -93,6 +94,32 @@
         <img src="images/lightbox/3.jpg" alt="Orange" class="myThumbnail">
     </a> -->
 </div>
+<div style="clear:both;height:0;line-height:0;display:block;"></div>
+</br>
+
+<div flippable>
+<div class="col-md-4" ng-class="{'rotate-in': !disableRotationClass}" ng-repeat="repeater in repeaters">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href ng-click="open('modal')">Modal &raquo;</a> <a class="btn btn-default card" href ng-click="open('card')">Card &raquo;</a></p>
+</div>
+</div>
+
+<div flippable>
+<div class="col-md-4" ng-class="{'rotate-in': !disableRotationClass}" ng-repeat="repeater in repeaters">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href ng-click="open('modal')">Modal &raquo;</a> <a class="btn btn-default card" href ng-click="open('card')">Card &raquo;</a></p>
+</div>
+</div>
+
+<div class="col-md-4" ng-class="{'rotate-in': !disableRotationClass}" ng-repeat="repeater in repeaters">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btnflip btn btn-default" href>Modal &raquo;</a> <a class="btnflip btn btn-default card" href>Card &raquo;</a></p>
+</div>
+
+<!-- <div style="position: absolute; top: 409px; left: 69px; min-height: 217px; width: 380px; z-index: 9999; height: auto;" class="flippant-back flippant-modal-light flipper flipped"><p>It's a card!</p><p><input type="text" value="Heading"></p><textarea style="width:100%; max-width:32em; height:12em;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</textarea><br><button class="btn">Update</button></div> -->
 
 <!-- <ul>
         <li class="rotate-in" ng-repeat="pic in pics" ng-click="removeItem(item)"><img class="myThumbnail" ng-src="{{pic.file_path}}"></li>

@@ -102,6 +102,8 @@ myApp.controller('userNewCtrl', ['$scope', 'User', '$state', '$rootScope', 'Sess
 myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$rootScope', '$sails', '$notification', '$timeout', '$cacheFactory', '$http',
     function($scope, User, UserFile, $state, $rootScope, $sails, $notification, $timeout, $cacheFactory, $http){
         //console.log("userId: " + $rootScope.authStatus.id)
+        $scope.disableRotationClass = false;
+        $timeout(function () {$scope.disableRotationClass = true}, 500);
         console.log($cacheFactory.get('$http'))
         $scope.getphotos = UserFile.index({userId : $rootScope.authStatus.id, fileType: 'image'}, function(data){
                 $scope.photos = [];
@@ -146,6 +148,12 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
             $cacheFactory.get('$http').remove('/file/index/' + $rootScope.authStatus.id+'?fileType=image');
             // If we are deleting the final pic remaining, then turn edit mode off
             if($scope.pics.length === 0) $scope.doneEditing();
+        }
+
+
+        $scope.toggleFlip = function() {
+            console.log("made it into userCtrl toggleFlip")
+            $rootScope.flipNow = !$rootScope.flipNow;
         }
 
 }]);
