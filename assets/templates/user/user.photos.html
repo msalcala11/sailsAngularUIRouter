@@ -96,28 +96,28 @@
 </div>
 <div style="clear:both;height:0;line-height:0;display:block;"></div>
 </br>
+  
+    <div ng-repeat="block in blocks" class="col-sm-4" ng-class="{'slide-top': !disableRotationClass}" flippable>
+        <div>
+              <h2 class="title">{{block.title}}</h2>
+              <p>{{block.body}} </p>
+              <p><a class="btn btn-default" href ng-click="open('modal')">Modal &raquo;</a> <a class="btn btn-default card" href ng-click="open('card')">Card &raquo;</a></p>
+        </div>
+    </div>
 
-<div flippable>
+<!-- <div flippable>
 <div class="col-md-4" ng-class="{'rotate-in': !disableRotationClass}" ng-repeat="repeater in repeaters">
           <h2>Heading</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
           <p><a class="btn btn-default" href ng-click="open('modal')">Modal &raquo;</a> <a class="btn btn-default card" href ng-click="open('card')">Card &raquo;</a></p>
 </div>
 </div>
-
-<div flippable>
-<div class="col-md-4" ng-class="{'rotate-in': !disableRotationClass}" ng-repeat="repeater in repeaters">
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href ng-click="open('modal')">Modal &raquo;</a> <a class="btn btn-default card" href ng-click="open('card')">Card &raquo;</a></p>
-</div>
-</div>
-
-<div class="col-md-4" ng-class="{'rotate-in': !disableRotationClass}" ng-repeat="repeater in repeaters">
+ -->
+<!-- <div class="col-md-4" ng-class="{'rotate-in': !disableRotationClass}" ng-repeat="repeater in repeaters">
           <h2>Heading</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
           <p><a class="btnflip btn btn-default" href>Modal &raquo;</a> <a class="btnflip btn btn-default card" href>Card &raquo;</a></p>
-</div>
+</div> -->
 
 <!-- <div style="position: absolute; top: 409px; left: 69px; min-height: 217px; width: 380px; z-index: 9999; height: auto;" class="flippant-back flippant-modal-light flipper flipped"><p>It's a card!</p><p><input type="text" value="Heading"></p><textarea style="width:100%; max-width:32em; height:12em;">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</textarea><br><button class="btn">Update</button></div> -->
 

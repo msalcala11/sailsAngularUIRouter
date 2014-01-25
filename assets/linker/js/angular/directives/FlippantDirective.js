@@ -16,10 +16,28 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', function($roo
         link: function($scope, element, attrs, controller) {
             //var prevDisplay = element.css('display'); 
 
-            var input = '<button type="button" class="close"  data-dismiss="modal" aria-hidden="true" ng-click="close()" style="margin-top: -37px">&times;</button><p><input type="text" value="' + "Im your header bitch" + '"></p>'
-            var textarea = '<textarea style="width:100%; max-width:32em; height:12em;">' + "Yo Im content for the text area" + '</textarea><br><button class="btn btn-info" style="margin-top: 5px;" ng-click="close()">Update</button>'
-            $scope.backContent = "<div><p>It's a card!</p>" + input + textarea+"</div>";
+            //Here's an array of messages we will pick from randomly to show as a salutation 
+            //when the user logs out
+            var editMessageArr = [
+                    "Let the creative juices flow ;)",
+                    "You better not mess this up!",
+                    "Make some awesome content",
+                    "Sculpt you masterpiece",
+                    "Tryin to be Charles Dickens over here eh?",
+                    "Change is good...<em>unless it's bad.</em>",
+                    "Do your thing",
+                    "Work your magic :)"
+            ];
 
+            // Pick a random message from the array
+            var key = Math.floor(Math.random() * editMessageArr.length);
+            $scope.editMessage = editMessageArr[key];
+
+            var input = '<button type="button" class="close"  data-dismiss="modal" aria-hidden="true" ng-click="close()" style="margin-top: -37px">&times;</button><p><input type="text" ng-model="block.title"></p>'
+            var textarea = '<textarea style="width:100%; max-width:32em; height:12em;" ng-model="block.body"></textarea><br><button class="btn btn-info" style="margin-top: 5px;" ng-click="close()">Update</button>'
+            $scope.backContent = "<div><p class='text-muted' style='text-align: left'>"+$scope.editMessage+"</p>" + input + textarea+"</div>";
+
+        //maybe pass in an aribitrary function as an attribute and then set in here to what we need?
             $scope.open = function(type) {
 
                 $scope.timeout = 400
@@ -65,6 +83,10 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', function($roo
                   $scope.back.classList.remove($scope.class_name)
                   element.children()[1].remove()
                 }, $scope.timeout)
+                var key = Math.floor(Math.random() * editMessageArr.length);
+                $scope.editMessage = editMessageArr[key];
+                $scope.backContent = "<div><p class='text-muted' style='text-align: left'>"+$scope.editMessage+"</p>" + input + textarea+"</div>";
+
               }
 
             function set_styles(back, front, position) {

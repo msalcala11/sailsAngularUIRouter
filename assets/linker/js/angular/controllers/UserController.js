@@ -101,10 +101,10 @@ myApp.controller('userNewCtrl', ['$scope', 'User', '$state', '$rootScope', 'Sess
 
 myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$rootScope', '$sails', '$notification', '$timeout', '$cacheFactory', '$http',
     function($scope, User, UserFile, $state, $rootScope, $sails, $notification, $timeout, $cacheFactory, $http){
-        //console.log("userId: " + $rootScope.authStatus.id)
+
         $scope.disableRotationClass = false;
         $timeout(function () {$scope.disableRotationClass = true}, 500);
-        console.log($cacheFactory.get('$http'))
+
         $scope.getphotos = UserFile.index({userId : $rootScope.authStatus.id, fileType: 'image'}, function(data){
                 $scope.photos = [];
                 angular.forEach(data, function(item){
@@ -112,7 +112,7 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
                         $scope.photos.push(item);
                     }
                 });
-                //console.log($scope.photos);
+
 
                 $scope.pics = [];
                 var j = 0;
@@ -120,7 +120,6 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
                     $timeout(function () {
                         $scope.pics.push($scope.photos[j]);
                         j++;
-                        //console.log($scope.pics);
                     }, 50 * i);
                 }     
         })
@@ -151,10 +150,12 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
         }
 
 
-        $scope.toggleFlip = function() {
-            console.log("made it into userCtrl toggleFlip")
-            $rootScope.flipNow = !$rootScope.flipNow;
-        }
+        $scope.blocks = [];
+        $scope.blocks[0] = {title: "Heading 1", body: "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui."};
+        $scope.blocks[1] = {title: "Heading 2", body: "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui."};
+        $scope.blocks[2] = {title: "Heading 3", body: "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui."};
+
+        //$scope.block = {title: "Heading 1", body: "Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui."};
 
 }]);
 
