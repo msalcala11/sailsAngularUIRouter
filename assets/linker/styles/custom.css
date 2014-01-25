@@ -1,4 +1,6 @@
-body { padding-top: 70px; }
+body { padding-top: 70px;
+       padding-bottom: 70px;
+       }
 
 .myThumbnail {
   height: 100px;

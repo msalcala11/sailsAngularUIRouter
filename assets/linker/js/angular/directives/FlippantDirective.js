@@ -14,30 +14,66 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', function($roo
         // transclude: true,
         // compile: function(tElement, tAttrs, function transclude(function(scope, cloneLinkingFn){ return function linking(scope, elm, attrs){}})),
         link: function($scope, element, attrs, controller) {
-            //var prevDisplay = element.css('display'); 
+            //var prevDisplay = element.css('display');
+            console.log(element)
+            console.log(angular.element(element.children()[0]).find("h1, h2, h3, h4, h5, h6, p"))
+            var justText = angular.element(element.children()[0]).find("h1, h2, h3, h4, h5, h6, p")
+            var domArray = []
+            var i = 0
+            justText.each(function(index){
 
-            //Here's an array of messages we will pick from randomly to show as a salutation 
-            //when the user logs out
+                tagText = this.innerText
+                left2chars = tagText.substring(0,2)
+                right2chars = tagText.substring(tagText.length, tagText.length-2)
+
+                if(this.localName === "p") {
+                    if(left2chars === "{{" && right2chars === "}}"){
+                        modelProperty = tagText.substring(2, tagText.length-2)
+                        domArray[i] = '<p><textarea style="width:100%; max-width:32em; height:12em;" ng-model="'+modelProperty+'"></textarea></p>'
+                    } else {
+                        domArray[i] = '<'+this.localName+' class="'+ this.className +'">'+tagText+'</'+this.localName+'>'
+                    }
+                } else {
+                    if(left2chars === "{{" && right2chars === "}}"){
+                        modelProperty = tagText.substring(2, tagText.length-2)
+                        domArray[i] = '<p><input style="color:red" type="text" ng-model="'+modelProperty+'"></p>'
+                    } else {
+                        domArray[i] = '<'+this.localName+' class="'+ this.className +'">'+tagText+'</'+this.localName+'>'
+                    }
+                }
+
+                i++
+            })
+            console.log(domArray)
+
+            //Here's an array of messages we will pick from randomly to show the user when he/she chooses to edit content
             var editMessageArr = [
                     "Let the creative juices flow ;)",
                     "You better not mess this up!",
-                    "Make some awesome content",
+                    "Create some awesome content",
                     "Sculpt you masterpiece",
-                    "Tryin to be Charles Dickens over here eh?",
+                    "Tryin to be Charles Dickens over here, eh?",
                     "Change is good...<em>unless it's bad.</em>",
                     "Do your thing",
-                    "Work your magic :)"
+                    "Work your magic :)",
+                    "Engineer excellence my friend"
             ];
 
             // Pick a random message from the array
             var key = Math.floor(Math.random() * editMessageArr.length);
             $scope.editMessage = editMessageArr[key];
 
-            var input = '<button type="button" class="close"  data-dismiss="modal" aria-hidden="true" ng-click="close()" style="margin-top: -37px">&times;</button><p><input type="text" ng-model="block.title"></p>'
-            var textarea = '<textarea style="width:100%; max-width:32em; height:12em;" ng-model="block.body"></textarea><br><button class="btn btn-info" style="margin-top: 5px;" ng-click="close()">Update</button>'
-            $scope.backContent = "<div><p class='text-muted' style='text-align: left'>"+$scope.editMessage+"</p>" + input + textarea+"</div>";
+            var editTag = "<p class='text-muted' style='text-align: left'>"+$scope.editMessage+"</p>"
+            var closeButton = '<button type="button" class="close"  data-dismiss="modal" aria-hidden="true" ng-click="close()" style="margin-top: -37px">&times;</button>'
+            var updateButton = '<p><button class="btn btn-info" ng-click="close()">Update</button></p>'
+            var content = ""
+            for(i=0;i<domArray.length;i++){
+                content = content + domArray[i];
+            }
 
-        //maybe pass in an aribitrary function as an attribute and then set in here to what we need?
+            $scope.backContent = "<div>"+editTag+closeButton + content + updateButton+"</div>";
+
+            //maybe pass in an aribitrary function as an attribute and then set in here to what we need?
             $scope.open = function(type) {
 
                 $scope.timeout = 400
@@ -85,8 +121,8 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', function($roo
                 }, $scope.timeout)
                 var key = Math.floor(Math.random() * editMessageArr.length);
                 $scope.editMessage = editMessageArr[key];
-                $scope.backContent = "<div><p class='text-muted' style='text-align: left'>"+$scope.editMessage+"</p>" + input + textarea+"</div>";
-
+                var editTag = "<p class='text-muted' style='text-align: left'>"+$scope.editMessage+"</p>"
+                $scope.backContent = "<div>"+editTag+closeButton + content + updateButton+"</div>";
               }
 
             function set_styles(back, front, position) {

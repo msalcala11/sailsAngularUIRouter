@@ -96,12 +96,12 @@
 </div>
 <div style="clear:both;height:0;line-height:0;display:block;"></div>
 </br>
-  
+
     <div ng-repeat="block in blocks" class="col-sm-4" ng-class="{'slide-top': !disableRotationClass}" flippable>
         <div>
               <h2 class="title">{{block.title}}</h2>
-              <p>{{block.body}} </p>
-              <p><a class="btn btn-default" href ng-click="open('modal')">Modal &raquo;</a> <a class="btn btn-default card" href ng-click="open('card')">Card &raquo;</a></p>
+              <p>{{block.body}}</p>
+              <div><a class="btn btn-default" href ng-click="open('modal')">Modal &raquo;</a> <a class="btn btn-default card" href ng-click="open('card')">Card &raquo;</a></div>
         </div>
     </div>
 
