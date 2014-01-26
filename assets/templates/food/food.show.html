@@ -1,11 +1,13 @@
  <div my-loading-spinner="viewLoading">
     <!-- actual view content goes here. -->
-    <div class="fade" ng-class="{in: food.name.length}">
-		<h3>{{food.name}}</h3>
-		<p>{{food.cals}} kcals</p>
-		<hr>
-		<a ui-sref="food.edit({foodId: food.id})" type="submit" class="btn btn-warning">Edit</a>
-		<a href ng-click="removeFood()" class="btn btn-danger">Delete</a>
+    <div class="fade" ng-class="{in: food.name.length}" flippable on-submit="updateFood()" submit-button-text="Save!">
+    	<div>
+			<h3>{{food.name}}</h3>
+			<div class="showOnBack">{{food.cals}} kcals</div>
+			<hr>
+			<a ng-click="open()" type="submit" class="btn btn-warning">Edit</a>
+			<a href ng-click="removeFood()" class="btn btn-danger">Delete</a>
+		</div>
 	</div>
  </div>
 

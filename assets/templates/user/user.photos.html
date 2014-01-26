@@ -68,11 +68,11 @@
                 </tr>
                 <tr>
                     <td>
-                        <div ng-show="editing" class="animate-show">
+                        
                                 <!-- <button ng-show="editing" ng-click="open('card')" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button> -->
                                 <!-- <button ng-show="editing" ng-click="" type="button" class="btn btn-default"><i class="glyphicon glyphicon-save" style=""></i></button> -->
-                                <button ng-show="editing" ng-click="deletePic(pic)" type="button" class="btn btn-default" style="width:100%"><i style="color:#B30000;font-weight:500" class="fa fa-trash-o" style=""></i>&nbsp <span style="color:#B30000">Delete</button>
-                        </div>
+                                <button ng-show="editing" ng-click="deletePic(pic)" type="button" class="btn btn-default animate-show" style="width:100%"><i style="color:#B30000;font-weight:500" class="fa fa-trash-o" style=""></i>&nbsp <span style="color:#B30000">Delete</button>
+                        
                     </td>
                 </tr>
             </table>
@@ -90,13 +90,15 @@
 <div style="clear:both;height:0;line-height:0;display:block;"></div>
 </br>
 
-    <div ng-repeat="block in blocks" class="col-sm-4" ng-class="{'slide-top': !disableRotationClass}" flippable on-update="updateBlock(block)">
+    <div ng-repeat="block in blocks" class="col-sm-4" ng-class="{'slide-top': !disableRotationClass}" flippable on-update="updateBlock(block)" submit-button-text="Save">
+
         <div>
+                          <button ng-show="editing" ng-click="open()" type="button" class="btn btn-default animate-show" style="float:right; margin-right:10px"><span class="glyphicon glyphicon-pencil"></span></button>
               <h2 class="title">{{block.title}}</h2>
               <p>{{block.body}}</p>
               <div ng-show="editing" class="animate-show">
 
-                <button ng-show="editing" ng-click="open()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
+                <!-- <button ng-show="editing" ng-click="open()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button> -->
               <!--   <button ng-show="editing" type="button" class="btn btn-default"><i class="fa fa-trash-o" style=""></i></button> -->
 <!--               <a class="btn btn-default" href ng-click="open()">Modal &raquo;</a> <a class="btn btn-default card" href ng-click="open('card')">Card &raquo;</a> -->
 

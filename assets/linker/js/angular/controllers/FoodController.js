@@ -75,6 +75,15 @@ myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
     		//lets redirect the user to the master list
     		$state.go('food');
 	}
+
+    $scope.updateFood = function() {
+        Food.update($scope.food, function(response){
+                // Let's remove the updated item from the cache since the cache is now outdated
+                $cacheFactory.get('$http').remove('/food/index');
+                $cacheFactory.get('$http').remove('/food/show/' + $scope.food.id);
+                $state.go('food.show');
+        });
+    }
 }]);
 
 myApp.controller('foodEditCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', '$cacheFactory', '$http', '$timeout',
@@ -105,6 +114,7 @@ myApp.controller('foodEditCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
         		});
          //$timeout(function() {$scope.viewLoading = false;}, 1000);
          $scope.viewLoading = false;
+         
         });
 
 	} else { //$scope.$parent.foods was already defined so no need to make a server call. Woohoo efficiency!
