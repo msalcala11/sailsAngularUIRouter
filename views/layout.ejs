@@ -42,7 +42,7 @@
     <link rel="stylesheet" href="/linker/styles/lib/bootstrap/bootstrap.css">
     <link rel="stylesheet" href="/linker/styles/lib/bootstrap/bootstrap_ms.css">
     <link rel="stylesheet" href="/linker/styles/lib/bootstrap/font-awesome.css">
-    <link rel="stylesheet" href="/linker/styles/lib/flippant.css">
+    <link rel="stylesheet" href="/linker/styles/lib/flippant/flippant.css">
     <link rel="stylesheet" href="/linker/styles/lib/ng-animation.css">
     <link rel="stylesheet" href="/linker/styles/offcanvas.css">
     <link rel="stylesheet" href="/linker/styles/uploadPanel.css">
@@ -84,6 +84,7 @@
     <div ng-show="authStatus.loggedIn" class="fade" ng-class="{in: authStatus.loggedIn}">
       <ul class="nav navbar-nav navbar-right">
 
+
         <li class="dropdown" style="margin-right: 10px;">
           <a href class="dropdown-toggle" data-toggle="dropdown"><img class="navbar-pic" ng-src="{{authStatus.pic}}" ng-show="authStatus.pic">
           <img class="navbar-pic" src="/images/placeholder_profile_pic.gif" ng-hide="authStatus.pic">
@@ -96,6 +97,8 @@
             <li><a href ng-click="logout()">Logout</a></li>
           </ul>
         </li>
+
+
       </ul>
     </div>
   </div><!-- /.navbar-collapse -->
@@ -193,8 +196,6 @@
     <script src="/linker/js/angular/states/UserStates.js"></script>
     <script src="/linker/js/bootstrap/navbarFix.js"></script>
     <script src="/linker/js/lib/angular/angular-cookies.js"></script>
-    <script src="/linker/js/lib/flippant/flippant.js"></script>
-    <script src="/linker/styles/lib/browsery.js"></script>
     <!--SCRIPTS END-->
   
   </body>

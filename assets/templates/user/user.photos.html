@@ -9,7 +9,7 @@
 	    <!-- <input type="file" id="userPhotoInput" name="userPhoto" /> -->
 	    <!-- <input type="file" ng-file-select="uploadFile($files)" /> -->
 	    <span class="btn btn-info btn-file" style="margin-top: 4px;">
-            <span class="glyphicon glyphicon-folder-open"></span>
+            <span class="glyphicon glyphicon-cloud-upload"></span>
             &nbsp Upload<input type="file" ng-file-select="onFileSelect($files)" multiple>
         </span>
         <span ng-show="pics.length">
@@ -43,18 +43,10 @@
                 </div>
 
               </div>
-              <!-- <div class="panel-footer">Panel footer</div> -->
+              
         </div>
     </div>
-	<!-- </br>
-	<p><strong>{{progress}}%</strong></p>
-	<img class="myThumbnail" ng-src="{{path}}" ng-show="path">
-	<p>{{files[0].name}}</p>
-	<div class="progress progress-striped">
-	  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%">
-	    <span class="sr-only">20% Complete</span>
-	  </div>
-	</div> -->
+
 
 </div>
 </br>
@@ -71,14 +63,15 @@
                         <a href="{{pic.file_path}}" title="{{pic.title}}" data-gallery>
                                <img ng-show="pic.local_path" ng-src="{{pic.local_path}}" class="myThumbnail" alt="local">
                                <img ng-hide="pic.local_path" ng-src="{{pic.file_thumb_path}}" class="myThumbnail" alt="remote">
-                            <!-- <img ng-src="{{pic.local_path}}" alt="{{pic.title}}" class="myThumbnail"> -->
                         </a>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <div ng-show="editing" class="animate-show">
-                            <button ng-click="deletePic(pic)" ng-show="editing" type="button" style="width: 100%" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp Delete</button>
+                                <!-- <button ng-show="editing" ng-click="open('card')" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button> -->
+                                <!-- <button ng-show="editing" ng-click="" type="button" class="btn btn-default"><i class="glyphicon glyphicon-save" style=""></i></button> -->
+                                <button ng-show="editing" ng-click="deletePic(pic)" type="button" class="btn btn-default" style="width:100%"><i style="color:#B30000;font-weight:500" class="fa fa-trash-o" style=""></i>&nbsp <span style="color:#B30000">Delete</button>
                         </div>
                     </td>
                 </tr>
@@ -97,12 +90,27 @@
 <div style="clear:both;height:0;line-height:0;display:block;"></div>
 </br>
 
-    <div ng-repeat="block in blocks" class="col-sm-4" ng-class="{'slide-top': !disableRotationClass}" flippable>
+    <div ng-repeat="block in blocks" class="col-sm-4" ng-class="{'slide-top': !disableRotationClass}" flippable on-update="updateBlock(block)">
         <div>
               <h2 class="title">{{block.title}}</h2>
               <p>{{block.body}}</p>
-              <div><a class="btn btn-default" href ng-click="open('modal')">Modal &raquo;</a> <a class="btn btn-default card" href ng-click="open('card')">Card &raquo;</a></div>
+              <div ng-show="editing" class="animate-show">
+
+                <button ng-show="editing" ng-click="open()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
+              <!--   <button ng-show="editing" type="button" class="btn btn-default"><i class="fa fa-trash-o" style=""></i></button> -->
+<!--               <a class="btn btn-default" href ng-click="open()">Modal &raquo;</a> <a class="btn btn-default card" href ng-click="open('card')">Card &raquo;</a> -->
+
+              </div>
         </div>
+    </div>
+
+    <div class="col-sm-3" style="margin-top: 30px" flippable>
+      <div>
+        <p>{{blocks[0].body}}</p>
+        <!--       <div><a class="btn btn-default" href ng-click="open('modal')">Modal &raquo;</a> <a class="btn btn-default card" href ng-click="open('card')">Card &raquo;</a></div> -->
+        <button ng-show="editing" ng-click="open()" type="button" class="btn btn-default"><span class="glyphicon glyphicon-pencil"></span></button>
+        <!-- <button ng-show="editing" type="button" class="btn btn-default"><i class="fa fa-trash-o"></i></button> -->
+      </div>
     </div>
 
 <!-- <div flippable>

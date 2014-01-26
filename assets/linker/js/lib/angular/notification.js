@@ -3,7 +3,7 @@
 angular.module('notifications', []).
   factory('$notification', ['$timeout',function($timeout){
 
-    console.log('notification service online');
+    //console.log('notification service online');
     var notifications = JSON.parse(localStorage.getItem('$notifications')) || [],
         queue = [];
 
@@ -212,7 +212,7 @@ angular.module('notifications', []).
      * Finally, the directive should have its own controller for
      * handling all of the notifications from the notification service
      */
-    console.log('this is a new directive');
+    //console.log('this is a new directive');
     var html =
       '<div class="dr-notification-wrapper notification-animation" ng-repeat="noti in queue">' +
         '<div class="dr-notification-close-btn" ng-click="removeNotification(noti)">' +

@@ -5,6 +5,8 @@ body { padding-top: 70px;
 .myThumbnail {
   height: 100px;
   width: 130px;
+  display: block;
+  position: relative;
 }
 
 .miniThumbnail {
