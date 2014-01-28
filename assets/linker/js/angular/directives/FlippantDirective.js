@@ -65,15 +65,18 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
 
             // Lets search through the dom elements within the div with the flippable attribute
             // and grab only the elements that contain text (i.e. h1, h2, h3, h4, h5, h6, and p, and any tag with the class .showOnBack)
-            var justText = angular.element(element.children()[0]).find("h1, h2, h3, h4, h5, h6, p, .showOnBack")
-            console.log(justText)
+            console.log(element.children()[0])
+            var justText = jQuery(element.children()[0]).find("h1, h2, h3, h4, h5, h6, p, .showOnBack")
+            console.log("justText length:")
+            console.log(justText.length)
             // Let's iterate through these elements and generate corresponding inputs/textareas for dynamic
             // content, while duplicating static content for the back of the flipper
             var domArray = []
             var i = 0
             justText.each(function(index){
-
-                tagText = this.innerText
+                console.log("this: ")
+                console.log(this.childNodes[0].data)
+                tagText = this.childNodes[0].data//this.innerText
                 left2chars = tagText.substring(0,2)
                 right2chars = tagText.substring(tagText.length, tagText.length-2)
                 
@@ -117,6 +120,7 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
                         domArray[i] = this.outerHTML
                     }
                 }
+                console.log(domArray[i])
                 i++
             })
             console.log(domArray)
@@ -160,9 +164,9 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
             }
 
             $scope.backContent = '<form ng-submit="submit()">'+editTag+closeButton + content + submitButton+"</form>";
-
+            console.log($scope.backContent)
             $scope.open = function(type) {
-                var windowWidth = window.innerWidth
+                var windowWidth = $(window).width();//window.innerWidth
 
                 $scope.timeout = 400
 
@@ -200,28 +204,28 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
 
                 set_styles($scope.back, $scope.front, $scope.position)
 
-                $scope.front.classList.add('flippant')
-                $scope.back.classList.add('flippant-back')
-                $scope.back.classList.add($scope.class_name)
+                jQuery($scope.front).addClass('flippant')
+                jQuery($scope.back).addClass('flippant-back')
+                jQuery($scope.back).addClass($scope.class_name)
 
                 $window.setTimeout(function () {
                   style_func($scope.back)
                 }, 0)
 
                 $window.setTimeout(function () {
-                    $scope.back.classList.add('flipper')
-                    $scope.back.classList.add('flipped')
-                    $scope.front.classList.add('flipped')
+                    jQuery($scope.back).addClass('flipper')
+                    jQuery($scope.back).addClass('flipped')
+                    jQuery($scope.front).addClass('flipped')
                   }, 0)   
             }
 
             $scope.close = function () {
-                $scope.back.classList.remove('flipped')
-                $scope.back.classList.remove('flipped')
-                $scope.front.classList.remove('flipped')
+                jQuery($scope.back).removeClass('flipped')
+                jQuery($scope.back).removeClass('flipped')
+                jQuery($scope.front).removeClass('flipped')
                 window.setTimeout(function () {
-                  $scope.back.classList.remove($scope.class_name)
-                  element.children()[1].remove()
+                  jQuery($scope.back).removeClass($scope.class_name)
+                  jQuery(element.children()[1]).remove()
                 }, $scope.timeout)
 
                 // If the random-edit-message attribute is truthy, include a random message from the array
@@ -249,12 +253,13 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
             }
 
             function set_styles(back, front, position) {
+                console.log("position: " + position)
                 back.style.position = position
                 back.style.top = front.offsetTop + "px"
                 back.style.left = front.offsetLeft + "px"
                 back.style['min-height'] = front.offsetHeight + "px"
                 back.style.width = front.offsetWidth + "px"
-                back.style["z-index"] = 9999
+                back.style.zIndex = "9999";
             }
 
             function card_styles(back) {

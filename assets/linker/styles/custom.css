@@ -201,8 +201,8 @@ more here: http://www.jonathanrowny.com/journal/angularjs-smooth-fading-after-da
 .form-signin .form-control {
   position: relative;
   font-size: 16px;
-  height: 20px;
-  padding: 20px;
+  height: 50px;
+  padding: 10px;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
