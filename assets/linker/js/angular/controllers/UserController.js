@@ -146,7 +146,7 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
             $scope.pics.remove(index);
             $cacheFactory.get('$http').remove('/file/index/' + $rootScope.authStatus.id+'?fileType=image');
             // If we are deleting the final pic remaining, then turn edit mode off
-            if($scope.pics.length === 0) $scope.doneEditing();
+            //if($scope.pics.length === 0) $scope.doneEditing();
         }
 
 

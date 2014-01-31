@@ -3,7 +3,6 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', '$ca
   $scope.myModelObj;
   $scope.recentUploads = [];
   //console.log(JSON.parse(JSON.stringify($scope.recentUploads)))
-  //$scope.path = null;
   $scope.showPanel = false;
 
   $scope.closePanel = function () {
@@ -18,16 +17,12 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', '$ca
   }
 
   $scope.updateFileInRecentUploads = function(selectedFilesIndex, recentUploads, property, newValue) {
-    recentUploads.some(function (recentUpload){
+      var recentUpload = _.findWhere(recentUploads, {selectedFilesIndex: selectedFilesIndex, uploadBatchIndex: $scope.uploadBatchIndex});
+
       if(recentUpload.uploadBatchIndex === $scope.uploadBatchIndex && recentUpload.selectedFilesIndex === selectedFilesIndex){
-        console.log("found something")
-        recentUpload[property] = newValue;
+          recentUpload[property] = newValue;
       }
-    })
   }
-
-
-
 
   $scope.howToSend = 1; //This setting sends each file iteratively rather then sending all files at once
   $scope.fileReaderSupported = window.FileReader != null;
@@ -77,8 +72,7 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', '$ca
             function setPreview(fileReader, index) {
                 fileReader.onload = function(e) {
                     $timeout(function() {
-                      //$scope.dataUrls[index] = e.target.result;
-                      $scope.updateFileInRecentUploads(index, $scope.recentUploads, 'path', e.target.result);
+                      $scope.updateFileInRecentUploads(index, $scope.recentUploads, 'dataUrl', e.target.result);
                       $scope.showPanel = true;
                     });
                 }
@@ -121,18 +115,10 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', '$ca
         file: $scope.selectedFiles[index],
         fileFormDataName: 'file'
       }).then(function(response) {
-        //$scope.uploadResult.push(response.data.result);
-        console.log("response index: " + index)
-        console.log("response.data")
-        console.log(response)
 
-
-      
           $scope.recentUploads.some(function (recentUpload){
             if(recentUpload.uploadBatchIndex === $scope.uploadBatchIndex && recentUpload.selectedFilesIndex === index){
-              console.log("found something in 'then'")
-              //tempPath = recentUpload.path;
-              response.data.local_path = recentUpload.path;
+              response.data.local_path = recentUpload.dataUrl;
               $scope.$emit("ADD_FILE_TO_PARENT", response.data);
             }
           });
@@ -159,50 +145,5 @@ myApp.controller('FileUploadController', [ '$scope', '$upload', '$timeout', '$ca
             }
     }
   }
-
-
-
-
-
-  // $scope.onFileSelect = function($files) {
-  //   $scope.showPanel = true;
-  //   //$files: an array of files selected, each file has name, size, and type.
-  //   $scope.files = $files;
-
-  //   var j = 0; //used to increment on each success call
-  //   var k = 0; //used to increment on each progress call
-  //   for (var i = 0; i < $files.length; i++) {
-  //     var file = $files[i];
-  //     $scope.recentUploads.unshift(file);
-  //     console.log($scope.recentUploads);
-  //     console.log($scope.recentUploads[i].name)
-  //     $scope.upload = $upload.upload({
-  //       url: '/upload/upload', //upload.php script, node.js route, or servlet url
-  //       // method: POST or PUT,
-  //       // headers: {'headerKey': 'headerValue'}, withCredential: true,
-  //       data: {myObj: $scope.myModelObj},
-  //       file: file,
-  //       // file: $files, //upload multiple files, this feature only works in HTML5 FromData browsers
-  //       /* set file formData name for 'Content-Desposition' header. Default: 'file' */
-  //       //fileFormDataName: myFile,
-  //       /* customize how data is added to formData. See #40#issuecomment-28612000 for example */
-  //       //formDataAppender: function(formData, key, val){} 
-  //     }).progress(function(evt) {
-  //       $scope.files[k].progress = Math.round(100.0 * evt.loaded / evt.total);
-  //       //console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-  //       k++
-  //     }).success(function(file, status, headers, config) {
-  //       // file is uploaded successfully
-  //       $scope.files[j].path = "/" + file.file_path;
-  //       $scope.$emit("ADD_FILE_TO_PARENT", file);
-  //       $scope.showPanel = true;
-
-  //       countDown = $timeout(function(){$scope.showPanel=false}, 5000);
-  //       j++;
-  //     });
-  //   }
-  // };
-
-
 
 }]);

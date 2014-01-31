@@ -85,7 +85,7 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
                     if(left2chars === "{{" && right2chars === "}}"){
                         // Strip away the curly braces
                         modelProperty = tagText.substring(2, tagText.length-2)
-                        domArray[i] = '<p><textarea style="width:100%; max-width:32em; height:12em;" ng-model="'+modelProperty+'"></textarea></p>'
+                        domArray[i] = '<p><textarea class="form-control" style="width:100%; max-width:32em; height:12em;" ng-model="'+modelProperty+'"></textarea></p>'
                     // If this is a static p tag, then just show it as it would normally appear
                     } else {
                         domArray[i] = this.outerHTML //'<'+this.localName+' class="'+ this.className +'">'+tagText+'</'+this.localName+'>'
@@ -107,7 +107,7 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
                         newHTML = tagText.replace(/{{([^}]+)}}/g, function(foundString, key) {
 
                             var index = iteration
-                            var replacementDom = '<input style="'+inlineStyle+'; line-height:110%; width: 100px;" type="text" ng-model="'+ modelPropertyArr[index]+'">&nbsp'
+                            var replacementDom = '<input style="'+inlineStyle+'; line-height:110%; width: 100px;" class="form-control" type="text" ng-model="'+ modelPropertyArr[index]+'">&nbsp'
                             if (iteration > 0) replacementDom = "&nbsp" + replacementDom
                             iteration++
                             return replacementDom;
