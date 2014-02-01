@@ -102,7 +102,7 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
                         newHTML = tagText.replace(/{{([^}]+)}}/g, function(foundString, key) {
 
                             var index = iteration
-                            var replacementDom = '<input style="'+inlineStyle+'; line-height:110%; width: 100px;" class="form-control" type="text" ng-model="'+ modelPropertyArr[index]+'">&nbsp'
+                            var replacementDom = '<input style="'+inlineStyle+'; line-height:110%; width: 125px; display: inline-block;" class="form-control" type="text" ng-model="'+ modelPropertyArr[index]+'">&nbsp'
                             if (iteration > 0) replacementDom = "&nbsp" + replacementDom
                             iteration++
                             return replacementDom;

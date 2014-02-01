@@ -33,8 +33,10 @@
     <!--STYLES-->
     <link rel="stylesheet" href="/linker/styles/lib/notification.css">
     <link rel="stylesheet" href="/linker/styles/custom.css">
+    <link rel="stylesheet" href="/linker/styles/customAnimations.css">
     <link rel="stylesheet" href="/linker/styles/fbSpinner.css">
     <link rel="stylesheet" href="/linker/styles/fileInput.css">
+    <link rel="stylesheet" href="/linker/styles/lib/animate.css">
     <link rel="stylesheet" href="/linker/styles/lib/bootstrap/blueImpPhotoGallery/blueimp-gallery.css">
     <link rel="stylesheet" href="/linker/styles/lib/bootstrap/blueImpPhotoGallery/bootstrap-image-gallery.css">
     <link rel="stylesheet" href="/linker/styles/lib/bootstrap/bootstrap-glyphicons.css">
@@ -108,7 +110,7 @@
 
 
 <!--This is where our angular templates are injected-->
-<div  ui-view class="container"></div>
+<div  ui-view class="container" ng-class="{pageAnimation: !$state.includes('user.photos')}"></div>
 
 
 
@@ -196,6 +198,7 @@
     <script src="/linker/js/angular/states/UserStates.js"></script>
     <script src="/linker/js/bootstrap/navbarFix.js"></script>
     <script src="/linker/js/lib/angular/angular-cookies.js"></script>
+    <script src="/linker/js/lib/angular/raw.github.com/angular-ui/ui-router/master/release/angular-ui-router.js"></script>
     <script src="/linker/js/lib/angular/truncate.js"></script>
     <script src="/linker/js/lib/angular/ui-bootstrap-tpls-0.10.0.js"></script>
     <script src="/linker/js/lib/underscore/underscore.js"></script>

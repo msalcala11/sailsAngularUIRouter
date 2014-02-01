@@ -120,7 +120,7 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
                     $timeout(function () {
                         $scope.pics.push($scope.photos[j]);
                         j++;
-                    }, 50 * i);
+                    }, 100 * i);
                 }     
         })
 

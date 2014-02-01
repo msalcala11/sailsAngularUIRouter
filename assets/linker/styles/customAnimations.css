@@ -1,0 +1,216 @@
+.pageAnimation.ng-enter, .pageAnimation.ng-leave {
+  /*keeps the old page from being pushed under the new one during a transition*/
+  position: absolute;
+  left: 0;
+  right: 0;
+
+}
+
+.pageAnimation.ng-enter {
+  opacity: 0;
+    -webkit-animation: fadeIn .3s;
+    -moz-animation: fadeIn .3s;
+    -ms-animation: fadeIn .3s;
+    animation: fadeIn .3s;
+}
+
+.pageAnimation.ng-enter-active {
+  opacity: 1;
+}
+
+.pageAnimation.ng-leave {
+      -webkit-animation: fadeOut .3s;
+    -moz-animation: fadeOut .3s;
+    -ms-animation: fadeOut .3s;
+    animation: fadeOut .3s;
+}
+
+.pageAnimation.ng-leave-active {
+
+}
+
+.verticalListAnimation.ng-enter, .verticalListAnimation.ng-leave {
+  /*keeps the old page from being pushed under the new one during a transition*/
+  position: relative;
+  left: 0;
+  right: 0;
+
+}
+
+  .verticalListAnimation.ng-enter {
+    opacity: 0;
+    -webkit-animation: fadeInDown 1s;
+    -moz-animation: fadeInDown 1s;
+    -ms-animation: fadeInDown 1s;
+    animation: fadeInDown 1s;
+  }
+
+  .verticalListAnimation.ng-leave {
+    -webkit-animation: bounceOut 1s;
+    -moz-animation: bounceOut 1s;
+    -ms-animation: bounceOut 1s;
+    animation: bounceOut 1s;
+  }
+
+.foodShowAnimation.ng-enter, .foodShowAnimation.ng-leave {
+  /*keeps the old page from being pushed under the new one during a transition*/
+  position: absolute;
+
+
+}
+
+  .foodShowAnimation.ng-enter {
+    opacity: 0;
+    -webkit-animation: fadeInLeft 1s;
+    -moz-animation: fadeInLeft 1s;
+    -ms-animation: fadeInLeft 1s;
+    animation: fadeInLeft 1s;
+  }
+
+  .foodShowAnimation.ng-leave {
+display: none;
+  }
+
+  .foodDeleteAnimation.ng-leave {
+    -webkit-animation: bounceOut 1s;
+    -moz-animation: bounceOut 1s;
+    -ms-animation: bounceOut 1s;
+    animation: bounceOut 1s;
+  }
+
+
+/* Animation styles from Ui-Router sample */
+ .slide.ng-leave {
+  position: relative;
+}
+.slide.ng-enter {
+  position: absolute;
+}
+.slide.ng-enter, .slide.ng-leave {
+  -webkit-transition: -webkit-transform 0.3s ease-in, opacity 0.3s ease-in;
+     -moz-transition: -moz-transform 0.3s ease-in, opacity 0.3s ease-in;
+       -o-transition: -o-transform 0.3s ease-in, opacity 0.3s ease-in;
+          transition: transform 0.3s ease-in, opacity 0.3s ease-in;
+}
+.slide.ng-enter, .slide.ng-leave.ng-leave-active {
+  -webkit-transform: scaleX(0.0001);
+       -o-transform: scaleX(0.0001);
+          transform: scaleX(0.0001);
+  opacity: 0;
+}
+.slide, .slide.ng-enter.ng-enter-active {
+  -webkit-transform: scaleX(1);
+       -o-transform: scaleX(1);
+          transform: scaleX(1);
+  opacity: 1;
+}
+
+@keyframes fadeOut
+{
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+
+@-webkit-keyframes fadeOut 
+{
+  from { opacity: 1.0 }
+  to { opacity: 0.0 }
+}
+
+.fadeout { 
+  animation: fadeOut 2s 1;
+  -webkit-animation: fadeOut 2s 1;
+}
+
+
+/* you can also define the transition style
+   on the base class as well (.notification-animation) */
+.photo-animation.ng-enter,
+.photo-animation.ng-leave {
+  -webkit-transition:0.5s linear all;
+  transition:0.5s linear all;
+}
+
+.photo-animation.ng-enter,
+.photo-animation.ng-leave.ng-leave-active {
+  opacity:0;
+}
+.photo-animation.ng-leave,
+.photo-animation.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+
+/*Love these animations for notifications */
+.notification-animation.ng-enter, 
+.notification-animation.ng-leave
+{ 
+    -webkit-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -moz-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -ms-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    -o-transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    transition: 400ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+    position: relative;
+    display: block!important;
+} 
+ 
+.notification-animation.ng-enter.ng-enter-active, 
+.notification-animation.ng-leave {
+    opacity: 1;
+    top: 0;
+    height: 30px;
+}
+ 
+.notification-animation.ng-leave.ng-leave-active,
+.notification-animation.ng-enter {
+    opacity: 0;
+    top: -50px;
+    height: 0px;
+}
+
+
+
+/*.animate-show {
+
+    -webkit-animation: flipInX 1s;
+    -moz-animation: flipInX 1s;
+    -ms-animation: flipInX 1s;
+    animation: flipInX 1s;
+
+}
+ .animate-show.ng-hide-add{
+  display:block!important;
+}
+ 
+.animate-show.ng-hide {
+    -webkit-animation: flipOutX 1s;
+    -moz-animation: flipOutX 1s;
+    -ms-animation: flipOutX 1s;
+    animation: flipOutX 1s;
+}*/
+
+
+.animate-show {
+  -webkit-transition:all linear 0.25s;
+  transition:all linear 0.25s;
+  line-height:20px;
+  opacity:1;
+  padding:5px 0px;
+  background:white;
+}
+ 
+.animate-show.ng-hide-add,
+.animate-show.ng-hide-remove {
+  display:block!important;
+}
+ 
+.animate-show.ng-hide {
+  line-height:0;
+  opacity:0;
+  padding:0 5px;
+}
+ 
+.check-element {
+  padding:5px 0px;
+  background:white;
+}

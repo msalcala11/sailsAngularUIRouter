@@ -1,6 +1,6 @@
- <div my-loading-spinner="viewLoading">
+
     <!-- actual view content goes here. -->
-    <div class="fade" ng-class="{in: food.name.length}" flippable on-submit="updateFood()" submit-button-text="Save!">
+    <div flippable on-submit="updateFood()" submit-button-text="Save!">
     	<div>
 			<h3>{{food.name}}</h3>
 			<div class="showOnBack">{{food.cals}} kcals</div>
@@ -9,5 +9,5 @@
 			<a href ng-click="removeFood()" class="btn btn-danger">Delete</a>
 		</div>
 	</div>
- </div>
+
 

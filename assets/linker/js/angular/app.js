@@ -34,9 +34,11 @@ var myApp = angular.module("myApp", ['ui.router', 'appServices', 'contenteditabl
       }]);
 
         //Lets define our routes
-        myApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', 
-                    function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+        myApp.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider', '$uiViewScrollProvider',
+                    function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $uiViewScrollProvider) {
 
+                // Necessary to prevent ui-router .0.2.8's new autoscroll
+                $uiViewScrollProvider.useAnchorScroll()
                 // Let's hookup csrf protection with sails
                 // Sails sends us csrftoken with each request, we send back the same token as part of our request header
                 $httpProvider.defaults.xsrfCookieName = 'csrftoken';

@@ -1,6 +1,6 @@
-myApp.controller('foodCtrl', ['$scope', 'Food', '$timeout',
-                 function($scope, Food, $timeout){
-
+myApp.controller('foodCtrl', ['$scope', '$rootScope', 'Food', '$timeout',
+                 function($scope, $rootScope, Food, $timeout){
+    console.log("food called")
     $scope.viewLoading = true;               
 	//Lets grab all foods from the server
     //$scope.foods = Food.index();
@@ -32,12 +32,12 @@ myApp.controller('foodCtrl', ['$scope', 'Food', '$timeout',
     }
 }]);
 
-myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$location', '$cacheFactory', '$http', '$timeout',
- function($scope, Food, $stateParams, $state, $location, $cacheFactory, $http, $timeout){
+myApp.controller('foodShowCtrl', ['$scope', '$rootScope', 'Food', '$stateParams', '$state', '$location', '$cacheFactory', '$http', '$timeout',
+ function($scope, $rootScope, Food, $stateParams, $state, $location, $cacheFactory, $http, $timeout){
 
     $scope.viewLoading = true;
 
-    if(!$scope.$parent.foods){// If $scope.$parent is not defined - then grab the whole list
+    if(!$cacheFactory.get('$http').get('/food/index')){// If $scope.$parent is not defined - then grab the whole list
         // to populate the sidebar
         $scope.getfoods = Food.index(function(response){
             $scope.$parent.foods = {};
@@ -64,16 +64,29 @@ myApp.controller('foodShowCtrl', ['$scope', 'Food', '$stateParams', '$state', '$
     //$scope.food = Food.show({foodId: $stateParams.foodId});
 
 	$scope.removeFood = function() {
-            //First lets remove it from browser memory, so the sidebar updates in real-time
-    		delete $scope.foods[$stateParams.foodId];
-    		//Lets remove it from the database
-    		Food.destroy({foodId: $stateParams.foodId});
+            // The addDelete class and timeout enable us to change the default animation 
+            // for the food being removed to something that conveys removal more intuitively.
+            // The timeout gives us just enough time for the class to be changed before the animation takes
+            // place.
+            // However since the food is embedded in a ui-view and the delete class is being
+            // activated in ng-class, this is not yet working due to the fact that ng-class 
+            // does not update in real-time when added to a ui-view tag.
+            $rootScope.addDeleteClass = true
+            $timeout(function(){
+                    //First lets remove it from browser memory, so the sidebar updates in real-time
+                    delete $scope.foods[$stateParams.foodId];
+                    
+                    //Lets remove it from the database
+                    Food.destroy({foodId: $stateParams.foodId});
 
-            // Let's clear the appropriate caches
-            $cacheFactory.get('$http').remove('/food/index');
-            $cacheFactory.get('$http').remove('/food/show/' + $scope.food.id);
-    		//lets redirect the user to the master list
-    		$state.go('food');
+                    // Let's clear the appropriate caches
+                    $cacheFactory.get('$http').remove('/food/index');
+                    $cacheFactory.get('$http').remove('/food/show/' + $scope.food.id);
+                    $rootScope.addDeleteClass = false
+                    //lets redirect the user to the master list
+                    $state.go('food');
+            }, 10)
+
 	}
 
     $scope.updateFood = function() {
@@ -150,6 +163,8 @@ myApp.controller('foodNewCtrl', ['$scope', 'Food', '$state', '$location', '$stat
     // Create a placeholder in the side bar so the user's typing is also reflected in the sidebar
     $scope.$parent.foods['Placeholder'] = $scope.food;
 
+    console.log($scope.$parent.foods)
+
     // If the user navigates away from the edit state before submitting the form, remove the placeholder from the list
     $scope.$on("$destroy", function(){
         delete $scope.$parent.foods['Placeholder'];
@@ -161,6 +176,7 @@ myApp.controller('foodNewCtrl', ['$scope', 'Food', '$state', '$location', '$stat
                 // Replace the placholder in the side bar with the newly created food object
                 delete $scope.$parent.foods['Placeholder'];
                 $scope.$parent.foods[$scope.newFood.id] = $scope.newFood;
+
 
                 // Let's clear the cache
                 $cacheFactory.get('$http').remove('/food/index');
