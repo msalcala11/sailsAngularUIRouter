@@ -65,17 +65,12 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
 
             // Lets search through the dom elements within the div with the flippable attribute
             // and grab only the elements that contain text (i.e. h1, h2, h3, h4, h5, h6, and p, and any tag with the class .showOnBack)
-            console.log(element.children()[0])
             var justText = jQuery(element.children()[0]).find("h1, h2, h3, h4, h5, h6, p, .showOnBack")
-            console.log("justText length:")
-            console.log(justText.length)
             // Let's iterate through these elements and generate corresponding inputs/textareas for dynamic
             // content, while duplicating static content for the back of the flipper
             var domArray = []
             var i = 0
             justText.each(function(index){
-                console.log("this: ")
-                console.log(this.childNodes[0].data)
                 tagText = this.childNodes[0].data//this.innerText
                 left2chars = tagText.substring(0,2)
                 right2chars = tagText.substring(tagText.length, tagText.length-2)
@@ -120,10 +115,8 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
                         domArray[i] = this.outerHTML
                     }
                 }
-                console.log(domArray[i])
                 i++
             })
-            console.log(domArray)
             // Here's an array of messages we will randomly pick to show the user when he/she chooses to edit content
             var editMessageArr = [
                     "Let the creative juices flow ;)",
@@ -164,7 +157,6 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
             }
 
             $scope.backContent = '<form ng-submit="submit()">'+editTag+closeButton + content + submitButton+"</form>";
-            console.log($scope.backContent)
             $scope.open = function(type) {
                 var windowWidth = $(window).width();//window.innerWidth
 
@@ -253,7 +245,6 @@ myApp.directive('flippable', ['$rootScope', '$window', '$compile', '$parse', fun
             }
 
             function set_styles(back, front, position) {
-                console.log("position: " + position)
                 back.style.position = position
                 back.style.top = front.offsetTop + "px"
                 back.style.left = front.offsetLeft + "px"

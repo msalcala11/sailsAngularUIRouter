@@ -16,16 +16,16 @@ module.exports.policies = {
 
   // Default policy for all controllers and actions
   // (`true` allows public access) 
-  '*': 'csrf',
+  '*': ['csrf', 'breakIEcache'],
 
   food: {
-   			'*': 'isAuthenticated',
+   			'*': ['isAuthenticated', 'csrf', 'breakIEcache']
     	},
 
    user: {
-   			'index' : 'adminOnly',
-   			'destroy' : 'adminOnly',
-   			'subscribe' : 'adminOnly'
+   			'index' : ['adminOnly', 'csrf', 'breakIEcache'],
+   			'destroy' : ['adminOnly', 'csrf', 'breakIEcache'],
+   			'subscribe' : ['adminOnly', 'csrf', 'breakIEcache']
    },
 
    upload: {
@@ -33,7 +33,7 @@ module.exports.policies = {
    },
 
    file: {
-   			'*': 'isAuthenticated'
+   			'*': ['isAuthenticated', 'csrf', 'breakIEcache']
    }
 
   /*
