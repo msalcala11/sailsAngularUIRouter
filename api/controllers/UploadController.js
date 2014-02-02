@@ -63,8 +63,8 @@ module.exports = {
         var filePath = cdnStats.public_id + "." + cdnStats.format
 
         // Let's generate the RESTful URLs required to request thumbnails of the images we uploaded
-        var thumbUrl = cloudinary.url(filePath, { version: cdnStats.version, width: 130, height: 100, crop: 'fit' })
-        var thumbUrlSecure = cloudinary.url(filePath, { secure: true, version: cdnStats.version, width: 130, height: 100, crop: 'fit' })
+        var thumbUrl = cloudinary.url(filePath, { version: cdnStats.version, width: 130, height: 100, crop: 'fit', angle: 'exif' })
+        var thumbUrlSecure = cloudinary.url(filePath, { secure: true, version: cdnStats.version, width: 130, height: 100, crop: 'fit', angle: 'exif' })
 
         // Cloudinary result looks like this:
         // { public_id: 'my_folder/my_name',
@@ -103,7 +103,7 @@ module.exports = {
               });
           },
 
-          {public_id: cdnPublicId}
+          {public_id: cdnPublicId, angle: 'exif'}
     );
   },
   /**
