@@ -108,7 +108,7 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
         $scope.getphotos = UserFile.index({userId : $rootScope.authStatus.id, fileType: 'image'}, function(data){
                 $scope.photos = [];
                 angular.forEach(data, function(item){
-                    if(item.file_name){
+                    if(item.file_cdn_secure_url){
                         $scope.photos.push(item);
                     }
                 });
@@ -129,7 +129,6 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
             //console.log("received message")
             //console.log(file)
             console.log(file.local_path)
-            file.showLocal = true;
             $scope.pics.push(file);  
         });
 
@@ -142,7 +141,7 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
         }
 
         $scope.deletePic = function(photo) {
-            UserFile.destroy({userId : $rootScope.authStatus.id, fileType: 'image', fileId: photo.id, fileName: photo.file_name});
+            UserFile.destroy({userId : $rootScope.authStatus.id, fileType: 'image', fileId: photo.id, fileName: photo.file_name, cdnPublicId: photo.file_cdn_public_id});
             var index = $scope.pics.indexOf(photo);
             $scope.pics.remove(index);
             $cacheFactory.get('$http').remove('/file/index/' + $rootScope.authStatus.id+'?fileType=image');

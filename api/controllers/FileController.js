@@ -15,6 +15,8 @@
  * @docs        :: http://sailsjs.org/#!documentation/controllers
  */
 var fs = require('fs');
+var cloudinary = require('cloudinary');
+var _ = require('underscore');
 
 module.exports = {
   // This enables us to access files from the '/public/images/' directory as defined in our routes.js (config)
@@ -43,7 +45,23 @@ module.exports = {
       .exec(function(err, files) {
         if(err) res.send(500);
         else {
-          console.log(files);
+          // We do not need to send the client EVERYTHING about these files. We just need to send back
+          // the urls to access them and their cdn_public_ids (i.e. the the full sized images and their thumbnails for images.)
+          _.each(files, function(file, key){ // Loop through all files
+              _.each(file, function(value, key){ // Loop through the properties of each file
+                  // Delete all properties that are not the ones specified below
+                  if(key != "id" && 
+                     key != "file_cdn_secure_url" && 
+                     key != "file_thumb_cdn_secure_url" && 
+                     key != "file_cdn_public_id" &&
+                     key != "title" && 
+                     key != "description") {
+
+                     delete file[key] 
+                  } 
+              });
+          });
+
           res.json(files);
         }
     });
@@ -55,21 +73,9 @@ module.exports = {
       if(err) res.send(500)
       else {
 
-        // Now let's actually delete the file from the server
-        // photo url format 'userfiles/:userId/images/photo.png'
-        var filepath = 'userfiles/'+req.param('id') + '/' + req.param('fileType') + 's/' + req.param('fileName');
-        fs.unlink(filepath, function (err) {
-          if (err) res.send(500);
-            console.log('successfully deleted ' + filepath);
-        });
-
-        if(req.param('fileType') === 'image') {
-          var thumbFilePath = 'userfiles/'+req.param('id') + '/' + req.param('fileType') + 's/thumbnails/' + req.param('fileName');
-          fs.unlink(thumbFilePath, function (err) {
-            if (err) res.send(500);
-            console.log('successfully deleted ' + thumbFilePath);
-        });
-        }
+        // Now let's actually delete the file from our cdn
+        cloudinary.uploader.destroy(req.param('cdnPublicId'), function(result) { console.log(result) }, 
+                            { invalidate: true });
 
         res.send(200);
       }

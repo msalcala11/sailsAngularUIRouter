@@ -22,7 +22,8 @@ var mime = require('mime'); //used for determining the file type of each file ba
 //var io = require('socket.io');
 // var gm = require('gm')
 //   , imageMagick = gm.subClass({ imageMagick: true });
-var im = require('imagemagick');
+//var im = require('imagemagick');
+var cloudinary = require('cloudinary');
 
 // photo url format 'userfiles/:userId/images/photo.png'
 var UPLOAD_PATH = 'userfiles';
@@ -48,99 +49,62 @@ function fileExtension(fileName) {
   return fileName.split('.').slice(-1);
 }
  
-// Where you would do your processing, etc
-// Stubbed out for now
-function processImage(id, name, path, thumbnailPath, cb) {
-  console.log('Processing image');
-  console.log("id: " + id + "; filePath: " + path + "; thumbnailFilePath: " + thumbnailPath)
-  //generate a thumbnail for the image
-  im.resize({
-    srcPath: path,
-    dstPath: thumbnailPath,
-    width: 130,
-    height: 100
-  }, function(err, stdout, stderr){
-    if (err) throw err;
-    //console.log('resized kittens.jpg to fit within 256x256px');
-    else console.log("wrote thumbnail")
- 
-    cb(null, {
-      'result': 'success',
-      'id': id,
-      'name': name,
-      'path': path
-    });
-  });
-}
- 
  
 module.exports = {
   upload: function (req, res) {
-    console.log(req.files);
     var file = req.files.file;
-    console.log("file: ")
-    console.log(file)
     var id = sid.generate(),
       fileName = id + "." + fileExtension(safeFilename(file.name)),
       dirPath = UPLOAD_PATH + '/' + req.session.authStatus.id + '/images',
-      thumbnailDirPath = UPLOAD_PATH + '/' + req.session.authStatus.id + '/images/thumbnails',
-      filePath = dirPath + '/' + fileName,
-      thumbnailFilePath = dirPath + '/thumbnails/' + fileName;
+      cdnPublicId = dirPath + '/' + id;
+      
+    // Let's upload to our cdn and insert a row in our files table
+    cloudinary.uploader.upload(file.path, function(cdnStats) { 
+        var filePath = cdnStats.public_id + "." + cdnStats.format
 
-    console.log("file object:")
-    console.log(file);
- 
-    try {
-      mkdirp.sync(dirPath, 0755);
-      mkdirp.sync(thumbnailDirPath, 0755);
-    } catch (e) {
-      console.log(e);
-    }
- 
-    fs.readFile(file.path, function (err, data) {
-      //console.log(data);
-      if (err) {
-        res.json({'error': 'could not read file'});
-      } else {
-        fs.writeFile(filePath, data, function (err) {
-          if (err) {
-            res.json({'error': 'could not write file to storage'});
-          } else {
-            
-            processImage(id, fileName, filePath, thumbnailFilePath, function (err, data) {
+        // Let's generate the RESTful URLs required to request thumbnails of the images we uploaded
+        var thumbUrl = cloudinary.url(filePath, { version: cdnStats.version, width: 130, height: 100, crop: 'fit' })
+        var thumbUrlSecure = cloudinary.url(filePath, { secure: true, version: cdnStats.version, width: 130, height: 100, crop: 'fit' })
 
-              //console.log("processImage data:")
-
-              // By default mime.lookup spits out 'image/png' or 'image/jpg' for image files
-              // However, we want just 'image' for image files so the following 2 lines accomplish this
-              if(mime.lookup(fileName).split('/')[0] === "image") var fileType = "image";
-              else var fileType = mime.lookup(fileName);
-
-              fs.stat(filePath, function(err, filestats){
-                fs.stat(thumbnailFilePath, function(err, thumbstats){
-                  // Let's create an entry in the file table in postgres that we can associate with a user within the user table
-                  File.create({  
-                                user_id: req.session.req.session.authStatus.id, // This is the user foreign-key
-                                file_name: fileName,
-                                file_path: filePath,
-                                file_type: fileType,
-                                file_thumb_path: thumbnailFilePath,
-                                file_size: filestats.size,
-                                file_thumb_size: thumbstats.size
-                              }, function(err, file) {
-                                  if (err) res.send(500);
-                                  else res.json(file)
-                                  console.log("file entry created in DB");
-                              });
-                  });
-                });
+        // Cloudinary result looks like this:
+        // { public_id: 'my_folder/my_name',
+        //   version: 1391307185,
+        //   signature: '4f7cbf1fc6c720f44230a319dc0e83f3d544486a',
+        //   width: 1280,
+        //   height: 850,
+        //   format: 'jpg',
+        //   resource_type: 'image',
+        //   created_at: '2014-02-02T02:13:05Z',
+        //   bytes: 276749,
+        //   type: 'upload',
+        //   etag: '73044aba4773b7aae93943d148d89d7d',
+        //   url: 'http://res.cloudinary.com/ha7r8ndic/image/upload/v1391307185/my_folder/my_name.jpg',
+        //   secure_url: 'https://res.cloudinary.com/ha7r8ndic/image/upload/v1391307185/my_folder/my_name.jpg' }
+        // Let's create an entry in the file table in postgres that we can associate with a user within the user table
+              File.create({  
+                            user_id: req.session.req.session.authStatus.id, // This is the user foreign-key
+                            file_name: fileName,
+                            file_path: filePath,
+                            file_type: cdnStats.resource_type,
+                            file_size: cdnStats.bytes,
+                            file_cdn_public_id: cdnStats.public_id,
+                            file_cdn_version: cdnStats.version,
+                            file_cdn_signature: cdnStats.signature,
+                            file_format: cdnStats.format,
+                            file_cdn_url: cdnStats.url,
+                            file_cdn_secure_url: cdnStats.secure_url,
+                            file_thumb_cdn_url: thumbUrl,
+                            file_thumb_cdn_secure_url: thumbUrlSecure,
+                            file_thumb_size: null
+                          }, function(err, file) {
+                              if (err) res.send(500);
+                              else res.json(file)
+                              console.log("file entry created in DB");
               });
+          },
 
-
-          }
-        })
-      }
-    });
+          {public_id: cdnPublicId}
+    );
   },
   /**
    * Overrides for the settings in `config/controllers.js`

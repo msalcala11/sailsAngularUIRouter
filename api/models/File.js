@@ -28,15 +28,7 @@ module.exports = {
  		type: 'string'
  	},
 
- 	file_thumb_path: {
- 		type: 'string'
- 	},
-
  	file_size: {
- 		type: 'integer'
- 	},
-
- 	file_thumb_size: {
  		type: 'integer'
  	},
 
@@ -46,7 +38,40 @@ module.exports = {
 
  	description: {
  		type: 'string'
- 	}
+ 	},
+
+ 	file_cdn_public_id: {
+ 		type: 'string'
+ 	},
+
+    file_cdn_version: {
+ 		type: 'string'
+ 	},
+    
+    file_cdn_signature: {
+ 		type: 'string'
+ 	},
+
+    file_format: {
+ 		type: 'string'
+ 	},
+
+    file_cdn_url: {
+ 		type: 'string'
+ 	},
+
+    file_cdn_secure_url: {
+ 		type: 'string'
+ 	},
+
+ 	//Now the thumbnail attributes
+ 	file_thumb_cdn_url: {
+ 		type: 'string'
+ 	},
+
+ 	file_thumb_cdn_secure_url: {
+ 		type: 'string'
+ 	},
     
   }
 
