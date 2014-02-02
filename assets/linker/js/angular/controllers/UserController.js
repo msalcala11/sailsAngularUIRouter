@@ -113,15 +113,16 @@ myApp.controller('userPhotosCtrl', ['$scope', 'User', 'UserFile', '$state', '$ro
                     }
                 });
 
-
-                $scope.pics = [];
-                var j = 0;
-                for (var i = 0; i < $scope.photos.length; i++) {
-                    $timeout(function () {
-                        $scope.pics.push($scope.photos[j]);
-                        j++;
-                    }, 100 * i);
-                }     
+                $timeout(function(){
+                    $scope.pics = [];
+                    var j = 0;
+                    for (var i = 0; i < $scope.photos.length; i++) {
+                        $timeout(function () {
+                            $scope.pics.push($scope.photos[j]);
+                            j++;
+                        }, 100 * i);
+                    } 
+                }, 250)    
         })
 
         $scope.$on("ADD_FILE_TO_PARENT", function(event, file){
